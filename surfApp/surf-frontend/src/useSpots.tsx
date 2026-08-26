@@ -2,6 +2,9 @@
 import { useState, useEffect } from "react";
 import type { Spot } from "./SurfSpot";
 
+// Backend base URL: from VITE_API_URL in production, localhost in dev.
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+
 export function useSpots() {
   // Start empty: we don't know the list yet, it comes from the backend.
   const [spots, setSpots] = useState<Spot[]>([]);
@@ -9,7 +12,7 @@ export function useSpots() {
   useEffect(() => {
     // Phase 1: fetch the list of spots from the backend.
     async function load() {
-      const listResponse = await fetch("http://localhost:3001/api/spots");
+      const listResponse = await fetch(`${API_URL}/api/spots`);
       const list: { name: string; lat: number; lon: number }[] =
         await listResponse.json();
 
@@ -20,7 +23,7 @@ export function useSpots() {
       list.forEach(async (spot) => {
         try {
           const response = await fetch(
-            `http://localhost:3001/api/forecast?latitude=${spot.lat}&longitude=${spot.lon}`,
+            `${API_URL}/api/forecast?latitude=${spot.lat}&longitude=${spot.lon}`,
           );
           const result = await response.json();
           setSpots((prev) =>
