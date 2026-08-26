@@ -4,7 +4,8 @@ import cors from "cors";
 import { pool } from "./db";
 
 const app = express();
-const PORT = 3001;
+// Cloud platforms inject the port to listen on via PORT. Fall back to 3001 locally.
+const PORT = Number(process.env.PORT) || 3001;
 
 // Allow the frontend to call this API
 app.use(cors());
