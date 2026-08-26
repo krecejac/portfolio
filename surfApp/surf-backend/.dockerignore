@@ -1,0 +1,5 @@
+# Things that must NOT go into the image.
+node_modules   # reinstalled fresh inside the image (host build may differ)
+dist           # rebuilt inside the image
+.env           # secrets are injected by compose, never baked into the image
+.git

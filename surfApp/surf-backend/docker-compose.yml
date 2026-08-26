@@ -1,0 +1,41 @@
+# Runs the whole backend stack: Postgres + the Node API, together.
+# Start it with:  docker compose up -d --build   (in this folder)
+# Stop it with:   docker compose down            (add -v to also wipe DB data)
+services:
+  db:
+    image: postgres:16 # official Postgres image, version pinned to 16
+    container_name: surf-db # fixed name so we can reference it easily
+    restart: unless-stopped # comes back up after a reboot / crash
+    environment:
+      POSTGRES_USER: surf # the DB login user
+      POSTGRES_PASSWORD: surf # its password (fine for local dev only)
+      POSTGRES_DB: surf # a database named "surf" is created on first run
+    ports:
+      - "5432:5432" # expose container port 5432 on your machine's 5432
+    volumes:
+      - surf-db-data:/var/lib/postgresql/data # persist data across restarts
+      # On FIRST init (empty data dir), Postgres auto-runs .sql files here.
+      # This seeds the spots table so a fresh DB is ready with no manual step.
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  backend:
+    build: . # build the image from the Dockerfile in this folder
+    container_name: surf-backend
+    restart: unless-stopped
+    depends_on:
+      - db # start db first (note: only "started", not "ready" — see notes)
+    environment:
+      # IMPORTANT: inside the compose network the DB is reachable by its service
+      # name "db", NOT "localhost". This is why DB_HOST lives in env, not code.
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: surf
+      DB_PASSWORD: surf
+      DB_NAME: surf
+    ports:
+      - "3001:3001" # expose the API on the host's 3001
+
+# Named volume = disk that lives outside the container, so "docker compose down"
+# does NOT lose your data (only "down -v" does).
+volumes:
+  surf-db-data:

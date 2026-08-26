@@ -1,0 +1,14 @@
+[
+  { "name": "Matosinhos", "lat": 41.183, "lon": -8.702 },
+  { "name": "Espinho", "lat": 41.006, "lon": -8.646 },
+  { "name": "Figueira da Foz (Cabedelo)", "lat": 40.14, "lon": -8.875 },
+  { "name": "Nazaré (Praia do Norte)", "lat": 39.605, "lon": -9.085 },
+  { "name": "Peniche (Supertubos)", "lat": 39.345, "lon": -9.367 },
+  { "name": "Ericeira (Ribeira d'Ilhas)", "lat": 38.996, "lon": -9.421 },
+  { "name": "Guincho", "lat": 38.733, "lon": -9.475 },
+  { "name": "Carcavelos", "lat": 38.677, "lon": -9.337 },
+  { "name": "Costa da Caparica", "lat": 38.64, "lon": -9.235 },
+  { "name": "Arrifana", "lat": 37.294, "lon": -8.867 },
+  { "name": "Praia do Amado", "lat": 37.166, "lon": -8.906 },
+  { "name": "Sagres (Tonel)", "lat": 37.02, "lon": -8.951 }
+]
