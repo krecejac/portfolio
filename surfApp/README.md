@@ -1,20 +1,30 @@
 # 🌊 Swell
 
-**A surf forecast that ranks the world's waves by how good they actually are right now — not just how big they are.**
+**A surf forecast that actually tells you where to surf — it ranks the world's breaks by how good the waves are *right now*, not just how big.**
 
-Swell pulls live marine and weather data for a few thousand real surf breaks, runs each one through its own scoring model, and sorts the list so the spots that are firing float to the top. Click any spot for the full breakdown: swell trains, wind, tide, water temperature, and a 0–100 rating that explains itself.
+Every other forecast site dumps a wall of numbers on you and calls it a day. Swell reads that same live marine and weather data for thousands of real surf breaks, runs each one through a scoring engine built from real surf logic, and floats the spots that are firing straight to the top. Open any break for the full picture — swell trains, wind, tide, water temperature — and a single 0–100 rating that *explains itself*.
+
+It's a from-scratch full-stack build: React on the front, a Node/Express + PostgreSQL API on the back, and a hand-written scoring model in between. No AI black box, no third-party forecast widget — the logic is mine, it runs server-side, and it's cached in the database so the whole board loads instantly.
 
 🔗 **Live:** [radiant-nurturing-production-5f13.up.railway.app](https://radiant-nurturing-production-5f13.up.railway.app) · API at [portfolio-production-7b14.up.railway.app](https://portfolio-production-7b14.up.railway.app)
 
 ![The ranked board](docs/images/home.png)
 
+### Why it stands out
+
+- 🧠 **A real scoring model, not a gimmick** — a set of pure, deterministic functions that weigh swell size, period, direction *and* the exact compass bearing each beach faces to decide if a wave is worth paddling out for. Every score comes with a *"why this score"* breakdown.
+- 🌍 **Thousands of breaks, worldwide** — the full catalog rendered on an interactive map and searched instantly, all client-side.
+- ⚡ **Fast by design** — forecasts are computed once, cached per spot in Postgres with a read-through TTL, and de-duplicated again on the client. The board sorts thousands of spots without breaking a sweat.
+- 📺 **Live** — public YouTube surf cams and webcam timelapses matched to the nearest break by great-circle distance.
+- 🔐 **Real accounts** — email-verified sign-up, JWT auth, favourites, and a home region that personalises your recommendations.
+
 ---
 
 ## What it does
 
-Most forecast sites hand you a wall of numbers and leave you to judge them. Swell does the judging: a bigger wave isn't automatically a better wave, so instead of ranking by size it weighs swell, period, wind and the way each beach faces the ocean into a single score. A clean long-period groundswell in a light offshore breeze scores high; weak, windblown chop scores low.
+Most forecast sites hand you a wall of numbers and leave you to do the judging. Swell does the judging for you. A bigger wave isn't automatically a better wave — so instead of ranking by size, it weighs swell height, period, wind and the way each beach faces the ocean into one honest score. A clean long-period groundswell in a light offshore breeze scores high; weak, windblown chop scores low. Exactly the call a local would make, at a glance, for the whole planet.
 
-It's a full-stack portfolio project — React on the front, a Node/Express API and PostgreSQL on the back, all data computed server-side and cached in the database.
+Under the hood it's a complete three-tier application — a React single-page frontend, a stateless REST API, and a PostgreSQL database — with every piece written from the ground up: the data pipeline, the scoring math, the caching layer, the auth flow, and the UI.
 
 ## Features
 
