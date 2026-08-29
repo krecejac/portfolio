@@ -16,7 +16,7 @@ services:
       - surf-db-data:/var/lib/postgresql/data # persist data across restarts
       # On FIRST init (empty data dir), Postgres auto-runs .sql files here.
       # This seeds the spots table so a fresh DB is ready with no manual step.
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
   backend:
     build: . # build the image from the Dockerfile in this folder

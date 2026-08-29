@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Patrick+Hand&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f0eee9;font-family:system-ui,sans-serif}
+a{color:#1d4ed8}a:hover{color:#2563eb}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}
+</style></helmet>
+
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">Wireframes from the landing plan — structure only, three orderings</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="4a">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>The plan as written — video hero, board, recommended, footer.</div>
+<div class="dv-card" style="width:860px">
+<div style="background:#fdfcf9;padding:26px 28px 32px;font-family:'Patrick Hand',cursive;color:#1f1f1f">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;padding:12px 16px;background:#fff">
+    <div style="display:flex;align-items:center;gap:26px">
+      <span style="border:2px solid #1f1f1f;padding:4px 12px;font-size:17px;letter-spacing:.08em">SWELL</span>
+      <span style="font-size:17px;color:#555">Cams &amp; Forecast · Learn · About</span>
+    </div>
+    <span style="font-size:17px;color:#555">Sign In</span>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:7px 0 0 4px">white navbar — keep exactly as built</div>
+
+  <div style="margin-top:18px;position:relative;height:300px;border:2px solid #1f1f1f;border-radius:10px 5px 12px 6px/6px 12px 5px 10px;background:repeating-linear-gradient(45deg,#fff 0 7px,#ececec 7px 14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+    <span style="border:2px dashed #8a8a8a;background:#fff;padding:7px 16px;font-size:16px;color:#555">▶ full-bleed surf video loop · muted · autoplay</span>
+    <div style="text-align:center">
+      <div style="font-size:64px;line-height:.95;letter-spacing:.02em">SWELL</div>
+      <div style="font-size:24px;color:#444">your surf forecast</div>
+    </div>
+    <span style="position:absolute;bottom:12px;right:14px;font:600 17px Caveat,cursive;color:#007FFF">nothing else on the hero</span>
+  </div>
+
+  <div style="margin-top:26px;display:flex;align-items:baseline;justify-content:space-between">
+    <span style="font-size:26px;letter-spacing:.04em">TODAY'S BOARD</span>
+    <span style="font-size:16px;color:#555">ranked by swell ↓</span>
+  </div>
+  <div style="margin-top:10px;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#fff;overflow:hidden">
+    <sc-for list="{{ wire }}" as="w" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:44px 1fr 92px 74px 92px 132px;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px dashed #cfcfcf">
+        <span style="font-size:16px;color:#888">{{ w.rank }}</span>
+        <span style="font-size:20px;letter-spacing:.04em">{{ w.name }}</span>
+        <span style="font-size:16px;color:#555">● {{ w.rating }}</span>
+        <span style="font-size:20px">{{ w.h }}m</span>
+        <span style="font-size:16px;color:#555">{{ w.pd }}</span>
+        <span style="display:flex;gap:3px;justify-content:flex-end">
+          <sc-for list="{{ w.cells }}" as="c" hint-placeholder-count="7">
+            <span style="width:16px;height:16px;border:1px solid #9a9a9a;background:{{ c.fill }}"></span>
+          </sc-for>
+        </span>
+      </div>
+    </sc-for>
+    <div style="padding:10px 16px;font-size:16px;color:#888">…12+ rows, world-famous spots</div>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:7px 0 0 4px">rank · name · rating dot · swell · period·dir · 7-day heat strip</div>
+
+  <div style="margin-top:28px;display:flex;align-items:baseline;gap:14px">
+    <span style="font-size:26px;letter-spacing:.04em">RECOMMENDED</span>
+    <span style="font:600 17px Caveat,cursive;color:#007FFF">logged in → liked spots · logged out → curated famous spots</span>
+  </div>
+  <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ wireCards }}" as="c" hint-placeholder-count="4">
+      <div style="border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;background:#f4f4f4;padding:13px 14px">
+        <div style="display:flex;justify-content:space-between;font-size:16px"><span>{{ c.name }}</span><span style="color:#555">● {{ c.rating }}</span></div>
+        <div style="margin-top:12px;border-top:1px dashed #bdbdbd;padding-top:11px;display:grid;grid-template-columns:repeat(3,1fr);text-align:center">
+          <span><span style="font-size:24px">{{ c.h }}</span><span style="font-size:14px;color:#666">m</span><div style="font-size:13px;color:#777">SWELL</div></span>
+          <span><span style="font-size:24px">{{ c.p }}</span><span style="font-size:14px;color:#666">s</span><div style="font-size:13px;color:#777">PERIOD</div></span>
+          <span><span style="font-size:24px">{{ c.d }}</span><div style="font-size:13px;color:#777">DIR</div></span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:7px 0 0 4px">reuse the existing SurfSpot card</div>
+
+  <div style="margin-top:26px;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#e6e6e6;padding:20px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;font-size:16px;color:#555">
+    <span>SWELL · surf forecast for you.</span><span>links</span><span>contact · Open-Meteo credit</span>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:7px 0 0 4px">dark footer — already built</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4b">
+<div class="dv-olabel"><a class="dv-oid" href="#4b">4b</a>Board pulled up over the video — shorter hero, data starts above the fold.</div>
+<div class="dv-card" style="width:860px">
+<div style="background:#fdfcf9;padding:26px 28px 32px;font-family:'Patrick Hand',cursive;color:#1f1f1f">
+  <div style="display:flex;align-items:center;justify-content:space-between;border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;padding:12px 16px;background:#fff">
+    <div style="display:flex;align-items:center;gap:26px">
+      <span style="border:2px solid #1f1f1f;padding:4px 12px;font-size:17px;letter-spacing:.08em">SWELL</span>
+      <span style="font-size:17px;color:#555">Cams &amp; Forecast · Learn · About</span>
+    </div>
+    <span style="font-size:17px;color:#555">Sign In</span>
+  </div>
+
+  <div style="margin-top:18px;position:relative;height:230px;border:2px solid #1f1f1f;border-radius:10px 5px 12px 6px/6px 12px 5px 10px;background:repeating-linear-gradient(45deg,#fff 0 7px,#ececec 7px 14px);padding:26px 28px">
+    <div style="font-size:56px;line-height:.95">SWELL</div>
+    <div style="font-size:22px;color:#444">your surf forecast</div>
+    <span style="position:absolute;top:14px;right:16px;border:2px dashed #8a8a8a;background:#fff;padding:6px 13px;font-size:15px;color:#555">▶ video loop</span>
+    <span style="position:absolute;bottom:14px;left:28px;font:600 17px Caveat,cursive;color:#007FFF">left-aligned type, hero only 230px tall</span>
+  </div>
+
+  <div style="margin:-46px 22px 0;position:relative;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#fff;box-shadow:6px 6px 0 rgba(31,31,31,.12);overflow:hidden">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:14px 16px 10px;border-bottom:2px solid #1f1f1f">
+      <span style="font-size:24px;letter-spacing:.04em">TODAY'S BOARD</span>
+      <span style="font-size:16px;color:#555">ranked by swell ↓</span>
+    </div>
+    <sc-for list="{{ wire }}" as="w" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:44px 1fr 92px 74px 92px 132px;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px dashed #cfcfcf">
+        <span style="font-size:16px;color:#888">{{ w.rank }}</span>
+        <span style="font-size:20px;letter-spacing:.04em">{{ w.name }}</span>
+        <span style="font-size:16px;color:#555">● {{ w.rating }}</span>
+        <span style="font-size:20px">{{ w.h }}m</span>
+        <span style="font-size:16px;color:#555">{{ w.pd }}</span>
+        <span style="display:flex;gap:3px;justify-content:flex-end">
+          <sc-for list="{{ w.cells }}" as="c" hint-placeholder-count="7">
+            <span style="width:16px;height:16px;border:1px solid #9a9a9a;background:{{ c.fill }}"></span>
+          </sc-for>
+        </span>
+      </div>
+    </sc-for>
+    <div style="padding:10px 16px;font-size:16px;color:#888">…12+ rows</div>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:9px 0 0 26px">card overlaps the video — signals "data app", not brochure</div>
+
+  <div style="margin-top:26px;display:flex;align-items:baseline;gap:14px">
+    <span style="font-size:26px;letter-spacing:.04em">RECOMMENDED</span>
+    <span style="font-size:16px;color:#555">4 cards</span>
+  </div>
+  <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ wireCards }}" as="c" hint-placeholder-count="4">
+      <div style="border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;background:#f4f4f4;padding:13px 14px">
+        <div style="display:flex;justify-content:space-between;font-size:16px"><span>{{ c.name }}</span><span style="color:#555">● {{ c.rating }}</span></div>
+        <div style="margin-top:12px;border-top:1px dashed #bdbdbd;padding-top:11px;display:grid;grid-template-columns:repeat(3,1fr);text-align:center">
+          <span><span style="font-size:24px">{{ c.h }}</span><span style="font-size:14px;color:#666">m</span><div style="font-size:13px;color:#777">SWELL</div></span>
+          <span><span style="font-size:24px">{{ c.p }}</span><span style="font-size:14px;color:#666">s</span><div style="font-size:13px;color:#777">PERIOD</div></span>
+          <span><span style="font-size:24px">{{ c.d }}</span><div style="font-size:13px;color:#777">DIR</div></span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="margin-top:26px;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#e6e6e6;padding:20px 18px;font-size:16px;color:#555">FOOTER</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="4c">
+<div class="dv-olabel"><a class="dv-oid" href="#4c">4c</a>Recommended first as a scroll rail, board below full-width. Personal before global.</div>
+<div class="dv-card" style="width:860px">
+<div style="background:#fdfcf9;padding:26px 28px 32px;font-family:'Patrick Hand',cursive;color:#1f1f1f">
+  <div style="display:flex;align-items:center;justify-content:space-between;border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;padding:12px 16px;background:#fff">
+    <div style="display:flex;align-items:center;gap:26px">
+      <span style="border:2px solid #1f1f1f;padding:4px 12px;font-size:17px;letter-spacing:.08em">SWELL</span>
+      <span style="font-size:17px;color:#555">Cams &amp; Forecast · Learn · About</span>
+    </div>
+    <span style="font-size:17px;color:#555">Sign In</span>
+  </div>
+
+  <div style="margin-top:18px;position:relative;height:260px;border:2px solid #1f1f1f;border-radius:10px 5px 12px 6px/6px 12px 5px 10px;background:repeating-linear-gradient(45deg,#fff 0 7px,#ececec 7px 14px);display:flex;align-items:flex-end;padding:0 28px 26px">
+    <div>
+      <div style="font-size:60px;line-height:.95">SWELL</div>
+      <div style="font-size:22px;color:#444">your surf forecast</div>
+    </div>
+    <span style="position:absolute;top:14px;left:28px;border:2px dashed #8a8a8a;background:#fff;padding:6px 13px;font-size:15px;color:#555">▶ video loop · muted</span>
+    <span style="position:absolute;bottom:26px;right:28px;border:2px solid #007FFF;color:#007FFF;padding:9px 18px;font-size:18px">find a spot →</span>
+  </div>
+
+  <div style="margin-top:26px;display:flex;align-items:baseline;justify-content:space-between">
+    <span style="font-size:26px;letter-spacing:.04em">YOUR SPOTS</span>
+    <span style="font-size:16px;color:#555">◀ ▶ drag to scroll</span>
+  </div>
+  <div style="margin-top:12px;display:flex;gap:14px;overflow:hidden">
+    <sc-for list="{{ wireCards }}" as="c" hint-placeholder-count="4">
+      <div style="flex:0 0 218px;border:2px solid #1f1f1f;border-radius:8px 4px 9px 5px/5px 9px 4px 8px;background:#f4f4f4;padding:13px 14px">
+        <div style="display:flex;justify-content:space-between;font-size:16px"><span>{{ c.name }}</span><span style="color:#555">● {{ c.rating }}</span></div>
+        <div style="margin-top:12px;border-top:1px dashed #bdbdbd;padding-top:11px;display:grid;grid-template-columns:repeat(3,1fr);text-align:center">
+          <span><span style="font-size:24px">{{ c.h }}</span><span style="font-size:14px;color:#666">m</span><div style="font-size:13px;color:#777">SWELL</div></span>
+          <span><span style="font-size:24px">{{ c.p }}</span><span style="font-size:14px;color:#666">s</span><div style="font-size:13px;color:#777">PERIOD</div></span>
+          <span><span style="font-size:24px">{{ c.d }}</span><div style="font-size:13px;color:#777">DIR</div></span>
+        </div>
+      </div>
+    </sc-for>
+    <div style="flex:0 0 90px;border:2px dashed #b0b0b0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#888">more →</div>
+  </div>
+  <div style="font:600 17px Caveat,cursive;color:#007FFF;margin:7px 0 0 4px">logged out → this rail becomes "famous spots"</div>
+
+  <div style="margin-top:28px;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#fff;overflow:hidden">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:14px 16px 10px;border-bottom:2px solid #1f1f1f">
+      <span style="font-size:24px;letter-spacing:.04em">TODAY'S BOARD · WORLDWIDE</span>
+      <span style="font-size:16px;color:#555">ranked by swell ↓</span>
+    </div>
+    <sc-for list="{{ wire }}" as="w" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:44px 1fr 92px 74px 92px 132px;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px dashed #cfcfcf">
+        <span style="font-size:16px;color:#888">{{ w.rank }}</span>
+        <span style="font-size:20px;letter-spacing:.04em">{{ w.name }}</span>
+        <span style="font-size:16px;color:#555">● {{ w.rating }}</span>
+        <span style="font-size:20px">{{ w.h }}m</span>
+        <span style="font-size:16px;color:#555">{{ w.pd }}</span>
+        <span style="display:flex;gap:3px;justify-content:flex-end">
+          <sc-for list="{{ w.cells }}" as="c" hint-placeholder-count="7">
+            <span style="width:16px;height:16px;border:1px solid #9a9a9a;background:{{ c.fill }}"></span>
+          </sc-for>
+        </span>
+      </div>
+    </sc-for>
+    <div style="padding:12px 16px;font-size:16px;color:#888">show 10 · load more ↓</div>
+  </div>
+
+  <div style="margin-top:26px;border:2px solid #1f1f1f;border-radius:9px 5px 10px 5px/5px 10px 5px 9px;background:#e6e6e6;padding:20px 18px;font-size:16px;color:#555">FOOTER</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build <a class="dv-oid" href="#4b">4b</a> hi-fi with the playful display face" · "wireframe the spot detail page too" · "swap <a class="dv-oid" href="#4c">4c</a>'s rail for a map"</p>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Landing page — three directions in the surf-report genre (original execution, brand colors kept)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Report desk — live cam above the fold, condition strip welded to it, then a ranked board instead of a card grid.</div>
+<div class="dv-card" style="width:1280px">
+<div style="background:#08101c;font-family:Archivo,system-ui,sans-serif;color:#fff">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:32px;padding:0 28px;background:#0b1220;border-bottom:1px solid #16233a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#64748b">
+    <span>PORTUGAL · 12 SPOTS · OPEN-METEO MARINE</span>
+    <span style="display:flex;gap:22px"><span>07:12 WEST</span><span style="color:#fff">UNITS {{ unitLabel }}</span></span>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:70px;padding:0 28px;border-bottom:1px solid #16233a">
+    <div style="display:flex;align-items:center;gap:36px">
+      <span style="display:flex;align-items:center;background:#fff;padding:7px 12px"><img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:26px;width:auto;display:block"></span>
+      <div style="display:flex;gap:26px;font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em">
+        <span style="color:#fff;padding-bottom:3px;border-bottom:2px solid #007FFF">CAMS &amp; FORECAST</span>
+        <span style="color:#64748b">LEARN</span><span style="color:#64748b">SOMETHING</span><span style="color:#64748b">ABOUT</span>
+      </div>
+    </div>
+    <span style="background:#007FFF;color:#fff;padding:11px 20px;font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em">SIGN IN</span>
+  </div>
+
+  <div style="position:relative;height:440px;background:repeating-linear-gradient(122deg,#0d1a2c 0 9px,#13233a 9px 18px)">
+    <div style="position:absolute;bottom:112px;right:28px;font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#3b5372">LIVE CAM STILL · 1280×440 · DROP IMAGE</div>
+    <div style="position:absolute;top:24px;left:28px;display:flex;align-items:center;gap:10px;background:rgba(8,16,28,.72);padding:8px 14px">
+      <span style="height:7px;width:7px;border-radius:50%;background:#f43f5e"></span>
+      <span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em">LIVE · SUPERTUBOS</span>
+    </div>
+    <div style="position:absolute;bottom:104px;left:28px;right:28px">
+      <div style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#93c5fd">SWELL REPORT · THU 27 AUGUST</div>
+      <h1 style="margin:14px 0 0;font:800 84px/.88 Archivo,system-ui,sans-serif;letter-spacing:-.04em;text-transform:uppercase;max-width:760px">Biggest week<br>of the season</h1>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(4,1fr) auto;background:rgba(8,16,28,.88);border-top:1px solid #16233a">
+      <div style="padding:18px 28px;border-right:1px solid #16233a">
+        <div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#64748b">SWELL</div>
+        <div style="margin-top:9px;font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em">{{ nowH }}<span style="font-size:14px;color:#64748b">{{ unitLabel }}</span></div>
+      </div>
+      <div style="padding:18px 28px;border-right:1px solid #16233a">
+        <div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#64748b">PERIOD</div>
+        <div style="margin-top:9px;font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em">{{ nowPeriod }}<span style="font-size:14px;color:#64748b">s</span></div>
+      </div>
+      <div style="padding:18px 28px;border-right:1px solid #16233a">
+        <div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#64748b">DIRECTION</div>
+        <div style="margin-top:9px;font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em">{{ nowDir }}</div>
+      </div>
+      <div style="padding:18px 28px;border-right:1px solid #16233a">
+        <div style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#64748b">RATING</div>
+        <div style="margin-top:9px;font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:.04em;color:{{ nowTextColor }}">{{ nowRating }}</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 28px">
+        <span style="background:#fff;color:#08101c;padding:13px 22px;font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em">OPEN FORECAST →</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:34px 28px 10px;display:flex;align-items:baseline;justify-content:space-between">
+    <h2 style="margin:0;font:800 30px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;text-transform:uppercase">Today's board</h2>
+    <span style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#64748b">RANKED BY SWELL · 7-DAY TREND ON THE RIGHT</span>
+  </div>
+
+  <div style="padding:0 28px 34px">
+    <div style="display:grid;grid-template-columns:44px 1fr 96px 130px 92px 150px;align-items:center;padding:0 4px 10px;font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569;border-bottom:1px solid #16233a">
+      <span>#</span><span>SPOT</span><span>RATING</span><span>SWELL</span><span>PERIOD·DIR</span><span style="text-align:right">7-DAY</span>
+    </div>
+    <sc-for list="{{ board }}" as="b" hint-placeholder-count="8">
+      <div style="display:grid;grid-template-columns:44px 1fr 96px 130px 92px 150px;align-items:center;padding:15px 4px;border-bottom:1px solid #101c2e">
+        <span style="font:500 12px/1 'IBM Plex Mono',monospace;color:#475569">{{ b.rank }}</span>
+        <span style="font:700 19px/1 Archivo,system-ui,sans-serif;letter-spacing:-.01em">{{ b.name }}</span>
+        <span style="display:flex;align-items:center;gap:8px"><span style="height:7px;width:7px;border-radius:50%;background:{{ b.dot }}"></span><span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:{{ b.text }}">{{ b.rating }}</span></span>
+        <span style="font:700 24px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em">{{ b.hStr }}<span style="font-size:12px;color:#64748b">{{ unitLabel }}</span></span>
+        <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#94a3b8">{{ b.period }}s {{ b.dir }}</span>
+        <span style="display:flex;gap:3px;justify-content:flex-end">
+          <sc-for list="{{ b.heat }}" as="c" hint-placeholder-count="7">
+            <span style="width:16px;height:16px;background:{{ c.color }}"></span>
+          </sc-for>
+        </span>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:#0b1220;border-top:1px solid #16233a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">
+    <span>WEATHER DATA BY OPEN-METEO.COM</span><span>© 2026 JÁCHYM KŘEČEK</span>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Editorial — the page leads with a verdict, not a grid. Amber ground, italic display type, cams as a side stack.</div>
+<div class="dv-card" style="width:1280px">
+<div style="background:#F9D59E;font-family:Archivo,system-ui,sans-serif">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;height:66px;padding:0 40px;background:#fff">
+    <div style="display:flex;align-items:center;gap:40px">
+      <img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:30px;width:auto">
+      <div style="display:flex;gap:26px;font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#475569">
+        <span style="color:#0f172a">CAMS &amp; FORECAST</span><span>LEARN</span><span>SOMETHING</span><span>ABOUT</span>
+      </div>
+    </div>
+    <span style="font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#1e40af">SIGN IN</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 470px;gap:52px;padding:56px 40px 48px;align-items:start">
+    <div>
+      <div style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;color:#1e40af">TODAY'S CALL · THU 27 AUGUST</div>
+      <h1 style="margin:20px 0 0;font:800 italic 92px/.86 Archivo,system-ui,sans-serif;letter-spacing:-.045em;color:#0f172a;text-transform:uppercase">Nazaré<br>is on.</h1>
+      <p style="margin:22px 0 0;max-width:520px;font:400 19px/1.5 Archivo,system-ui,sans-serif;color:#243b53;text-wrap:pretty">A long-period NW groundswell fills in overnight and holds through Friday. Estremadura takes the brunt of it; the Algarve stays flat.</p>
+
+      <div style="margin-top:34px;display:flex;align-items:flex-end;gap:38px">
+        <div>
+          <div style="font:800 90px/.85 Archivo,system-ui,sans-serif;letter-spacing:-.05em;color:#007FFF">{{ nowH }}</div>
+          <div style="margin-top:8px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">SWELL {{ unitLabel }}</div>
+        </div>
+        <div style="padding-bottom:8px">
+          <div style="font:700 40px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;color:#0f172a">{{ nowPeriod }}s</div>
+          <div style="margin-top:6px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">PERIOD</div>
+        </div>
+        <div style="padding-bottom:8px">
+          <div style="font:700 40px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;color:#0f172a">{{ nowDir }}</div>
+          <div style="margin-top:6px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">DIRECTION</div>
+        </div>
+        <div style="padding-bottom:8px;margin-left:auto">
+          <span style="display:inline-block;background:#0f172a;color:#fff;padding:15px 26px;font:700 11px/1 'IBM Plex Mono',monospace;letter-spacing:.18em">SEE THE 7-DAY →</span>
+        </div>
+      </div>
+
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(15,23,42,.16)">
+        <sc-for list="{{ regions }}" as="r" hint-placeholder-count="4">
+          <div style="background:#F9D59E;padding:18px 4px 4px">
+            <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#475569">{{ r.spots }}</div>
+            <div style="margin-top:10px;font:700 22px/1 Archivo,system-ui,sans-serif;letter-spacing:-.01em;color:#0f172a">{{ r.name }}</div>
+            <div style="margin-top:12px;display:flex;align-items:baseline;gap:9px">
+              <span style="height:8px;width:8px;border-radius:50%;background:{{ r.dot }}"></span>
+              <span style="font:700 20px/1 Archivo,system-ui,sans-serif;color:#0f172a">{{ r.h }}<span style="font-size:11px;color:#475569">{{ unitLabel }}</span></span>
+              <span style="margin-left:auto;font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">{{ r.rating }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="grid-column:1 / -1;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#1e40af">LIVE CAMS</div>
+      <sc-for list="{{ cams }}" as="c" hint-placeholder-count="4">
+        <div style="background:#fff">
+          <div style="position:relative;height:128px;background:repeating-linear-gradient(122deg,#e8eef6 0 9px,#dbe4f0 9px 18px)">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#93a4bd">CAM STILL · DROP IMAGE</div>
+            <span style="position:absolute;top:10px;left:10px;background:rgba(15,23,42,.82);color:#fff;padding:6px 10px;font:600 9px/1 'IBM Plex Mono',monospace;letter-spacing:.16em">{{ c.time }}</span>
+          </div>
+          <div style="padding:12px 13px 14px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+              <div style="font:700 13px/1.2 Archivo,system-ui,sans-serif;color:#0f172a">{{ c.spot }}</div>
+              <span style="font:700 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#1e40af">{{ c.rating }}</span>
+            </div>
+            <div style="margin-top:8px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#475569">{{ c.note }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 40px;background:#0f172a;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#64748b">
+    <span>WEATHER DATA BY OPEN-METEO.COM</span><span>© 2026 JÁCHYM KŘEČEK</span>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>The board, standalone — a scannable week grid. Works as the landing page's main module or a sidebar widget.</div>
+<div class="dv-card" style="width:660px">
+<div style="background:#08101c;font-family:Archivo,system-ui,sans-serif;color:#fff;padding:26px 26px 28px">
+  <div style="display:flex;align-items:baseline;justify-content:space-between">
+    <h2 style="margin:0;font:800 22px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;text-transform:uppercase">Week at a glance</h2>
+    <span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">SWELL {{ unitLabel }}</span>
+  </div>
+  <div style="margin-top:22px;display:grid;grid-template-columns:150px 66px 1fr;align-items:center;padding-bottom:9px;border-bottom:1px solid #16233a">
+    <span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">SPOT</span>
+    <span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.18em;color:#475569">NOW</span>
+    <span style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+      <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+        <span style="font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#475569;text-align:center">{{ d.label }}</span>
+      </sc-for>
+    </span>
+  </div>
+  <sc-for list="{{ board }}" as="b" hint-placeholder-count="8">
+    <div style="display:grid;grid-template-columns:150px 66px 1fr;align-items:center;padding:11px 0;border-bottom:1px solid #101c2e">
+      <span style="font:600 13px/1.1 Archivo,system-ui,sans-serif;letter-spacing:.01em">{{ b.name }}</span>
+      <span style="font:700 17px/1 Archivo,system-ui,sans-serif;color:{{ b.text }}">{{ b.hStr }}</span>
+      <span style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+        <sc-for list="{{ b.heat }}" as="c" hint-placeholder-count="7">
+          <span style="height:26px;background:{{ c.color }};display:flex;align-items:center;justify-content:center;font:500 9px/1 'IBM Plex Mono',monospace;color:{{ c.fg }}">{{ c.hStr }}</span>
+        </sc-for>
+      </span>
+    </div>
+  </sc-for>
+  <div style="margin-top:18px;display:flex;align-items:center;gap:14px;font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">
+    <span>SCALE</span>
+    <span style="display:flex;gap:3px"><span style="width:22px;height:9px;background:#1e293b"></span><span style="width:22px;height:9px;background:#1e40af"></span><span style="width:22px;height:9px;background:#007FFF"></span><span style="width:22px;height:9px;background:#34d399"></span><span style="width:22px;height:9px;background:#a78bfa"></span></span>
+    <span>FLAT → EPIC</span>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "go with <a class="dv-oid" href="#3a">3a</a> and drop the amber entirely" · "put <a class="dv-oid" href="#3c">3c</a>'s week grid into <a class="dv-oid" href="#3b">3b</a>" · "more type-driven than <a class="dv-oid" href="#3b">3b</a>"</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Forecast flow — pushed type &amp; layout, brand colors kept</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Spot detail — editorial stack. Big rating, 7-day rail, hourly chart (switchable: bars / area / dot matrix), best windows.</div>
+<div class="dv-card" style="width:1180px">
+  <div style="background:#0f172a;font-family:Archivo,system-ui,sans-serif;color:#fff">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:#fff;border-bottom:1px solid #e2e8f0">
+      <div style="display:flex;align-items:center;gap:44px;height:100%">
+        <img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:34px;width:auto">
+        <div style="display:flex;align-items:center;gap:30px;height:100%;font:500 14px Archivo,system-ui,sans-serif">
+          <span style="height:100%;display:flex;align-items:center;color:#0f172a;border-bottom:3px solid #0f172a">Cams &amp; Forecast</span>
+          <span style="color:#475569">Learn</span><span style="color:#475569">Something</span><span style="color:#475569">About</span>
+        </div>
+      </div>
+      <span style="color:#475569;font:500 14px Archivo,system-ui,sans-serif">Sign In</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;padding:36px 40px 30px;background:#007FFF">
+      <div>
+        <div style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(255,255,255,.72);text-transform:uppercase">Portugal · Estremadura · 39.345, -9.367</div>
+        <h1 style="margin:10px 0 0;font:800 68px/.92 Archivo,system-ui,sans-serif;letter-spacing:-.03em;text-transform:uppercase">Peniche<br>Supertubos</h1>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:32px">
+        <div style="text-align:right">
+          <div style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(255,255,255,.72)">NOW</div>
+          <div style="margin-top:8px;font:700 56px/1 Archivo,system-ui,sans-serif;letter-spacing:-.03em">{{ nowH }}<span style="font-size:22px;font-weight:600;opacity:.7">{{ unitLabel }}</span></div>
+        </div>
+        <div style="padding:14px 20px;background:#0f172a;border-radius:4px;text-align:center;min-width:132px">
+          <div style="font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:.06em;color:{{ nowTextColor }}">{{ nowRating }}</div>
+          <div style="margin-top:6px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#64748b">{{ nowPeriod }}S · {{ nowDir }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;border-bottom:1px solid #1e293b">
+      <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+        <div onClick="{{ d.pick }}" style="flex:1;padding:16px 18px 18px;border-right:1px solid #1e293b;background:{{ d.bg }};cursor:pointer">
+          <div style="display:flex;align-items:baseline;justify-content:space-between">
+            <span style="font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:{{ d.labelColor }}">{{ d.label }}</span>
+            <span style="font:500 11px/1 'IBM Plex Mono',monospace;color:#475569">{{ d.date }}</span>
+          </div>
+          <div style="margin-top:14px;font:700 30px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;color:{{ d.valColor }}">{{ d.hStr }}</div>
+          <div style="margin-top:10px;height:3px;background:#1e293b"><div style="height:3px;width:{{ d.pct }}%;background:{{ d.dot }}"></div></div>
+          <div style="margin-top:12px;display:flex;align-items:center;gap:8px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#64748b">
+            <span style="display:inline-block;transform:rotate({{ d.arrow }}deg);color:{{ d.dot }};font-size:13px">↑</span>{{ d.dir }} · {{ d.period }}S
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding:30px 40px 34px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+        <h2 style="margin:0;font:700 15px/1 Archivo,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase">Hourly · {{ selLabel }} {{ selDate }} August</h2>
+        <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#64748b">WAVE HEIGHT {{ unitLabel }} · 24H</span>
+      </div>
+
+      <sc-if value="{{ isBars }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(24,1fr);gap:5px;align-items:end;height:170px">
+          <sc-for list="{{ hours }}" as="h" hint-placeholder-count="24">
+            <div style="display:flex;flex-direction:column;justify-content:flex-end;height:170px;gap:7px">
+              <div style="height:{{ h.px }}px;background:{{ h.color }}"></div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isArea }}" hint-placeholder-val="{{ false }}">
+        <svg viewBox="0 0 1100 170" width="1100" height="170" preserveAspectRatio="none" style="display:block">
+          <path d="{{ areaFill }}" fill="#007FFF" fill-opacity="0.28"></path>
+          <path d="{{ areaLine }}" fill="none" stroke="#007FFF" stroke-width="3"></path>
+        </svg>
+      </sc-if>
+
+      <sc-if value="{{ isDots }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(24,1fr);gap:5px">
+          <sc-for list="{{ cells }}" as="c" hint-placeholder-count="144">
+            <div style="height:22px;background:{{ c.color }}"></div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div style="display:grid;grid-template-columns:repeat(24,1fr);gap:5px;margin-top:10px">
+        <sc-for list="{{ hours }}" as="h" hint-placeholder-count="24">
+          <div style="font:500 9px/1 'IBM Plex Mono',monospace;color:#475569;text-align:center">{{ h.tick }}</div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#1e293b;border-top:1px solid #1e293b">
+      <sc-for list="{{ windows }}" as="w" hint-placeholder-count="3">
+        <div style="background:#0f172a;padding:24px 28px 26px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="height:8px;width:8px;border-radius:50%;background:{{ w.dot }}"></span>
+            <span style="font:600 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:{{ w.text }}">{{ w.rating }}</span>
+          </div>
+          <div style="margin-top:12px;font:700 34px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em">{{ w.time }}</div>
+          <div style="margin-top:10px;font:400 13px/1.5 Archivo,system-ui,sans-serif;color:#94a3b8">{{ w.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ showPending }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1e293b">
+        <div style="background:#0b1220;padding:22px 28px">
+          <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">TIDE · NEEDS NEW SOURCE</div>
+          <div style="margin-top:12px;font:700 26px/1 Archivo,system-ui,sans-serif;color:#64748b">HIGH 04:12 · LOW 10:38</div>
+        </div>
+        <div style="background:#0b1220;padding:22px 28px">
+          <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">WIND · NEEDS NEW SOURCE</div>
+          <div style="margin-top:12px;font:700 26px/1 Archivo,system-ui,sans-serif;color:#64748b">8 KT OFFSHORE NE</div>
+        </div>
+        <div style="background:#0b1220;padding:22px 28px">
+          <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">WATER · NEEDS NEW SOURCE</div>
+          <div style="margin-top:12px;font:700 26px/1 Archivo,system-ui,sans-serif;color:#64748b">17°C · 3/2 SUIT</div>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Spot detail — split rail. Day list on the left, continuous 7-day swell curve on the right, spacious.</div>
+<div class="dv-card" style="width:1180px">
+  <div style="display:grid;grid-template-columns:320px 1fr;font-family:Archivo,system-ui,sans-serif;background:#F9D59E;min-height:660px">
+    <div style="background:#0f172a;color:#fff;padding:32px 28px 28px">
+      <img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:26px;width:auto;filter:brightness(0) invert(1)">
+      <div style="margin-top:34px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#64748b">SPOT</div>
+      <div style="margin-top:8px;font:700 30px/1.05 Archivo,system-ui,sans-serif;letter-spacing:-.02em;text-transform:uppercase">Peniche<br>Supertubos</div>
+      <div style="margin-top:32px;display:flex;flex-direction:column">
+        <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+          <div onClick="{{ d.pick }}" style="display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #1e293b;cursor:pointer;opacity:{{ d.op }}">
+            <span style="font:600 12px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#94a3b8">{{ d.label }}</span>
+            <div style="height:6px;background:#1e293b"><div style="height:6px;width:{{ d.pct }}%;background:{{ d.dot }}"></div></div>
+            <span style="font:700 16px/1 Archivo,system-ui,sans-serif">{{ d.hStr }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="margin-top:34px;padding-top:22px;border-top:1px solid #1e293b;font:400 12px/1.6 Archivo,system-ui,sans-serif;color:#64748b">Data by Open-Meteo. Updated hourly, cached server-side.</div>
+    </div>
+
+    <div style="padding:40px 44px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between">
+        <div>
+          <div style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#1e40af">{{ selLabel }} {{ selDate }} AUGUST</div>
+          <div style="margin-top:12px;display:flex;align-items:baseline;gap:6px">
+            <span style="font:800 96px/.85 Archivo,system-ui,sans-serif;letter-spacing:-.04em;color:#0f172a">{{ selH }}</span>
+            <span style="font:600 26px Archivo,system-ui,sans-serif;color:#1e40af">{{ unitLabel }}</span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="display:inline-block;padding:10px 18px;background:#0f172a;border-radius:3px;font:700 22px/1 Archivo,system-ui,sans-serif;letter-spacing:.08em;color:{{ selTextColor }}">{{ selRating }}</div>
+          <div style="margin-top:14px;display:flex;gap:26px;justify-content:flex-end">
+            <div><div style="font:700 24px/1 Archivo,system-ui,sans-serif;color:#0f172a">{{ selPeriod }}<span style="font-size:13px;color:#1e40af">s</span></div><div style="margin-top:5px;font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">PERIOD</div></div>
+            <div><div style="font:700 24px/1 Archivo,system-ui,sans-serif;color:#0f172a">{{ selDir }}</div><div style="margin-top:5px;font:500 9px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">DIR</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:38px;background:#fff;padding:26px 24px 18px;border:1px solid rgba(15,23,42,.12)">
+        <div style="display:flex;justify-content:space-between;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">
+          <span>7-DAY SWELL CURVE</span><span>{{ unitLabel }}</span>
+        </div>
+        <svg viewBox="0 0 700 190" width="100%" height="190" preserveAspectRatio="none" style="display:block;margin-top:14px">
+          <path d="{{ weekFill }}" fill="#007FFF" fill-opacity="0.2"></path>
+          <path d="{{ weekLine }}" fill="none" stroke="#007FFF" stroke-width="4" stroke-linejoin="round"></path>
+        </svg>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-top:8px">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+            <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#475569;text-align:center">{{ d.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <sc-for list="{{ windows }}" as="w" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid rgba(15,23,42,.12);padding:18px 20px 20px">
+            <div style="font:700 26px/1 Archivo,system-ui,sans-serif;letter-spacing:-.02em;color:#0f172a">{{ w.time }}</div>
+            <div style="margin-top:9px;display:flex;align-items:center;gap:8px"><span style="height:7px;width:7px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569">{{ w.rating }}</span></div>
+            <div style="margin-top:10px;font:400 12px/1.5 Archivo,system-ui,sans-serif;color:#475569">{{ w.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Grid with mini trend + inline expand. Click a card to open the forecast in place — no navigation.</div>
+<div class="dv-card" style="width:1180px">
+  <div style="background:#F9D59E;padding:34px 36px 40px;font-family:Archivo,system-ui,sans-serif">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px">
+      <h2 style="margin:0;font:800 34px/1 Archivo,system-ui,sans-serif;letter-spacing:-.03em;color:#1e40af;text-transform:uppercase">12 spots · Portugal</h2>
+      <span style="font:500 11px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#1e40af">SORTED BY SWELL ↓</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ gridSpots }}" as="g" hint-placeholder-count="8">
+        <div onClick="{{ g.toggle }}" style="grid-column:{{ g.span }};background:#0f172a;padding:18px 20px 20px;cursor:pointer;border-top:3px solid {{ g.dot }}">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font:700 13px/1.2 Archivo,system-ui,sans-serif;letter-spacing:.04em;color:#fff;text-transform:uppercase">{{ g.name }}</span>
+            <span style="font:600 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:{{ g.text }}">{{ g.rating }}</span>
+          </div>
+          <div style="margin-top:16px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+            <div style="display:flex;align-items:baseline;gap:3px">
+              <span style="font:700 38px/1 Archivo,system-ui,sans-serif;letter-spacing:-.03em;color:#fff">{{ g.hStr }}</span>
+              <span style="font:600 13px Archivo,system-ui,sans-serif;color:#64748b">{{ unitLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:3px;height:34px">
+              <sc-for list="{{ g.spark }}" as="s" hint-placeholder-count="7">
+                <div style="width:6px;height:{{ s.px }}px;background:{{ s.color }}"></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #1e293b;display:flex;gap:16px;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#64748b">
+            <span>{{ g.period }}S</span><span>{{ g.dir }}</span><span style="margin-left:auto">7D TREND</span>
+          </div>
+          <sc-if value="{{ g.open }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid #1e293b">
+              <div style="display:flex;justify-content:space-between;font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#475569;margin-bottom:14px"><span>HOURLY TODAY</span><span>BEST 06:00–09:00</span></div>
+              <div style="display:grid;grid-template-columns:repeat(24,1fr);gap:4px;align-items:end;height:90px">
+                <sc-for list="{{ hours }}" as="h" hint-placeholder-count="24">
+                  <div style="height:{{ h.pxSm }}px;background:{{ h.color }}"></div>
+                </sc-for>
+              </div>
+              <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+                <sc-for list="{{ windows }}" as="w" hint-placeholder-count="3">
+                  <div style="background:#0b1220;padding:14px 16px">
+                    <div style="font:700 20px/1 Archivo,system-ui,sans-serif;color:#fff">{{ w.time }}</div>
+                    <div style="margin-top:8px;font:400 11px/1.4 Archivo,system-ui,sans-serif;color:#64748b">{{ w.note }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Rating visualisation — four treatments of FLAT→EPIC for the same card.</div>
+<div class="dv-card" style="width:560px">
+  <div style="background:#0f172a;padding:28px 30px 32px;font-family:Archivo,system-ui,sans-serif;display:flex;flex-direction:column;gap:1px">
+    <sc-for list="{{ ratingVariants }}" as="r" hint-placeholder-count="4">
+      <div style="background:#0b1220;padding:20px 22px">
+        <div style="font:500 10px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#475569">{{ r.title }}</div>
+        <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <span style="font:700 13px/1 Archivo,system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-transform:uppercase">Nazaré</span>
+
+          <sc-if value="{{ r.isDot }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:9px"><span style="height:10px;width:10px;border-radius:50%;background:#a78bfa"></span><span style="font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.16em;color:#c4b5fd">EPIC</span></div>
+          </sc-if>
+
+          <sc-if value="{{ r.isMeter }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="display:flex;gap:3px">
+                <div style="width:26px;height:8px;background:#a78bfa"></div><div style="width:26px;height:8px;background:#a78bfa"></div><div style="width:26px;height:8px;background:#a78bfa"></div><div style="width:26px;height:8px;background:#a78bfa"></div><div style="width:26px;height:8px;background:#1e293b"></div>
+              </div>
+              <span style="font:700 12px/1 'IBM Plex Mono',monospace;letter-spacing:.14em;color:#c4b5fd">4/5</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ r.isBadge }}" hint-placeholder-val="{{ false }}">
+            <span style="padding:8px 14px;background:#a78bfa;color:#0f172a;font:800 14px/1 Archivo,system-ui,sans-serif;letter-spacing:.1em">EPIC</span>
+          </sc-if>
+
+          <sc-if value="{{ r.isType }}" hint-placeholder-val="{{ false }}">
+            <span style="font:800 44px/1 Archivo,system-ui,sans-serif;letter-spacing:-.03em;color:#a78bfa;font-style:italic">EPIC</span>
+          </sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "take <a class="dv-oid" href="#2b">2b</a>'s curve into <a class="dv-oid" href="#2a">2a</a>" · "make <a class="dv-oid" href="#2c">2c</a> the default grid and drop the detail page" · "tighten <a class="dv-oid" href="#2a">2a</a> to fit above the fold"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Recreation of today's app — App.tsx + SurfSpot.tsx, Tailwind values as written</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Current state, 1280px. Nav, hero, search, sort, 4-col card grid, footer.</div>
+<div class="dv-card" style="width:1280px">
+  <div style="background:#F9D59E url('surfApp/surf-frontend/public/bg.svg') center/cover no-repeat;font-family:ui-sans-serif,system-ui,sans-serif">
+    <div style="height:64px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 32px">
+      <div style="display:flex;align-items:center;gap:48px;height:100%">
+        <img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:40px;width:auto">
+        <div style="display:flex;align-items:center;gap:32px;height:100%;font:500 16px ui-sans-serif,system-ui,sans-serif;color:#475569">
+          <span style="height:100%;display:flex;align-items:center;border-bottom:3px solid transparent">Cams &amp; Forecast</span>
+          <span style="height:100%;display:flex;align-items:center;border-bottom:3px solid transparent">Learn</span>
+          <span style="height:100%;display:flex;align-items:center;border-bottom:3px solid transparent">Something</span>
+          <span style="height:100%;display:flex;align-items:center;border-bottom:3px solid transparent">About</span>
+        </div>
+      </div>
+      <span style="font:500 16px ui-sans-serif,system-ui,sans-serif;color:#475569">Sign In</span>
+    </div>
+
+    <div style="max-width:1280px;margin:0 auto;padding:20px 24px">
+      <div style="display:flex;justify-content:flex-end;padding:80px 0">
+        <h2 style="max-width:320px;margin:0;font:700 60px/1 ui-sans-serif,system-ui,sans-serif;color:#1e40af">Your surfing forecast</h2>
+      </div>
+      <input type="text" placeholder="Search for a spot..." style="display:block;width:100%;max-width:320px;margin:0 auto 24px;padding:8px 16px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;font:16px ui-sans-serif,system-ui,sans-serif;box-sizing:border-box">
+      <div style="display:flex;justify-content:center;margin-bottom:24px">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#2563eb;color:#fff;border-radius:8px;font:16px ui-sans-serif,system-ui,sans-serif">
+          <span style="font-size:16px">↑↓</span>Sort by wave height
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-bottom:20px">
+        <sc-for list="{{ legacySpots }}" as="s" hint-placeholder-count="12">
+          <div style="border-radius:12px;border:1px solid #334155;background:#0f172a;padding:16px 20px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1)">
+            <div style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+              <h2 style="margin:0;font:600 14px ui-sans-serif,system-ui,sans-serif;letter-spacing:.025em;text-transform:uppercase;color:#fff">{{ s.name }}</h2>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="height:10px;width:10px;border-radius:50%;background:#fbbf24"></span>
+                <span style="font:700 12px ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;color:#fcd34d">FAIR</span>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;border-top:1px solid #1e293b;padding-top:16px">
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="color:#fff"><span style="font:600 24px ui-sans-serif,system-ui,sans-serif;letter-spacing:-.025em">{{ s.h }}</span><span style="margin-left:2px;font-size:14px;color:#94a3b8">m</span></div>
+                <span style="margin-top:4px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#64748b">swell</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="color:#fff"><span style="font:600 24px ui-sans-serif,system-ui,sans-serif;letter-spacing:-.025em">{{ s.p }}</span><span style="margin-left:2px;font-size:14px;color:#94a3b8">s</span></div>
+                <span style="margin-top:4px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#64748b">period</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center">
+                <div style="color:#fff"><span style="font:600 24px ui-sans-serif,system-ui,sans-serif;letter-spacing:-.025em">{{ s.d }}</span></div>
+                <span style="margin-top:4px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#64748b">dir</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#0f172a;color:#94a3b8">
+      <div style="max-width:1280px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+        <div>
+          <img src="surfApp/surf-frontend/public/Swell.png" alt="Swell" style="height:32px;margin-bottom:12px">
+          <p style="margin:0;font-size:14px">Surf forecast for you.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+          <span>Cams &amp; Forecast</span><span>Learn</span><span>About</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:14px">
+          <span style="display:flex;align-items:center;gap:8px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+            jachymkrecek77@gmail.com
+          </span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2 0 1.9 1.2 1.9 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"></path></svg>
+            GitHub
+          </span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2ZM8 19H5v-9h3v9Zm-1.5-10.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5ZM19 19h-3v-4.7c0-1.1 0-2.5-1.5-2.5S12.7 13 12.7 14.2V19h-3v-9h2.9v1.2h.1a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7V19Z"></path></svg>
+            LinkedIn
+          </span>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1e293b;padding:16px 24px;font-size:12px;text-align:center">Weather data by Open-Meteo.com · © 2026 Jáchym Křeček</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<p class="dv-next">Try next: "the recreation is off in the nav" · "keep <a class="dv-oid" href="#1a">1a</a> as the reference and iterate only on turn 2"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;chartStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;bars&quot;,&quot;area&quot;,&quot;dots&quot;],&quot;default&quot;:&quot;bars&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Forecast&quot;},&quot;unitFeet&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Forecast&quot;},&quot;showPending&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Forecast&quot;}}">
+const RC = {
+  FLAT: { dot: "#94a3b8", text: "#94a3b8" },
+  POOR: { dot: "#f43f5e", text: "#fb7185" },
+  FAIR: { dot: "#fbbf24", text: "#fcd34d" },
+  GOOD: { dot: "#34d399", text: "#6ee7b7" },
+  EPIC: { dot: "#a78bfa", text: "#c4b5fd" },
+};
+const DAYS = [
+  { label: "MON", date: "24", h: 1.7, period: 7, dir: "W", deg: 270, rating: "FAIR" },
+  { label: "TUE", date: "25", h: 2.1, period: 9, dir: "WNW", deg: 292, rating: "GOOD" },
+  { label: "WED", date: "26", h: 2.8, period: 11, dir: "NW", deg: 315, rating: "GOOD" },
+  { label: "THU", date: "27", h: 3.6, period: 13, dir: "NW", deg: 320, rating: "EPIC" },
+  { label: "FRI", date: "28", h: 3.1, period: 12, dir: "NNW", deg: 335, rating: "EPIC" },
+  { label: "SAT", date: "29", h: 1.9, period: 9, dir: "NW", deg: 310, rating: "GOOD" },
+  { label: "SUN", date: "30", h: 0.9, period: 6, dir: "WSW", deg: 250, rating: "POOR" },
+];
+const HOURLY = [3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.6, 3.5, 3.4, 3.3, 3.2, 3.1, 3.0, 2.9, 2.9, 2.8, 2.8, 2.7, 2.6, 2.6, 2.5, 2.4, 2.3];
+const LEGACY = [
+  ["Matosinhos", "1.2", "7", "WSW"], ["Espinho", "1.2", "7", "WSW"],
+  ["Figueira da Foz (Cabedelo)", "1.4", "6", "W"], ["Nazaré (Praia do Norte)", "1.6", "7", "W"],
+  ["Peniche (Supertubos)", "1.7", "7", "W"], ["Ericeira (Ribeira d'Ilhas)", "1.7", "7", "W"],
+  ["Guincho", "1.7", "7", "W"], ["Carcavelos", "1.6", "7", "W"],
+  ["Costa da Caparica", "1.5", "7", "W"], ["Arrifana", "1.6", "7", "WNW"],
+  ["Praia do Amado", "1.4", "7", "W"], ["Sagres (Tonel)", "1.7", "7", "WNW"],
+];
+const GRID = [
+  { name: "Nazaré", h: 3.9, period: 14, dir: "NW", rating: "EPIC", spark: [1.9, 2.2, 3.0, 3.9, 3.4, 2.1, 1.1] },
+  { name: "Peniche", h: 3.6, period: 13, dir: "NW", rating: "EPIC", spark: [1.7, 2.1, 2.8, 3.6, 3.1, 1.9, 0.9] },
+  { name: "Ericeira", h: 2.6, period: 11, dir: "WNW", rating: "GOOD", spark: [1.5, 1.8, 2.2, 2.6, 2.4, 1.6, 0.8] },
+  { name: "Guincho", h: 2.4, period: 10, dir: "W", rating: "GOOD", spark: [1.4, 1.7, 2.1, 2.4, 2.2, 1.5, 0.8] },
+  { name: "Arrifana", h: 1.6, period: 8, dir: "WNW", rating: "FAIR", spark: [1.1, 1.3, 1.5, 1.6, 1.5, 1.2, 0.7] },
+  { name: "Carcavelos", h: 1.2, period: 7, dir: "W", rating: "FAIR", spark: [0.9, 1.0, 1.1, 1.2, 1.1, 0.9, 0.6] },
+  { name: "Espinho", h: 0.8, period: 6, dir: "WSW", rating: "POOR", spark: [0.7, 0.8, 0.8, 0.8, 0.7, 0.6, 0.4] },
+  { name: "Sagres (Tonel)", h: 0.4, period: 5, dir: "SW", rating: "FLAT", spark: [0.5, 0.5, 0.4, 0.4, 0.4, 0.3, 0.3] },
+];
+
+function curve(vals, w, h, max) {
+  const n = vals.length;
+  const pts = vals.map((v, i) => [(i / (n - 1)) * w, h - (v / max) * (h - 8) - 4]);
+  let d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+  for (let i = 1; i < n; i++) {
+    const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+    const cx = (x0 + x1) / 2;
+    d += " C" + cx.toFixed(1) + " " + y0.toFixed(1) + "," + cx.toFixed(1) + " " + y1.toFixed(1) + "," + x1.toFixed(1) + " " + y1.toFixed(1);
+  }
+  return { line: d, fill: d + " L" + w + " " + h + " L0 " + h + " Z" };
+}
+
+class Component extends DCLogic {
+  state = { day: 3, open: "Peniche" };
+
+  fmt(m) {
+    return this.props.unitFeet ? (m * 3.281).toFixed(1) : m.toFixed(1);
+  }
+
+  renderVals() {
+    const feet = !!this.props.unitFeet;
+    const chart = this.props.chartStyle ?? "bars";
+    const max = Math.max.apply(null, DAYS.map((d) => d.h));
+    const sel = DAYS[this.state.day];
+    const selC = RC[sel.rating];
+
+    const days = DAYS.map((d, i) => {
+      const c = RC[d.rating];
+      const on = i === this.state.day;
+      return {
+        label: d.label, date: d.date, hStr: this.fmt(d.h), period: d.period, dir: d.dir,
+        arrow: d.deg + 180, dot: c.dot, pct: Math.round((d.h / max) * 100),
+        bg: on ? "#0b1220" : "#0f172a",
+        labelColor: on ? "#fff" : "#94a3b8",
+        valColor: on ? "#fff" : "#64748b",
+        op: on ? 1 : 0.55,
+        pick: () => this.setState({ day: i }),
+      };
+    });
+
+    const hmax = 4.0;
+    const hours = HOURLY.map((v, i) => ({
+      px: Math.round((v / hmax) * 170),
+      pxSm: Math.round((v / hmax) * 90),
+      tick: i % 3 === 0 ? String(i).padStart(2, "0") : "",
+      color: v >= 3.4 ? "#a78bfa" : v >= 2.8 ? "#34d399" : "#007FFF",
+    }));
+
+    const cells = [];
+    for (let row = 5; row >= 0; row--) {
+      for (let i = 0; i < 24; i++) {
+        const lvl = HOURLY[i] / hmax * 6;
+        cells.push({ color: lvl > row ? (row >= 4 ? "#a78bfa" : row >= 3 ? "#34d399" : "#007FFF") : "#111c2e" });
+      }
+    }
+
+    const hourCurve = curve(HOURLY, 1100, 170, hmax);
+    const weekCurve = curve(DAYS.map((d) => d.h), 700, 190, max);
+
+    const windows = [
+      { time: "06:00", rating: "EPIC", note: "Offshore NE 8kt, mid tide pushing. Cleanest bank of the day.", dot: RC.EPIC.dot, text: RC.EPIC.text },
+      { time: "11:30", rating: "GOOD", note: "Wind swings onshore, faces get bumpy but size holds.", dot: RC.GOOD.dot, text: RC.GOOD.text },
+      { time: "18:45", rating: "GOOD", note: "Evening glass-off, dropping to " + this.fmt(2.7) + (feet ? "ft" : "m") + " on the low.", dot: RC.GOOD.dot, text: RC.GOOD.text },
+    ];
+
+    const gmax = Math.max.apply(null, GRID.map((g) => g.h));
+    const gridSpots = GRID.map((g) => {
+      const c = RC[g.rating];
+      const open = this.state.open === g.name;
+      return {
+        name: g.name, hStr: this.fmt(g.h), period: g.period, dir: g.dir, rating: g.rating,
+        dot: c.dot, text: c.text, open, span: open ? "span 2" : "span 1",
+        spark: g.spark.map((v) => ({ px: Math.max(3, Math.round((v / gmax) * 34)), color: v >= 3.4 ? "#a78bfa" : v >= 2.4 ? "#34d399" : v >= 1.0 ? "#007FFF" : "#334155" })),
+        toggle: () => this.setState({ open: open ? null : g.name }),
+      };
+    });
+
+    const heatColor = (v) => v >= 3.4 ? "#a78bfa" : v >= 2.4 ? "#34d399" : v >= 1.0 ? "#007FFF" : v >= 0.5 ? "#1e40af" : "#1e293b";
+    const board = GRID.map((g, i) => {
+      const c = RC[g.rating];
+      return {
+        rank: String(i + 1).padStart(2, "0"), name: g.name, hStr: this.fmt(g.h), period: g.period, dir: g.dir, rating: g.rating,
+        dot: c.dot, text: c.text, pct: Math.round((g.h / gmax) * 100),
+        heat: g.spark.map((v) => ({ color: heatColor(v), fg: v >= 2.4 ? "rgba(8,16,28,.66)" : v >= 1.0 ? "#fff" : "#93a9c9", hStr: this.fmt(v) })),
+      };
+    });
+    const cams = [
+      { spot: "Peniche · Supertubos", rating: "EPIC", text: RC.EPIC.text, dot: RC.EPIC.dot, time: "07:12", note: this.fmt(3.6) + (feet ? "ft" : "m") + " @ 13s · NE 8kt" },
+      { spot: "Nazaré · Praia do Norte", rating: "EPIC", text: RC.EPIC.text, dot: RC.EPIC.dot, time: "07:12", note: this.fmt(3.9) + (feet ? "ft" : "m") + " @ 14s · NE 6kt" },
+      { spot: "Ericeira · Ribeira d'Ilhas", rating: "GOOD", text: RC.GOOD.text, dot: RC.GOOD.dot, time: "07:11", note: this.fmt(2.6) + (feet ? "ft" : "m") + " @ 11s · N 9kt" },
+      { spot: "Carcavelos", rating: "FAIR", text: RC.FAIR.text, dot: RC.FAIR.dot, time: "07:10", note: this.fmt(1.2) + (feet ? "ft" : "m") + " @ 7s · NW 12kt" },
+    ];
+    const regions = [
+      { name: "Norte", spots: "4 spots", h: this.fmt(1.4), rating: "FAIR", dot: RC.FAIR.dot },
+      { name: "Estremadura", spots: "3 spots", h: this.fmt(3.6), rating: "EPIC", dot: RC.EPIC.dot },
+      { name: "Lisboa", spots: "3 spots", h: this.fmt(1.6), rating: "FAIR", dot: RC.FAIR.dot },
+      { name: "Algarve", spots: "2 spots", h: this.fmt(0.6), rating: "FLAT", dot: RC.FLAT.dot },
+    ];
+
+    const WIRE = [
+      ["01", "PIPELINE", "EPIC", "3.6", "13s NW", 7],
+      ["02", "TEAHUPO'O", "GOOD", "2.4", "11s SW", 5],
+      ["03", "NAZARÉ", "GOOD", "2.1", "9s NW", 4],
+      ["04", "JEFFREYS BAY", "FAIR", "1.4", "8s SW", 3],
+      ["05", "ULUWATU", "FAIR", "1.2", "8s S", 2],
+    ];
+    const wire = WIRE.map((w) => ({
+      rank: w[0], name: w[1], rating: w[2], h: w[3], pd: w[4],
+      cells: Array.from({ length: 7 }, (_, i) => ({ fill: i < w[5] ? "#6f6f6f" : "#f0f0f0" })),
+    }));
+    const wireCards = [
+      { name: "PIPELINE", rating: "EPIC", h: "3.6", p: "13", d: "NW" },
+      { name: "ULUWATU", rating: "FAIR", h: "1.2", p: "8", d: "S" },
+      { name: "HOSSEGOR", rating: "GOOD", h: "2.0", p: "10", d: "W" },
+      { name: "MUNDAKA", rating: "FAIR", h: "1.5", p: "9", d: "NW" },
+    ];
+
+    return {
+      days, hours, cells, windows, gridSpots, board, cams, regions, wire, wireCards,
+      unitLabel: feet ? "ft" : "m",
+      isBars: chart === "bars", isArea: chart === "area", isDots: chart === "dots",
+      areaLine: hourCurve.line, areaFill: hourCurve.fill,
+      weekLine: weekCurve.line, weekFill: weekCurve.fill,
+      nowH: this.fmt(3.6), nowRating: "EPIC", nowTextColor: RC.EPIC.text, nowPeriod: 13, nowDir: "NW",
+      selLabel: sel.label, selDate: sel.date, selH: this.fmt(sel.h), selPeriod: sel.period,
+      selDir: sel.dir, selRating: sel.rating, selTextColor: selC.text,
+      showPending: this.props.showPending !== false,
+      legacySpots: LEGACY.map((s) => ({ name: s[0], h: s[1], p: s[2], d: s[3] })),
+      ratingVariants: [
+        { title: "A · DOT + LABEL (CURRENT)", isDot: true },
+        { title: "B · 5-STEP METER", isMeter: true },
+        { title: "C · SOLID BADGE", isBadge: true },
+        { title: "D · TYPE AS THE SIGNAL", isType: true },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -2,7 +2,11 @@ CREATE TABLE spots (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     lat DOUBLE PRECISION NOT NULL,
-    lon DOUBLE PRECISION NOT NULL
+    lon DOUBLE PRECISION NOT NULL,
+    region TEXT,
+    description TEXT,
+    featured BOOLEAN NOT NULL DEFAULT false,
+    orientation INTEGER
 );
 
 INSERT INTO spots (name, lat, lon) VALUES

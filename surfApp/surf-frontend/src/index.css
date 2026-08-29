@@ -1,1 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
+
+/*
+  Tailwind v4 theme. Every token here becomes utility classes automatically:
+    --font-*   -> font-*   (e.g. font-display, font-mono)
+    --color-*  -> text-* / bg-* / border-*  (e.g. text-brand, bg-rating-epic)
+  One source of truth for the whole app's look.
+*/
+@theme {
+  /* Type ------------------------------------------------------------- */
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; /* default body text */
+  --font-display: "Anton", ui-sans-serif, sans-serif; /* big headlines + labels */
+  --font-mono: "Bricolage Grotesque", ui-monospace, monospace; /* data / numbers */
+
+  /* Brand & surface -------------------------------------------------- */
+  --color-brand: #007fff;
+  --color-sand: #f5f3ee; /* light, characterful page ground */
+  --color-ink: #0f172a; /* near-black text / dark cards */
+
+  /* Rating scale FLAT -> EPIC --------------------------------------- */
+  --color-rating-flat: #94a3b8;
+  --color-rating-poor: #f43f5e;
+  --color-rating-fair: #fbbf24;
+  --color-rating-good: #34d399;
+  --color-rating-epic: #a78bfa;
+
+  /* Layout ----------------------------------------------------------- */
+  --container-page: 90rem; /* shared section width -> use as max-w-page */
+}
+
+/* Scroll snapping: the page gently snaps to each section start.
+   'proximity' snaps only when you're near a snap point, so tall sections
+   (the board) stay freely scrollable. Use 'mandatory' for a harder effect. */
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
