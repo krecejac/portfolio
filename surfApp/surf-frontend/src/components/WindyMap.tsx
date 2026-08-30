@@ -49,9 +49,40 @@ function applyOverlay(api: any, overlay: string) {
   api.store.set("overlay", overlay);
 }
 
-// Renders the Windy marine-weather map into a #windy div. Loads its scripts once
-// on mount; changing `overlay` swaps the coloured field. onReady hands back the
-// Leaflet map so the parent can call invalidateSize() after being shown.
+// Windy's Map Forecast API is a page-global singleton: `windyInit` must run
+// EXACTLY once per page load, and it renders into a single #windy element.
+// Re-running it on a remount (leave /maps and come back) spawns a second WebGL
+// context on the stale canvas, which corrupts it and the map goes blank. So we
+// boot Windy once, keep the initialised map + its container div at module scope,
+// and just re-parent that same div into whichever WindyMap is currently mounted.
+type WindySingleton = { container: HTMLDivElement; api: any };
+let windyReady: Promise<WindySingleton> | null = null;
+
+function ensureWindy(): Promise<WindySingleton> {
+  if (windyReady) return windyReady;
+  windyReady = (async () => {
+    loadCss(LEAFLET_CSS);
+    await loadScript(LEAFLET_JS);
+    await loadScript(WINDY_JS);
+    const windyInit = (window as any).windyInit;
+    // The one and only #windy element. It lives outside React's control so a
+    // remount never recreates it; parked on <body> until a component claims it.
+    const container = document.createElement("div");
+    container.id = "windy";
+    container.className = "h-full w-full";
+    document.body.appendChild(container);
+    const api = await new Promise<any>((resolve) => {
+      windyInit({ key: KEY, verbose: false, lat: 20, lon: 0, zoom: 3 }, resolve);
+    });
+    return { container, api };
+  })();
+  return windyReady;
+}
+
+// Renders the Windy marine-weather map. The heavy Windy instance is booted once
+// (see ensureWindy) and shared; this component just claims its div on mount and
+// hands it back on unmount. Changing `overlay` swaps the coloured field; onReady
+// hands back the Leaflet map so the parent can invalidateSize() after showing it.
 export default function WindyMap({
   overlay,
   onReady,
@@ -59,38 +90,38 @@ export default function WindyMap({
   overlay: string;
   onReady?: (map: any) => void;
 }) {
-  const apiRef = useRef<any>(null);
+  const hostRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef(overlay);
+  overlayRef.current = overlay;
 
   useEffect(() => {
+    if (!KEY) return;
     let cancelled = false;
-    async function boot() {
-      if (!KEY) return;
-      loadCss(LEAFLET_CSS);
-      await loadScript(LEAFLET_JS);
-      await loadScript(WINDY_JS);
-      const windyInit = (window as any).windyInit;
-      if (cancelled || typeof windyInit !== "function") return;
-      windyInit(
-        { key: KEY, verbose: false, lat: 20, lon: 0, zoom: 3 },
-        (api: any) => {
-          if (cancelled) return;
-          apiRef.current = api;
-          applyOverlay(api, overlayRef.current);
-          onReady?.(api.map);
-        },
-      );
-    }
-    boot();
+    let claimed: HTMLDivElement | null = null;
+
+    ensureWindy().then(({ container, api }) => {
+      if (cancelled || !hostRef.current) return;
+      claimed = container;
+      // appendChild MOVES the div here if it was mounted elsewhere before.
+      hostRef.current.appendChild(container);
+      applyOverlay(api, overlayRef.current);
+      onReady?.(api.map);
+      // The map may have been hidden (zero-size) until now — force a relayout.
+      setTimeout(() => api.map.invalidateSize(), 0);
+    });
+
     return () => {
       cancelled = true;
+      // Detach (don't destroy) the div so React can cleanly remove our host and
+      // the next mount can re-attach the same, already-initialised map.
+      if (claimed?.parentNode) claimed.parentNode.removeChild(claimed);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     overlayRef.current = overlay;
-    if (apiRef.current) applyOverlay(apiRef.current, overlay);
+    windyReady?.then(({ api }) => applyOverlay(api, overlay));
   }, [overlay]);
 
   if (!KEY) {
@@ -101,5 +132,5 @@ export default function WindyMap({
     );
   }
 
-  return <div id="windy" className="h-full w-full" />;
+  return <div ref={hostRef} className="h-full w-full" />;
 }
