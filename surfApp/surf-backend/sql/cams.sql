@@ -270,3 +270,8 @@ INSERT INTO cams (youtube_id, title, lat, lon, city, country, category, region) 
 ('GrEEoEmmrKs','Yutaki Waterfall Yubatake Hot Springs',36.620667,138.596085,'Kusatsu-machi','Japan','Other, Water, Cities, Christmas','Asia'),
 ('q0-DDh1zdY4','Zandvoort Beach De Haven van Zandvoort Webcam',52.371984,4.530221,'Zandvoort','Netherlands','Beaches, Water, Bars','Europe')
 ON CONFLICT (youtube_id) DO NOTHING;
+
+-- Hand-added surf cams (not from the worldcam.tv harvest).
+INSERT INTO cams (youtube_id, title, lat, lon, city, country, category, region) VALUES
+('_Gi8UC_HPKM','LIVE Nazaré Big Waves Camera powered by Explore.org',39.605000,-9.085000,'Nazaré','Portugal','Beaches, Surf','Europe')
+ON CONFLICT (youtube_id) DO NOTHING;
