@@ -11,33 +11,13 @@ declare(strict_types=1);
 
 header('Content-Type: text/html; charset=utf-8');
 
-/**
- * Read a required environment variable, or fail.
- */
-function env(string $key): string
-{
-    $value = getenv($key);
-    if ($value === false || $value === '') {
-        throw new RuntimeException("Missing required environment variable: {$key}");
-    }
-    return $value;
-}
-
-$dbHost = env('DB_HOST');
-$dbName = env('DB_NAME');
-$dbUser = env('DB_USER');
-$dbPass = env('DB_PASSWORD');
+require __DIR__ . '/../src/Database.php';
 
 try {
-    new PDO(
-        "mysql:host={$dbHost};dbname={$dbName};charset=utf8mb4",
-        $dbUser,
-        $dbPass,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
+    Database::connect();
     $dbOk = true;
-    $dbMessage = "connected to database \"{$dbName}\"";
-} catch (PDOException $e) {
+    $dbMessage = 'connected to database';
+} catch (Throwable $e) {
     $dbOk = false;
     $dbMessage = $e->getMessage();
 }

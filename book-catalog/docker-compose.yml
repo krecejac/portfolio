@@ -25,6 +25,7 @@ services:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql         # persist data across restarts
+      - ./db:/docker-entrypoint-initdb.d:ro   # *.sql here run once on first init
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
