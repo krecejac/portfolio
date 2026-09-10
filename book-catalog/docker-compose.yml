@@ -1,0 +1,35 @@
+services:
+  # PHP 8.3 + Apache — serves the application.
+  web:
+    build: .
+    ports:
+      - "8080:80"          # http://localhost:8080  ->  container port 80
+    volumes:
+      - .:/var/www/html    # live-mount the code so edits show up without rebuild
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy   # wait until MariaDB is actually ready
+
+  # MariaDB — the SQL database.
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql         # persist data across restarts
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dbdata:
