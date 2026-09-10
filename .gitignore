@@ -1,0 +1,33 @@
+# Claude working files / reasoning notes (private, not part of the deliverable)
+.claude/
+CLAUDE.md
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.local
+*.local
+
+# Dependencies / build output
+node_modules/
+vendor/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Compiled SASS maps
+*.css.map
