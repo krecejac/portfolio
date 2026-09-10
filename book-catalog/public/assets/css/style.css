@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+  background: #f9fafb;
+  max-width: 52rem;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  line-height: 1.5;
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.book-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.book-table th, .book-table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+.book-table th {
+  border-bottom: 2px solid #111827;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.book-table td {
+  border-bottom: 1px solid #e5e7eb;
+}
+.book-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.book-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.book-detail {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.book-detail .meta {
+  color: #6b7280;
+  margin-top: -0.5rem;
+}
+.book-detail .rating {
+  font-weight: 600;
+}
+.book-detail .annotation {
+  margin-top: 1.5rem;
+}

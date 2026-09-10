@@ -4,17 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>Book Catalog</title>
-    <style>
-        body  { font-family: system-ui, sans-serif; max-width: 50rem; margin: 3rem auto; padding: 0 1rem; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { text-align: left; padding: .5rem .75rem; border-bottom: 1px solid #ddd; }
-        th    { border-bottom: 2px solid #333; }
-    </style>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
     <h1>Book Catalog</h1>
 
-    <table>
+    <table class="book-table">
         <thead>
             <tr>
                 <th>Title</th>
