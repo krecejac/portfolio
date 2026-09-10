@@ -34,6 +34,28 @@ a {
     &:hover { text-decoration: underline; }
 }
 
+// --- Toolbar (heading + actions) ----------------------------------
+.toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    h1 { margin-bottom: 0; }
+}
+
+.btn {
+    font: inherit;
+    color: #fff;
+    background: $primary;
+    border: none;
+    border-radius: $radius;
+    padding: .5rem 1rem;
+    cursor: pointer;
+
+    &:hover { filter: brightness(1.08); }
+}
+
 // --- Book list table ---
 .book-table {
     width: 100%;
@@ -74,3 +96,20 @@ a {
     .rating { font-weight: 600; }
     .annotation { margin-top: 1.5rem; }
 }
+
+// --- Print ---------------------------------------------------------
+// Strip interactive/decorative bits so the list prints cleanly.
+@media print {
+    body { background: #fff; margin: 0; max-width: none; }
+
+    .btn { display: none; }          // hide the print button itself
+    a { color: inherit; text-decoration: none; }
+
+    .book-table {
+        box-shadow: none;
+
+        th { border-bottom: 1px solid #000; }
+        td { border-bottom: 1px solid #999; }
+    }
+}
+

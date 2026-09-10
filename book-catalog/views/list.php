@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <h1>Book Catalog</h1>
+    <div class="toolbar">
+        <h1>Book Catalog</h1>
+        <button type="button" class="btn" onclick="window.print()">Print list</button>
+    </div>
 
     <table class="book-table">
         <thead>

@@ -24,6 +24,29 @@ a:hover {
   text-decoration: underline;
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.toolbar h1 {
+  margin-bottom: 0;
+}
+
+.btn {
+  font: inherit;
+  color: #fff;
+  background: #2563eb;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.btn:hover {
+  filter: brightness(1.08);
+}
+
 .book-table {
   width: 100%;
   border-collapse: collapse;
@@ -72,4 +95,28 @@ a:hover {
 }
 .book-detail .annotation {
   margin-top: 1.5rem;
+}
+
+@media print {
+  body {
+    background: #fff;
+    margin: 0;
+    max-width: none;
+  }
+  .btn {
+    display: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .book-table {
+    box-shadow: none;
+  }
+  .book-table th {
+    border-bottom: 1px solid #000;
+  }
+  .book-table td {
+    border-bottom: 1px solid #999;
+  }
 }
