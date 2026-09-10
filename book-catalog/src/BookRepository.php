@@ -26,4 +26,17 @@ final class BookRepository
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    /**
+     * Return a single book by id, or null if it does not exist.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function find(int $id): ?array
+    {
+        $statement = $this->pdo->prepare('SELECT * FROM books WHERE id = ?');
+        $statement->execute([$id]);
+        $book = $statement->fetch(PDO::FETCH_ASSOC);
+        return $book ?: null;
+    }
 }
