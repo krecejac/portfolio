@@ -9,6 +9,7 @@ declare(strict_types=1);
  * the public book list/detail, or the session-protected admin pages.
  */
 
+require __DIR__ . '/../src/helpers.php';
 require __DIR__ . '/../src/BookRepository.php';
 require __DIR__ . '/../src/Auth.php';
 require __DIR__ . '/../src/Csrf.php';
