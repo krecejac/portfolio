@@ -9,5 +9,7 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
  && sed -ri 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Enable URL rewriting (used later for clean routes).
-RUN a2enmod rewrite
+# Enable URL rewriting and let the document root's .htaccess use it, so the
+# front controller (public/.htaccess -> index.php) can drive clean routes.
+RUN a2enmod rewrite \
+ && sed -ri 's!AllowOverride None!AllowOverride All!g' /etc/apache2/apache2.conf

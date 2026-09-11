@@ -1,0 +1,8 @@
+# Front controller.
+# Any request that is NOT an existing file (-f) or directory (-d) is handed to
+# index.php, which decides what to render based on the URL path. Real assets
+# like /assets/css/style.css still map to actual files and are served directly.
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
