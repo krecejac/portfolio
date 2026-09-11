@@ -22,7 +22,16 @@ final class BookRepository
      */
     public function all(): array
     {
-        $statement = $this->pdo->query('SELECT * FROM books ORDER BY id DESC');
+        // avg_rating / rating_count come from the users' ratings (NULL when none).
+        $statement = $this->pdo->query(
+            'SELECT b.*,
+                    ROUND(AVG(r.rating)) AS avg_rating,
+                    COUNT(r.rating)      AS rating_count
+             FROM books b
+             LEFT JOIN ratings r ON r.book_id = b.id
+             GROUP BY b.id
+             ORDER BY b.id DESC'
+        );
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
@@ -34,7 +43,15 @@ final class BookRepository
      */
     public function find(int $id): ?array
     {
-        $statement = $this->pdo->prepare('SELECT * FROM books WHERE id = ?');
+        $statement = $this->pdo->prepare(
+            'SELECT b.*,
+                    ROUND(AVG(r.rating)) AS avg_rating,
+                    COUNT(r.rating)      AS rating_count
+             FROM books b
+             LEFT JOIN ratings r ON r.book_id = b.id
+             WHERE b.id = ?
+             GROUP BY b.id'
+        );
         $statement->execute([$id]);
         $book = $statement->fetch(PDO::FETCH_ASSOC);
         return $book ?: null;

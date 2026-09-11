@@ -1,29 +1,20 @@
 <?php
-/** @var array<int, array<string, mixed>> $books  provided by index.php */
-$pageTitle = 'Book Catalog';
-$navRight  = '<button type="button" class="btn btn--sm btn--ghost" onclick="window.print()">Print</button>';
+/** @var array<int, array<string, mixed>> $books  the current user's favourites */
+$pageTitle = 'Favourites — Book Catalog';
 require __DIR__ . '/partials/header.php';
-$count = count($books);
 ?>
 <section class="hero">
-    <h1>Book Catalog</h1>
-    <p class="lede">Browse the collection, open a book for its details, or print the list.</p>
-    <p class="count"><strong id="count"><?= $count ?></strong> book<?= $count === 1 ? '' : 's' ?></p>
+    <h1>Favourites</h1>
+    <p class="lede">Books you have saved.</p>
 </section>
 
 <?php if ($books === []): ?>
-    <p class="empty">No books in the catalogue yet.</p>
+    <p class="empty">No favourites yet. Open a book and tap the heart to save it.</p>
 <?php else: ?>
-    <div class="search">
-        <input type="search" id="book-search" placeholder="Search by title or author"
-               aria-label="Search books" autocomplete="off">
-    </div>
-
     <div class="cover-grid">
         <?php foreach ($books as $book): ?>
             <?php $hue = abs(crc32((string) $book['title'])) % 360; ?>
-            <a class="book-card" href="/?id=<?= (int) $book['id'] ?>"
-               data-search="<?= e(mb_strtolower($book['title'] . ' ' . $book['author'])) ?>">
+            <a class="book-card" href="/?id=<?= (int) $book['id'] ?>">
                 <span class="cover" style="--hue: <?= $hue ?>">
                     <span class="cover-title"><?= e($book['title']) ?></span>
                     <span class="cover-author"><?= e($book['author']) ?></span>
@@ -38,8 +29,5 @@ $count = count($books);
             </a>
         <?php endforeach; ?>
     </div>
-
-    <p class="empty" id="no-results" hidden>No books match your search.</p>
-    <script src="/assets/js/catalog-search.js" defer></script>
 <?php endif; ?>
 <?php require __DIR__ . '/partials/footer.php'; ?>

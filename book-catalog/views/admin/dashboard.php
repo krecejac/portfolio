@@ -1,13 +1,10 @@
 <?php
 /**
- * @var string      $username    provided by index.php
  * @var string|null $flash       one-off success message, or null
  * @var string|null $inviteLink  a freshly generated invite link to show once, or null
  * @var string      $csrf        CSRF token for the import/invite forms
  */
 $pageTitle = 'Admin — Book Catalog';
-$navRight  = '<span class="nav-user">' . e($username) . '</span>'
-           . '<a class="btn btn--sm btn--secondary" href="/admin/logout">Log out</a>';
 require __DIR__ . '/../partials/header.php';
 ?>
 <h1 class="page-title">Admin</h1>

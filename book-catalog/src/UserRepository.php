@@ -28,13 +28,13 @@ final class UserRepository
         return $user ?: null;
     }
 
-    /** Create a user from a username and an already-hashed password. */
-    public function create(string $username, string $passwordHash): int
+    /** Create a user with a username, hashed password and role ('user'/'admin'). */
+    public function create(string $username, string $passwordHash, string $role = 'user'): int
     {
         $statement = $this->pdo->prepare(
-            'INSERT INTO users (username, password_hash) VALUES (?, ?)'
+            'INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)'
         );
-        $statement->execute([$username, $passwordHash]);
+        $statement->execute([$username, $passwordHash, $role]);
         return (int) $this->pdo->lastInsertId();
     }
 }

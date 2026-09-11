@@ -1,9 +1,9 @@
 <?php
 /**
- * Shared page top: opens the document and renders the frosted sticky nav bar.
- * Before requiring this, a view may set:
+ * Shared page top: opens the document and renders the sticky nav bar. The
+ * right-hand side adapts to who is signed in. A view may set before requiring:
  *   $pageTitle (string)           browser tab title
- *   $navRight  (string, optional) HTML for the right-hand side of the nav
+ *   $navRight  (string, optional) extra nav HTML (e.g. a Print button)
  */
 $pageTitle = $pageTitle ?? 'Book Catalog';
 $navRight  = $navRight ?? '';
@@ -23,7 +23,20 @@ $navRight  = $navRight ?? '';
     <header class="site-header">
         <div class="site-header__inner">
             <a class="wordmark" href="/">Book Catalog</a>
-            <nav class="site-nav"><?= $navRight ?></nav>
+            <nav class="site-nav">
+                <?= $navRight ?>
+                <?php if (Auth::check()): ?>
+                    <?php if (Auth::isAdmin()): ?>
+                        <a class="nav-link" href="/admin">Admin</a>
+                    <?php endif; ?>
+                    <a class="nav-link" href="/favourites">Favourites</a>
+                    <span class="nav-user"><?= e(Auth::username()) ?></span>
+                    <a class="btn btn--sm btn--secondary" href="/logout">Log out</a>
+                <?php else: ?>
+                    <a class="nav-link" href="/login">Sign in</a>
+                    <a class="btn btn--sm" href="/signup">Sign up</a>
+                <?php endif; ?>
+            </nav>
         </div>
     </header>
     <main class="wrap">
