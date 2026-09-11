@@ -108,6 +108,9 @@ a:hover {
   flex-direction: column;
   gap: 1rem;
 }
+.auth--wide {
+  max-width: 34rem;
+}
 .auth label {
   display: flex;
   flex-direction: column;
@@ -115,21 +118,41 @@ a:hover {
   font-size: 0.9rem;
   color: #6b7280;
 }
-.auth input {
+.auth input,
+.auth textarea,
+.auth select {
   font: inherit;
   color: #1f2937;
   padding: 0.5rem 0.75rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
 }
-.auth input:focus {
+.auth input:focus,
+.auth textarea:focus,
+.auth select:focus {
   outline: none;
   border-color: #2563eb;
+}
+.auth textarea {
+  min-height: 6rem;
+  resize: vertical;
 }
 .auth__error {
   margin: 0;
   color: #b91c1c;
   font-size: 0.9rem;
+}
+.auth .field-error {
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+
+.flash {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
 }
 
 @media print {

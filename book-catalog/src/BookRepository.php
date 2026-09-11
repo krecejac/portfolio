@@ -39,4 +39,23 @@ final class BookRepository
         $book = $statement->fetch(PDO::FETCH_ASSOC);
         return $book ?: null;
     }
+
+    /**
+     * Insert a new book. Values are already validated by the caller.
+     * Returns the id of the newly created row.
+     */
+    public function create(
+        string $title,
+        string $author,
+        int $year,
+        ?int $rating,
+        ?string $annotation
+    ): int {
+        $statement = $this->pdo->prepare(
+            'INSERT INTO books (title, author, year, rating, annotation)
+             VALUES (?, ?, ?, ?, ?)'
+        );
+        $statement->execute([$title, $author, $year, $rating, $annotation]);
+        return (int) $this->pdo->lastInsertId();
+    }
 }

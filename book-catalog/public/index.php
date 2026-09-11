@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../src/BookRepository.php';
 require __DIR__ . '/../src/Auth.php';
+require __DIR__ . '/../src/Csrf.php';
 
 // Work out which route was requested. REQUEST_URI looks like
 // "/admin/login?foo=bar"; we keep only the path and drop any trailing slash
@@ -64,7 +65,75 @@ switch ($path) {
             exit;
         }
         $username = Auth::username();
+        // Read and clear the one-off flash message (set after adding a book).
+        $flash = $_SESSION['flash'] ?? null;
+        unset($_SESSION['flash']);
         require __DIR__ . '/../views/admin/dashboard.php';
+        break;
+
+    // Admin: add a new book. GET shows the form, POST validates and saves it.
+    case '/admin/add':
+        if (!Auth::check()) {
+            header('Location: /admin/login');
+            exit;
+        }
+
+        $errors = [];
+        $old = ['title' => '', 'author' => '', 'year' => '', 'rating' => '', 'annotation' => ''];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Reject the request outright if the CSRF token is missing/wrong.
+            if (!Csrf::check($_POST['csrf'] ?? null)) {
+                http_response_code(400);
+                echo 'Invalid CSRF token.';
+                exit;
+            }
+
+            // Collect and trim the submitted values (kept for refilling the form).
+            foreach ($old as $key => $_) {
+                $old[$key] = trim((string) ($_POST[$key] ?? ''));
+            }
+
+            // --- Server-side validation: the source of truth --------------
+            if ($old['title'] === '') {
+                $errors['title'] = 'Title is required.';
+            } elseif (mb_strlen($old['title']) > 255) {
+                $errors['title'] = 'Title is too long (max 255 characters).';
+            }
+
+            if ($old['author'] === '') {
+                $errors['author'] = 'Author is required.';
+            } elseif (mb_strlen($old['author']) > 255) {
+                $errors['author'] = 'Author is too long (max 255 characters).';
+            }
+
+            $year = filter_var($old['year'], FILTER_VALIDATE_INT);
+            if ($old['year'] === '') {
+                $errors['year'] = 'Year is required.';
+            } elseif ($year === false || $year < 1 || $year > 2100) {
+                $errors['year'] = 'Year must be a whole number between 1 and 2100.';
+            }
+
+            $rating = null;
+            if ($old['rating'] !== '') {
+                $rating = filter_var($old['rating'], FILTER_VALIDATE_INT);
+                if ($rating === false || $rating < 1 || $rating > 5) {
+                    $errors['rating'] = 'Rating must be a whole number between 1 and 5.';
+                }
+            }
+
+            // No errors -> save, then redirect (PRG) with a flash message.
+            if (empty($errors)) {
+                $annotation = $old['annotation'] === '' ? null : $old['annotation'];
+                $repository->create($old['title'], $old['author'], (int) $year, $rating, $annotation);
+                $_SESSION['flash'] = 'Book added.';
+                header('Location: /admin');
+                exit;
+            }
+        }
+
+        $csrf = Csrf::token();
+        require __DIR__ . '/../views/admin/add.php';
         break;
 
     // Unknown route.
