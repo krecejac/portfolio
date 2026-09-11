@@ -1,46 +1,53 @@
-// Book Catalog — Apple-inspired design system.
+// Book Catalog — editorial design system.
 // Source file; compiled to ../css/style.css (see README: npx sass ...).
 
 // --- Design tokens -------------------------------------------------
 :root {
-    --ground:       #f5f5f7;   // page background (Apple light grey)
-    --surface:      #ffffff;   // cards, list rows
-    --ink:          #1d1d1f;   // primary text
-    --muted:        #6e6e73;   // secondary text / meta
-    --hairline:     #d2d2d7;   // separators
-    --accent:       #0071e3;   // Apple blue — interactive only
-    --accent-press: #0060c0;
-    --star:         #ff9f0a;   // rating stars (Apple system orange)
-    --danger:       #d70015;   // errors (Apple system red)
+    --paper:        #efece3;   // warm paper background
+    --surface:      #ffffff;   // cards, inputs
+    --ink:          #16171c;   // primary text + display type
+    --muted:        #6d6a62;   // secondary text
+    --hairline:     #e3ddce;   // separators
+    --accent:       #1b52f0;   // electric blue — interactive + ratings
+    --accent-press: #123fc4;
+    --navy:         #0f1626;   // dark contrast band
+    --star:         #1b52f0;
+    --danger:       #c0261f;
+    --display: "Anton", "Archivo Black", Impact, sans-serif;
     color-scheme: light;
 }
 
-$wrap: 61rem;
+$wrap: 66rem;
 
 // --- Base ----------------------------------------------------------
 * { box-sizing: border-box; }
-
 [hidden] { display: none !important; }
-
 html { -webkit-text-size-adjust: 100%; }
 
 body {
     margin: 0;
-    background: var(--ground);
+    background: var(--paper);
     color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-                 "SF Pro Display", system-ui, "Segoe UI", Roboto, sans-serif;
-    font-size: 17px;
-    line-height: 1.47;
-    letter-spacing: -0.01em;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    margin: 0;
 }
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 :focus-visible {
-    outline: 3px solid rgba(0, 113, 227, 0.5);
+    outline: 3px solid rgba(27, 82, 240, 0.5);
     outline-offset: 2px;
     border-radius: 4px;
 }
@@ -49,22 +56,21 @@ a:hover { text-decoration: underline; }
     * { transition: none !important; animation: none !important; }
 }
 
-// --- Layout --------------------------------------------------------
 .wrap {
     max-width: $wrap;
     margin: 0 auto;
-    padding-block: 0 4rem;
+    padding-block: 0 4.5rem;
     padding-inline: 1.5rem;
 }
 
-// --- Frosted sticky header -----------------------------------------
+// --- Header --------------------------------------------------------
 .site-header {
     position: sticky;
     top: 0;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(239, 236, 227, 0.85);
+    backdrop-filter: saturate(150%) blur(12px);
+    -webkit-backdrop-filter: saturate(150%) blur(12px);
     border-bottom: 1px solid var(--hairline);
 }
 
@@ -72,7 +78,7 @@ a:hover { text-decoration: underline; }
     max-width: $wrap;
     margin: 0 auto;
     padding: 0 1.5rem;
-    height: 48px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -80,35 +86,40 @@ a:hover { text-decoration: underline; }
 }
 
 .wordmark {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: 1.2rem;
     color: var(--ink);
-    font-weight: 600;
-    letter-spacing: -0.01em;
 
+    &::after { content: "."; color: var(--accent); }
     &:hover { text-decoration: none; }
 }
 
 .site-nav {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
+.nav-link { color: var(--ink); font-weight: 600; font-size: 0.95rem; }
+.nav-link:hover { color: var(--accent); text-decoration: none; }
 .nav-user { color: var(--muted); font-size: 0.9rem; }
 
-// --- Buttons (pill) ------------------------------------------------
+// --- Buttons -------------------------------------------------------
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
     font: inherit;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
     color: #fff;
     background: var(--accent);
-    border: 1px solid transparent;
+    border: 1.5px solid transparent;
     border-radius: 980px;
-    padding: 0.6rem 1.15rem;
+    padding: 0.6rem 1.2rem;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.05s ease;
 
@@ -116,112 +127,119 @@ a:hover { text-decoration: underline; }
     &:active { transform: scale(0.98); }
 
     &--secondary {
-        color: var(--accent);
+        color: var(--ink);
         background: transparent;
-        border-color: var(--hairline);
+        border-color: var(--ink);
 
-        &:hover { background: rgba(0, 0, 0, 0.04); }
+        &:hover { background: var(--ink); color: #fff; }
     }
 
-    &--sm { padding: 0.4rem 0.85rem; font-size: 0.875rem; }
+    &--ghost {
+        color: var(--muted);
+        background: transparent;
+        border-color: transparent;
+
+        &:hover { color: var(--ink); background: rgba(0, 0, 0, 0.05); }
+    }
+
+    &--sm { padding: 0.4rem 0.9rem; font-size: 0.85rem; }
 }
 
-// --- Hero (public list) --------------------------------------------
+// --- Hero ----------------------------------------------------------
 .hero {
-    padding: 3rem 0 1.5rem;
+    padding: 3.5rem 0 2rem;
 
-    h1 {
-        margin: 0;
-        font-size: clamp(2.5rem, 6vw, 3.75rem);
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        line-height: 1.05;
-    }
+    h1 { font-size: clamp(3rem, 9vw, 5.5rem); line-height: 0.92; }
 
-    .count {
-        margin: 0.6rem 0 0;
+    .lede {
+        max-width: 32rem;
+        margin: 1.1rem 0 0;
         color: var(--muted);
         font-size: 1.15rem;
     }
+
+    .count { margin: 0.5rem 0 0; color: var(--muted); }
+    .count strong { color: var(--ink); }
 }
 
-// --- Search field --------------------------------------------------
+// --- Search --------------------------------------------------------
 .search {
-    margin: 1.5rem 0;
+    margin: 1.75rem 0 0;
 
     input {
         width: 100%;
         font: inherit;
-        font-size: 1.0625rem;
+        font-size: 1.05rem;
         color: var(--ink);
-        padding: 0.75rem 1rem 0.75rem 2.75rem;
+        padding: 0.8rem 1rem 0.8rem 2.8rem;
         background: var(--surface)
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E")
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236d6a62' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E")
             no-repeat 0.95rem center;
         background-size: 1.15rem;
         border: 1px solid var(--hairline);
-        border-radius: 12px;
+        border-radius: 10px;
 
         &:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+            box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
         }
     }
 }
 
-// --- Book list -----------------------------------------------------
-.list-card {
-    background: var(--surface);
-    border-radius: 14px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+// --- Book grid (generated typographic covers) ----------------------
+.cover-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 1.9rem 1.3rem;
+    margin-top: 1.5rem;
+}
+
+.book-card {
+    display: block;
+    color: inherit;
+
+    &:hover { text-decoration: none; }
+    &:hover .cover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2); }
+}
+
+.cover {
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: 2 / 3;
+    padding: 0.85rem;
+    border-radius: 5px;
+    background: hsl(var(--hue, 220) 44% 40%);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
     overflow: hidden;
 }
 
-.book-table {
-    width: 100%;
-    border-collapse: collapse;
-
-    th {
-        text-align: left;
-        font-size: 0.8125rem;
-        font-weight: 500;
-        color: var(--muted);
-        padding: 0.9rem 1.25rem;
-        border-bottom: 1px solid var(--hairline);
-    }
-
-    td {
-        padding: 0.95rem 1.25rem;
-        border-bottom: 1px solid var(--hairline);
-        vertical-align: baseline;
-    }
-
-    tbody tr { transition: background-color 0.15s ease; }
-    tbody tr:hover { background: rgba(0, 0, 0, 0.025); }
-    tbody tr:last-child td { border-bottom: none; }
-
-    .col-title a {
-        color: var(--ink);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-
-        &:hover { color: var(--accent); }
-    }
-
-    .col-author, .col-year { color: var(--muted); }
-    .col-rating { white-space: nowrap; }
+.cover-title {
+    font-family: var(--display);
+    text-transform: uppercase;
+    line-height: 0.98;
+    font-size: 1.15rem;
 }
+.cover-author { margin-top: auto; font-size: 0.72rem; opacity: 0.82; }
 
-.empty-row td {
-    text-align: center;
-    color: var(--muted);
-    padding: 2.5rem 1rem;
+.book-card .info { margin-top: 0.65rem; }
+.book-card .info .a { color: var(--muted); font-size: 0.85rem; }
+.book-card .info .r {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
 }
+.book-card .info .year { color: var(--muted); font-size: 0.8rem; }
+
+.empty { color: var(--muted); padding: 2rem 0; }
 
 // --- Stars ---------------------------------------------------------
 .stars {
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     white-space: nowrap;
 
     &__on  { color: var(--star); }
@@ -239,41 +257,28 @@ a:hover { text-decoration: underline; }
 }
 
 .book-detail {
-    max-width: 40rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2.5rem;
+    align-items: start;
     padding: 1.5rem 0 0;
 
-    h1 {
-        margin: 0 0 0.75rem;
-        font-size: clamp(2rem, 5vw, 2.8rem);
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        line-height: 1.08;
-    }
+    .cover { width: 200px; }
 
-    .author { margin: 0 0 0.4rem; font-size: 1.25rem; }
-
-    .meta {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin: 0 0 1.75rem;
-        color: var(--muted);
-    }
-
-    .annotation {
-        max-width: 34rem;
-        margin: 0;
-        font-size: 1.0625rem;
-    }
+    h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); line-height: 0.95; margin-bottom: 0.6rem; }
+    .author { margin: 0 0 0.6rem; font-size: 1.2rem; }
+    .meta { display: flex; align-items: center; gap: 0.85rem; margin: 0 0 1.5rem; color: var(--muted); }
+    .annotation { max-width: 34rem; margin: 0; font-size: 1.05rem; line-height: 1.6; }
 }
 
-// --- Forms (login, add book, accept invite) ------------------------
+// --- Forms ---------------------------------------------------------
 .auth {
-    max-width: 24rem;
+    max-width: 25rem;
     margin: 3rem auto;
     background: var(--surface);
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
     padding: 2.5rem 2rem;
     display: flex;
     flex-direction: column;
@@ -281,34 +286,23 @@ a:hover { text-decoration: underline; }
 
     &--wide { max-width: 34rem; }
 
-    h1 {
-        margin: 0 0 0.5rem;
-        font-size: 1.6rem;
-        text-align: center;
-        letter-spacing: -0.01em;
-    }
+    h1 { font-size: 2rem; text-align: center; margin-bottom: 0.5rem; }
 
-    label {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        font-size: 0.9rem;
-        color: var(--muted);
-    }
+    label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.9rem; color: var(--muted); }
 
     input, textarea, select {
         font: inherit;
-        font-size: 1.0625rem;
+        font-size: 1.05rem;
         color: var(--ink);
         padding: 0.7rem 0.85rem;
         background: var(--surface);
         border: 1px solid var(--hairline);
-        border-radius: 10px;
+        border-radius: 9px;
 
         &:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
+            box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
         }
     }
 
@@ -317,48 +311,32 @@ a:hover { text-decoration: underline; }
     &__error {
         margin: 0;
         padding: 0.7rem 0.85rem;
-        background: #fdecee;
+        background: #fbe9e7;
         color: var(--danger);
-        border-radius: 10px;
+        border-radius: 9px;
         font-size: 0.9rem;
     }
+
+    .hint { text-align: center; font-size: 0.9rem; color: var(--muted); }
 }
 
 .field-error { color: var(--danger); font-size: 0.8rem; }
 
 // --- Banners -------------------------------------------------------
-.flash {
+.flash, .notice {
     margin: 0 0 1.5rem;
     padding: 0.8rem 1rem;
-    background: #e7f6ec;
-    color: #0a7b34;
-    border: 1px solid #b7e3c6;
-    border-radius: 12px;
+    border-radius: 10px;
+    border: 1px solid;
 }
-
+.flash  { background: #e9f6ec; color: #216b34; border-color: #bfe3c8; }
 .notice {
-    margin: 0 0 1.5rem;
-    padding: 0.8rem 1rem;
-    background: #eaf3ff;
-    color: #05468f;
-    border: 1px solid #cde3ff;
-    border-radius: 12px;
-
-    code {
-        display: block;
-        margin-top: 0.5rem;
-        word-break: break-all;
-        font-size: 0.85rem;
-    }
+    background: #e9effe; color: #123fc4; border-color: #c6d6fb;
+    code { display: block; margin-top: 0.5rem; word-break: break-all; font-size: 0.85rem; }
 }
 
 // --- Admin dashboard ----------------------------------------------
-.page-title {
-    margin: 2.5rem 0 1.5rem;
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-}
+.page-title { margin: 2.5rem 0 1.5rem; font-size: 2.5rem; }
 
 .actions {
     display: grid;
@@ -371,75 +349,40 @@ a:hover { text-decoration: underline; }
     flex-direction: column;
     gap: 0.5rem;
     background: var(--surface);
-    border-radius: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
     padding: 1.5rem;
 
-    h2 { margin: 0; font-size: 1.15rem; letter-spacing: -0.01em; }
+    h2 { margin: 0; font-size: 1.15rem; }
     p  { margin: 0; flex: 1; color: var(--muted); font-size: 0.9rem; }
     form { margin: 0; }
     .btn { margin-top: 0.5rem; align-self: flex-start; }
 }
 
-// --- Responsive: table collapses to stacked cards ------------------
-@media (max-width: 40rem) {
-    .book-table thead { display: none; }
-    .book-table, .book-table tbody, .book-table tr, .book-table td { display: block; }
-
-    .book-table tr {
-        padding: 0.9rem 1.25rem;
-        border-bottom: 1px solid var(--hairline);
-    }
-    .book-table tbody tr:last-child { border-bottom: none; }
-
-    .book-table td { padding: 0.1rem 0; border: none; }
-    .book-table .col-title a { font-size: 1.1rem; }
-    .book-table .col-author { display: inline; }
-    .book-table .col-year   { display: inline; }
-    .book-table .col-year::before { content: " · "; color: var(--muted); }
-    .book-table .col-rating { margin-top: 0.25rem; }
+// --- Responsive ----------------------------------------------------
+@media (max-width: 38rem) {
+    .book-detail { grid-template-columns: 1fr; gap: 1.5rem; }
+    .book-detail .cover { width: 150px; }
 }
 
 // --- Dark mode -----------------------------------------------------
-// Colours are CSS variables, so dark mode is mostly a token swap plus a few
-// surface tweaks (shadows are invisible on black, so cards get a hairline).
 @media (prefers-color-scheme: dark) {
     :root {
-        --ground:       #000000;
-        --surface:      #1c1c1e;
-        --ink:          #f5f5f7;
-        --muted:        #98989d;
-        --hairline:     #38383a;
-        --accent:       #0a84ff;
-        --accent-press: #409cff;
-        --danger:       #ff453a;
+        --paper:        #14140f;
+        --surface:      #1e1e19;
+        --ink:          #f3efe4;
+        --muted:        #a29d90;
+        --hairline:     #35342c;
+        --accent:       #5b8bff;
+        --accent-press: #7ba3ff;
         color-scheme: dark;
     }
 
-    .site-header { background: rgba(0, 0, 0, 0.6); }
-
-    .list-card, .action-card, .auth {
-        border: 1px solid var(--hairline);
-        box-shadow: none;
-    }
-
-    .btn--secondary:hover      { background: rgba(255, 255, 255, 0.08); }
-    .book-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
-
-    .flash {
-        background: rgba(48, 209, 88, 0.15);
-        color: #30d158;
-        border-color: rgba(48, 209, 88, 0.35);
-    }
-    .notice {
-        background: rgba(10, 132, 255, 0.15);
-        color: #64d2ff;
-        border-color: rgba(10, 132, 255, 0.35);
-    }
-    .auth__error {
-        background: rgba(255, 69, 58, 0.15);
-        color: #ff6961;
-    }
+    .site-header { background: rgba(20, 20, 15, 0.8); }
+    .flash  { background: rgba(48, 160, 80, 0.15); color: #6bd48c; border-color: rgba(48, 160, 80, 0.3); }
+    .notice { background: rgba(91, 139, 255, 0.15); color: #a9c2ff; border-color: rgba(91, 139, 255, 0.3); }
+    .auth__error { background: rgba(200, 60, 50, 0.15); color: #ff8a80; }
+    .btn--ghost:hover { background: rgba(255, 255, 255, 0.08); }
 }
 
 // --- Print ---------------------------------------------------------
@@ -447,10 +390,6 @@ a:hover { text-decoration: underline; }
     body { background: #fff; }
     .site-header, .search, .btn, .back-link { display: none !important; }
     .wrap { max-width: none; padding: 0; }
-    .list-card { box-shadow: none; border-radius: 0; }
-
-    .book-table th, .book-table td { border-bottom: 1px solid #ccc; }
+    .cover { box-shadow: none; }
     a { color: #000; }
-    .stars__on { color: #000; }
-    .stars__off { color: #bbb; }
 }
