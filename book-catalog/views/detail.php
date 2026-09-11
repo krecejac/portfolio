@@ -1,31 +1,28 @@
-<?php /** @var array<string, mixed>|null $book  provided by index.php */ ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Book detail — Book Catalog</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
-<body>
-    <p><a class="back-link" href="/">&larr; Back to list</a></p>
+<?php
+/** @var array<string, mixed>|null $book  provided by index.php */
+$pageTitle = $book !== null ? $book['title'] . ' — Book Catalog' : 'Book not found — Book Catalog';
+require __DIR__ . '/partials/header.php';
+?>
+<p><a class="back-link" href="/">&lsaquo; Book Catalog</a></p>
 
-    <?php if ($book === null): ?>
+<?php if ($book === null): ?>
+    <article class="book-detail">
         <h1>Book not found</h1>
-        <p>No book with this id exists.</p>
-    <?php else: ?>
-        <article class="book-detail">
-            <h1><?= htmlspecialchars($book['title'], ENT_QUOTES, 'UTF-8') ?></h1>
-            <p class="meta">
-                <?= htmlspecialchars($book['author'], ENT_QUOTES, 'UTF-8') ?>,
-                <?= htmlspecialchars((string) $book['year'], ENT_QUOTES, 'UTF-8') ?>
-            </p>
+        <p class="annotation">No book with this id exists.</p>
+    </article>
+<?php else: ?>
+    <article class="book-detail">
+        <h1><?= e($book['title']) ?></h1>
+        <p class="author"><?= e($book['author']) ?></p>
+        <p class="meta">
+            <span>Published <?= e((string) $book['year']) ?></span>
             <?php if ($book['rating'] !== null): ?>
-                <p class="rating">Rating: <?= htmlspecialchars((string) $book['rating'], ENT_QUOTES, 'UTF-8') ?>/5</p>
+                <?= stars((int) $book['rating']) ?>
             <?php endif; ?>
-            <?php if ($book['annotation'] !== null): ?>
-                <p class="annotation"><?= nl2br(htmlspecialchars($book['annotation'], ENT_QUOTES, 'UTF-8')) ?></p>
-            <?php endif; ?>
-        </article>
-    <?php endif; ?>
-</body>
-</html>
+        </p>
+        <?php if ($book['annotation'] !== null && $book['annotation'] !== ''): ?>
+            <p class="annotation"><?= nl2br(e($book['annotation'])) ?></p>
+        <?php endif; ?>
+    </article>
+<?php endif; ?>
+<?php require __DIR__ . '/partials/footer.php'; ?>
