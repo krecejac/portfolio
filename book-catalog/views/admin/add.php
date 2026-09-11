@@ -57,5 +57,8 @@
         <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrf, ENT_QUOTES, 'UTF-8') ?>">
         <button type="submit" class="btn">Add book</button>
     </form>
+
+    <!-- Progressive enhancement: instant validation. The server validates too. -->
+    <script src="/assets/js/add-validation.js" defer></script>
 </body>
 </html>
