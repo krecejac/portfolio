@@ -159,6 +159,22 @@ a {
     border-radius: $radius;
 }
 
+// Informational banner (login notice, generated invite link).
+.notice {
+    background: #eff6ff;
+    color: #1e3a8a;
+    border: 1px solid #bfdbfe;
+    padding: .75rem 1rem;
+    border-radius: $radius;
+
+    code {
+        display: block;
+        margin-top: .5rem;
+        word-break: break-all;
+        font-size: .85rem;
+    }
+}
+
 // --- Print ---------------------------------------------------------
 // Strip interactive/decorative bits so the list prints cleanly.
 @media print {

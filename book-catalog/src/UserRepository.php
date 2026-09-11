@@ -27,4 +27,14 @@ final class UserRepository
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
     }
+
+    /** Create a user from a username and an already-hashed password. */
+    public function create(string $username, string $passwordHash): int
+    {
+        $statement = $this->pdo->prepare(
+            'INSERT INTO users (username, password_hash) VALUES (?, ?)'
+        );
+        $statement->execute([$username, $passwordHash]);
+        return (int) $this->pdo->lastInsertId();
+    }
 }

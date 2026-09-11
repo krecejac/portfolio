@@ -1,4 +1,9 @@
-<?php /** @var string|null $error  optional error message provided by index.php */ ?>
+<?php
+/**
+ * @var string|null $error   optional error message provided by index.php
+ * @var string|null $notice  optional info message (e.g. after creating an account)
+ */
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +16,10 @@
 
     <form class="auth" method="post" action="/admin/login">
         <h1>Admin login</h1>
+
+        <?php if (!empty($notice)): ?>
+            <p class="notice"><?= htmlspecialchars($notice, ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
 
         <?php if (!empty($error)): ?>
             <p class="auth__error"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>

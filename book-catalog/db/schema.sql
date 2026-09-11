@@ -29,3 +29,13 @@ CREATE TABLE users (
 -- password_hash('admin123', PASSWORD_DEFAULT); never commit a plain password.
 INSERT INTO users (username, password_hash) VALUES
     ('admin', '$2y$10$aivpV7vnWkKanOrH5V1lwe1aoNP2ItwSm/c5BO02zcWD3r2SAkOqW');
+
+-- One-time invitations to create a new admin account. We store only a sha256
+-- hash of the token (never the token itself), plus its expiry and whether it
+-- has already been used.
+CREATE TABLE invites (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    token_hash CHAR(64)  NOT NULL,   -- sha256 hex of the invite token
+    expires_at DATETIME  NOT NULL,
+    used_at    DATETIME  NULL
+);

@@ -13,12 +13,14 @@ require __DIR__ . '/../src/BookRepository.php';
 require __DIR__ . '/../src/Auth.php';
 require __DIR__ . '/../src/Csrf.php';
 require __DIR__ . '/../src/BookValidator.php';
+require __DIR__ . '/../src/InviteRepository.php';
 
 // REQUEST_URI looks like "/admin/login?foo=bar"; keep only the path and drop a
 // trailing slash so "/admin/" and "/admin" resolve to the same route.
 $path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
-// Only the admin area uses a session, so anonymous visitors get no cookie.
+// The whole admin area (including the public "accept invite" page) uses a
+// session — for login state and for CSRF tokens on its forms.
 if (str_starts_with($path, '/admin')) {
     Auth::start();
 }
@@ -44,6 +46,10 @@ switch ($path) {
             header('Location: /admin');   // already logged in
             exit;
         }
+        // A one-off info message, e.g. after creating an account via an invite.
+        $notice = $_SESSION['flash'] ?? null;
+        unset($_SESSION['flash']);
+
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = trim((string) ($_POST['username'] ?? ''));
@@ -67,10 +73,11 @@ switch ($path) {
     case '/admin':
         Auth::requireLogin();
         $username = Auth::username();
-        // Read and clear the one-off flash message (set after add/import).
+        // Read and clear the one-off messages (set after add/import/invite).
         $flash = $_SESSION['flash'] ?? null;
-        unset($_SESSION['flash']);
-        $csrf = Csrf::token();   // for the import button's form
+        $inviteLink = $_SESSION['invite_link'] ?? null;
+        unset($_SESSION['flash'], $_SESSION['invite_link']);
+        $csrf = Csrf::token();   // for the import/invite forms
         require __DIR__ . '/../views/admin/dashboard.php';
         break;
 
@@ -152,6 +159,78 @@ switch ($path) {
         $_SESSION['flash'] = "Import done: {$imported} added, {$skipped} skipped.";
         header('Location: /admin');
         exit;
+
+    // Admin: create a one-time invite link for a new admin account.
+    case '/admin/invite':
+        Auth::requireLogin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Csrf::check($_POST['csrf'] ?? null)) {
+            http_response_code(400);
+            echo 'Bad request.';
+            exit;
+        }
+
+        // The raw token goes into the link; only its hash is stored, with a
+        // 24-hour expiry. (No email server here, so we show the link on screen.)
+        $token = bin2hex(random_bytes(32));
+        $expiresAt = (new DateTimeImmutable('+24 hours'))->format('Y-m-d H:i:s');
+        (new InviteRepository())->create(hash('sha256', $token), $expiresAt);
+
+        $_SESSION['invite_link'] = 'http://' . $_SERVER['HTTP_HOST'] . '/admin/accept?token=' . $token;
+        header('Location: /admin');
+        exit;
+
+    // Public: accept an invite and set up your own admin account.
+    case '/admin/accept':
+        $token = (string) ($_POST['token'] ?? $_GET['token'] ?? '');
+        $invite = (new InviteRepository())->findUsable(hash('sha256', $token));
+
+        $errors = [];
+        $old = ['username' => ''];
+
+        // Bad/expired/used token: show a dead-end page, nothing else.
+        if ($invite === null) {
+            http_response_code(400);
+            $invalidInvite = true;
+            require __DIR__ . '/../views/admin/accept.php';
+            break;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!Csrf::check($_POST['csrf'] ?? null)) {
+                http_response_code(400);
+                echo 'Invalid CSRF token.';
+                exit;
+            }
+
+            $old['username'] = trim((string) ($_POST['username'] ?? ''));
+            $password = (string) ($_POST['password'] ?? '');
+            $users = new UserRepository();
+
+            if ($old['username'] === '') {
+                $errors['username'] = 'Username is required.';
+            } elseif (mb_strlen($old['username']) > 50) {
+                $errors['username'] = 'Username is too long (max 50 characters).';
+            } elseif ($users->findByUsername($old['username']) !== null) {
+                $errors['username'] = 'That username is already taken.';
+            }
+
+            if (mb_strlen($password) < 8) {
+                $errors['password'] = 'Password must be at least 8 characters.';
+            }
+
+            if ($errors === []) {
+                $users->create($old['username'], password_hash($password, PASSWORD_DEFAULT));
+                (new InviteRepository())->markUsed((int) $invite['id']);
+                $_SESSION['flash'] = 'Account created. You can now log in.';
+                header('Location: /admin/login');
+                exit;
+            }
+        }
+
+        $invalidInvite = false;
+        $csrf = Csrf::token();
+        require __DIR__ . '/../views/admin/accept.php';
+        break;
 
     // Unknown route.
     default:
