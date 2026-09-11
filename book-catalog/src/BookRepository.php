@@ -58,4 +58,17 @@ final class BookRepository
         $statement->execute([$title, $author, $year, $rating, $annotation]);
         return (int) $this->pdo->lastInsertId();
     }
+
+    /**
+     * Is there already a book with the same title, author and year?
+     * Used by the import to skip duplicates so re-running it is safe.
+     */
+    public function existsSame(string $title, string $author, int $year): bool
+    {
+        $statement = $this->pdo->prepare(
+            'SELECT 1 FROM books WHERE title = ? AND author = ? AND year = ? LIMIT 1'
+        );
+        $statement->execute([$title, $author, $year]);
+        return (bool) $statement->fetchColumn();
+    }
 }

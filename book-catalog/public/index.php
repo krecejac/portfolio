@@ -65,9 +65,10 @@ switch ($path) {
             exit;
         }
         $username = Auth::username();
-        // Read and clear the one-off flash message (set after adding a book).
+        // Read and clear the one-off flash message (set after adding/importing).
         $flash = $_SESSION['flash'] ?? null;
         unset($_SESSION['flash']);
+        $csrf = Csrf::token();   // for the import button's form
         require __DIR__ . '/../views/admin/dashboard.php';
         break;
 
@@ -135,6 +136,59 @@ switch ($path) {
         $csrf = Csrf::token();
         require __DIR__ . '/../views/admin/add.php';
         break;
+
+    // Admin: import books from the prepared books.json file.
+    case '/admin/import':
+        if (!Auth::check()) {
+            header('Location: /admin/login');
+            exit;
+        }
+        // State-changing action: must be a POST with a valid CSRF token.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Csrf::check($_POST['csrf'] ?? null)) {
+            http_response_code(400);
+            echo 'Bad request.';
+            exit;
+        }
+
+        $data = json_decode((string) @file_get_contents(__DIR__ . '/../books.json'), true);
+        if (!is_array($data)) {
+            $_SESSION['flash'] = 'Import failed: books.json is missing or not valid JSON.';
+            header('Location: /admin');
+            exit;
+        }
+
+        $imported = 0;
+        $skipped  = 0;
+        foreach ($data as $row) {
+            if (!is_array($row)) {
+                $skipped++;
+                continue;
+            }
+
+            // Normalise, then apply the same rules as the add-book form.
+            $title      = trim((string) ($row['title'] ?? ''));
+            $author     = trim((string) ($row['author'] ?? ''));
+            $year       = filter_var($row['year'] ?? null, FILTER_VALIDATE_INT);
+            $rating     = isset($row['rating']) ? filter_var($row['rating'], FILTER_VALIDATE_INT) : null;
+            $annotation = isset($row['annotation']) ? trim((string) $row['annotation']) : '';
+
+            $valid = $title !== '' && mb_strlen($title) <= 255
+                && $author !== '' && mb_strlen($author) <= 255
+                && $year !== false && $year >= 1 && $year <= 2100
+                && ($rating === null || ($rating !== false && $rating >= 1 && $rating <= 5));
+
+            if (!$valid || $repository->existsSame($title, $author, (int) $year)) {
+                $skipped++;
+                continue;
+            }
+
+            $repository->create($title, $author, (int) $year, $rating, $annotation === '' ? null : $annotation);
+            $imported++;
+        }
+
+        $_SESSION['flash'] = "Import done: {$imported} added, {$skipped} skipped.";
+        header('Location: /admin');
+        exit;
 
     // Unknown route.
     default:
