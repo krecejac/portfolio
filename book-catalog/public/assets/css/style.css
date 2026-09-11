@@ -439,6 +439,46 @@ a:hover {
     margin-top: 0.25rem;
   }
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #000000;
+    --surface: #1c1c1e;
+    --ink: #f5f5f7;
+    --muted: #98989d;
+    --hairline: #38383a;
+    --accent: #0a84ff;
+    --accent-press: #409cff;
+    --danger: #ff453a;
+    color-scheme: dark;
+  }
+  .site-header {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  .list-card, .action-card, .auth {
+    border: 1px solid var(--hairline);
+    box-shadow: none;
+  }
+  .btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .book-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .flash {
+    background: rgba(48, 209, 88, 0.15);
+    color: #30d158;
+    border-color: rgba(48, 209, 88, 0.35);
+  }
+  .notice {
+    background: rgba(10, 132, 255, 0.15);
+    color: #64d2ff;
+    border-color: rgba(10, 132, 255, 0.35);
+  }
+  .auth__error {
+    background: rgba(255, 69, 58, 0.15);
+    color: #ff6961;
+  }
+}
 @media print {
   body {
     background: #fff;
