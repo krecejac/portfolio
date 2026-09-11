@@ -57,6 +57,18 @@ final class Auth
         return isset($_SESSION['user_id']);
     }
 
+    /**
+     * Guard for admin pages: if nobody is logged in, redirect to the login
+     * form and stop. Call it at the top of every protected route.
+     */
+    public static function requireLogin(): void
+    {
+        if (!self::check()) {
+            header('Location: /admin/login');
+            exit;
+        }
+    }
+
     /** Username of the logged-in user, or null if nobody is logged in. */
     public static function username(): ?string
     {
