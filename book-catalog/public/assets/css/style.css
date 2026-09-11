@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --paper: #efece3;
   --surface: #ffffff;
@@ -9,8 +10,37 @@
   --navy: #0f1626;
   --star: #1b52f0;
   --danger: #c0261f;
+  --header-bg: rgba(239, 236, 227, 0.85);
+  --hover: rgba(0, 0, 0, 0.05);
   --display: "Anton", "Archivo Black", Impact, sans-serif;
   color-scheme: light;
+}
+
+:root[data-theme=dark] {
+  --paper: #14140f;
+  --surface: #1e1e19;
+  --ink: #f3efe4;
+  --muted: #a29d90;
+  --hairline: #35342c;
+  --accent: #5b8bff;
+  --accent-press: #7ba3ff;
+  --header-bg: rgba(20, 20, 15, 0.8);
+  --hover: rgba(255, 255, 255, 0.08);
+  color-scheme: dark;
+}
+:root[data-theme=dark] .flash {
+  background: rgba(48, 160, 80, 0.15);
+  color: #6bd48c;
+  border-color: rgba(48, 160, 80, 0.3);
+}
+:root[data-theme=dark] .notice {
+  background: rgba(91, 139, 255, 0.15);
+  color: #a9c2ff;
+  border-color: rgba(91, 139, 255, 0.3);
+}
+:root[data-theme=dark] .auth__error {
+  background: rgba(200, 60, 50, 0.15);
+  color: #ff8a80;
 }
 
 * {
@@ -76,7 +106,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(239, 236, 227, 0.85);
+  background: var(--header-bg);
   backdrop-filter: saturate(150%) blur(12px);
   -webkit-backdrop-filter: saturate(150%) blur(12px);
   border-bottom: 1px solid var(--hairline);
@@ -125,9 +155,90 @@ a:hover {
   text-decoration: none;
 }
 
-.nav-user {
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+}
+.theme-toggle:hover {
+  background: var(--hover);
+}
+
+.user-menu {
+  position: relative;
+}
+.user-menu > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  cursor: pointer;
+  padding: 0.25rem 0.6rem 0.25rem 0.25rem;
+  border: 1px solid var(--hairline);
+  border-radius: 980px;
+}
+.user-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.user-menu > summary::after {
+  content: "▾";
   color: var(--muted);
+  font-size: 0.7rem;
+}
+.user-menu > summary:hover {
+  background: var(--hover);
+}
+.user-menu__name {
   font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.user-menu__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.35rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+.user-menu__panel a {
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.user-menu__panel a:hover {
+  background: var(--hover);
+  text-decoration: none;
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .btn {
@@ -163,13 +274,12 @@ a:hover {
   color: #fff;
 }
 .btn--ghost {
-  color: var(--muted);
+  color: var(--ink);
   background: transparent;
   border-color: transparent;
 }
 .btn--ghost:hover {
-  color: var(--ink);
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--hover);
 }
 .btn--sm {
   padding: 0.4rem 0.9rem;
@@ -364,7 +474,7 @@ a:hover {
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .fav-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--hover);
 }
 .fav-btn.is-on {
   color: #fff;
@@ -554,38 +664,6 @@ a:hover {
   }
   .book-detail .cover {
     width: 150px;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #14140f;
-    --surface: #1e1e19;
-    --ink: #f3efe4;
-    --muted: #a29d90;
-    --hairline: #35342c;
-    --accent: #5b8bff;
-    --accent-press: #7ba3ff;
-    color-scheme: dark;
-  }
-  .site-header {
-    background: rgba(20, 20, 15, 0.8);
-  }
-  .flash {
-    background: rgba(48, 160, 80, 0.15);
-    color: #6bd48c;
-    border-color: rgba(48, 160, 80, 0.3);
-  }
-  .notice {
-    background: rgba(91, 139, 255, 0.15);
-    color: #a9c2ff;
-    border-color: rgba(91, 139, 255, 0.3);
-  }
-  .auth__error {
-    background: rgba(200, 60, 50, 0.15);
-    color: #ff8a80;
-  }
-  .btn--ghost:hover {
-    background: rgba(255, 255, 255, 0.08);
   }
 }
 @media print {
