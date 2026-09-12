@@ -5,6 +5,17 @@ declare(strict_types=1);
  * Small view helpers, shared by the templates.
  */
 
+/**
+ * Absolute path to a template under views/. Controllers live in src/Controllers/
+ * while the templates live in views/, so this resolves the path from the project
+ * root rather than from wherever the caller sits. Pass a name without the
+ * extension, e.g. "detail" or "admin/dashboard".
+ */
+function view_path(string $name): string
+{
+    return dirname(__DIR__) . '/views/' . $name . '.php';
+}
+
 /** Escape a string for safe output in HTML. */
 function e(?string $value): string
 {
