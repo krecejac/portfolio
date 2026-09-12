@@ -11,6 +11,7 @@
     }
 
     var items = Array.prototype.slice.call(document.querySelectorAll('.book-card[data-search]'));
+    var printRows = Array.prototype.slice.call(document.querySelectorAll('.print-list tbody tr[data-id]'));
     var noResults = document.getElementById('no-results');
     var count = document.getElementById('count');
     var genre = document.getElementById('filter-genre');
@@ -23,25 +24,32 @@
         var q = search.value.trim().toLowerCase();
         var g = genre ? genre.value : '';
         var a = author ? author.value : '';
-        var y = year ? year.value : '';
+        var decade = year ? parseInt(year.value, 10) : NaN;
         var r = rating ? parseInt(rating.value, 10) : 0;
         var shown = 0;
+        var visible = {};
 
         items.forEach(function (item) {
+            var itemYear = parseInt(item.getAttribute('data-year'), 10);
             var ok =
                 item.getAttribute('data-search').indexOf(q) !== -1 &&
                 (g === '' || item.getAttribute('data-genre') === g) &&
                 (a === '' || item.getAttribute('data-author') === a) &&
-                (y === '' || item.getAttribute('data-year') === y) &&
+                (isNaN(decade) || Math.floor(itemYear / 10) * 10 === decade) &&
                 (!r || parseInt(item.getAttribute('data-rating'), 10) >= r);
             item.hidden = !ok;
-            if (ok) { shown++; }
+            if (ok) { shown++; visible[item.getAttribute('data-id')] = true; }
+        });
+
+        // Keep the print table in sync so printing outputs the current selection.
+        printRows.forEach(function (row) {
+            row.hidden = !visible[row.getAttribute('data-id')];
         });
 
         if (noResults) { noResults.hidden = shown !== 0; }
         if (count) { count.textContent = String(shown); }
 
-        var active = q !== '' || g !== '' || a !== '' || y !== '' || !!r;
+        var active = q !== '' || g !== '' || a !== '' || !isNaN(decade) || !!r;
         if (clear) { clear.hidden = !active; }
     }
 

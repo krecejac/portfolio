@@ -17,6 +17,10 @@ require __DIR__ . '/partials/header.php';
 <?php if ($books === []): ?>
     <p class="empty">No favourites yet. Open a book and tap the heart to save it.</p>
 <?php else: ?>
+    <div class="catalogue-toolbar">
+        <button type="button" class="btn btn--sm btn--secondary" onclick="window.print()">Print list</button>
+    </div>
+
     <div class="cover-grid">
         <?php foreach ($books as $book): ?>
             <?php $hue = abs(crc32((string) $book['title'])) % 360; ?>
@@ -47,5 +51,22 @@ require __DIR__ . '/partials/header.php';
             </div>
         <?php endforeach; ?>
     </div>
+
+    <!-- Print-only: a clean table of the saved books. -->
+    <table class="print-list">
+        <thead>
+            <tr><th>Title</th><th>Author</th><th>Year</th><th>Rating</th></tr>
+        </thead>
+        <tbody>
+            <?php foreach ($books as $book): ?>
+                <tr>
+                    <td><?= e($book['title']) ?></td>
+                    <td><?= e($book['author']) ?></td>
+                    <td><?= e((string) $book['year']) ?></td>
+                    <td><?= stars($book['avg_rating'] === null ? null : (int) $book['avg_rating']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 <?php endif; ?>
 <?php require __DIR__ . '/partials/footer.php'; ?>

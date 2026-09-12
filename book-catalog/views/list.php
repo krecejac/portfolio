@@ -7,7 +7,6 @@
 $favIds = $favIds ?? [];
 $csrf   = $csrf ?? '';
 $pageTitle = 'Book Catalog';
-$navRight  = '<button type="button" class="btn btn--sm btn--ghost" onclick="window.print()">Print</button>';
 require __DIR__ . '/partials/header.php';
 $count = count($books);
 
@@ -16,9 +15,11 @@ $genres = array_filter(array_map(static fn ($b) => (string) ($b['genre'] ?? ''),
 $genres = array_values(array_unique($genres));
 sort($genres);
 $authors = array_values(array_unique(array_map(static fn ($b) => (string) $b['author'], $books)));
-sort($authors);
+sort($authors);   // authors listed A–Z
 $years = array_values(array_unique(array_map(static fn ($b) => (int) $b['year'], $books)));
-rsort($years);
+// Group years into decades for a compact filter instead of one option per year.
+$decades = array_values(array_unique(array_map(static fn ($y) => intdiv($y, 10) * 10, $years)));
+rsort($decades);
 ?>
 <section class="hero">
     <h1>Book Catalog</h1>
@@ -29,6 +30,10 @@ rsort($years);
 <?php if ($books === []): ?>
     <p class="empty">No books in the catalogue yet.</p>
 <?php else: ?>
+    <div class="catalogue-toolbar">
+        <button type="button" class="btn btn--sm btn--secondary" onclick="window.print()">Print list</button>
+    </div>
+
     <div class="search">
         <input type="search" id="book-search" placeholder="Search by title or author"
                aria-label="Search books" autocomplete="off">
@@ -51,10 +56,10 @@ rsort($years);
             <?php endforeach; ?>
         </select>
 
-        <select id="filter-year" aria-label="Filter by year">
-            <option value="">Any year</option>
-            <?php foreach ($years as $y): ?>
-                <option value="<?= $y ?>"><?= $y ?></option>
+        <select id="filter-year" aria-label="Filter by decade">
+            <option value="">Any decade</option>
+            <?php foreach ($decades as $d): ?>
+                <option value="<?= $d ?>"><?= $d ?>s</option>
             <?php endforeach; ?>
         </select>
 
@@ -81,6 +86,7 @@ rsort($years);
             $isFav = in_array((int) $book['id'], $favIds, true);
             ?>
             <div class="book-card"
+                 data-id="<?= (int) $book['id'] ?>"
                  data-search="<?= e(mb_strtolower($book['title'] . ' ' . $book['author'])) ?>"
                  data-genre="<?= e((string) ($book['genre'] ?? '')) ?>"
                  data-author="<?= e((string) $book['author']) ?>"
@@ -129,7 +135,7 @@ rsort($years);
         </thead>
         <tbody>
             <?php foreach ($books as $book): ?>
-                <tr>
+                <tr data-id="<?= (int) $book['id'] ?>">
                     <td><?= e($book['title']) ?></td>
                     <td><?= e($book['author']) ?></td>
                     <td><?= e((string) $book['year']) ?></td>
