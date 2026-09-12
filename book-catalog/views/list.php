@@ -137,7 +137,7 @@ sort($yearsWithBooks);
                         <button type="submit" class="fav-toggle__btn <?= $isFav ? 'is-on' : '' ?>"
                                 aria-pressed="<?= $isFav ? 'true' : 'false' ?>"
                                 aria-label="<?= $isFav ? 'Remove from favourites' : 'Add to favourites' ?>">
-                            <?= $isFav ? '&#9829;' : '&#9825;' ?>
+                            &#9829;
                         </button>
                     </form>
                 <?php endif; ?>
@@ -166,5 +166,8 @@ sort($yearsWithBooks);
     </table>
 
     <script src="<?= e(asset('/assets/js/catalog-search.js')) ?>" defer></script>
+    <?php if (Auth::check()): ?>
+        <script src="<?= e(asset('/assets/js/favourite.js')) ?>" defer></script>
+    <?php endif; ?>
 <?php endif; ?>
 <?php require __DIR__ . '/partials/footer.php'; ?>

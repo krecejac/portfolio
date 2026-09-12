@@ -495,11 +495,13 @@ a:hover { text-decoration: underline; }
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.15s ease, transform 0.05s ease;
+    transition: color 0.15s ease, background-color 0.15s ease, transform 0.05s ease;
 
+    // The heart is always the same filled glyph on the same disc — only its
+    // colour changes on toggle, so selecting a favourite never shifts its shape.
     &:hover { background: rgba(0, 0, 0, 0.6); }
     &:active { transform: scale(0.9); }
-    &.is-on { background: #e0245e; }
+    &.is-on { color: #e0245e; }
 }
 
 .cover {

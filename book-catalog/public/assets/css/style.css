@@ -583,7 +583,7 @@ a:hover {
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.05s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.05s ease;
 }
 .fav-toggle__btn:hover {
   background: rgba(0, 0, 0, 0.6);
@@ -592,7 +592,7 @@ a:hover {
   transform: scale(0.9);
 }
 .fav-toggle__btn.is-on {
-  background: #e0245e;
+  color: #e0245e;
 }
 
 .cover {

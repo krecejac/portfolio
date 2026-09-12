@@ -28,7 +28,17 @@ final class ReaderController
             echo 'Bad request.';
             exit;
         }
-        (new FavouriteRepository())->toggle(Auth::id(), $bookId);
+        $nowFavourite = (new FavouriteRepository())->toggle(Auth::id(), $bookId);
+
+        // The catalogue's heart posts this over fetch() so clicking it keeps your
+        // place on the page; answer with the new state as JSON instead of a
+        // redirect. A plain form submit (no JS) still redirects below.
+        if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
+            header('Content-Type: application/json');
+            echo json_encode(['favourite' => $nowFavourite]);
+            exit;
+        }
+
         // Come back to whichever page the heart was clicked on (a card in the
         // grid, the favourites page, or the detail), guarded against open redirect.
         header('Location: ' . safe_return($_POST['return'] ?? '', '/?id=' . $bookId));
