@@ -66,7 +66,13 @@ require __DIR__ . '/partials/header.php';
             <?php endif; ?>
 
             <?php if ($book['annotation'] !== null && $book['annotation'] !== ''): ?>
-                <p class="annotation"><?= nl2br(e($book['annotation'])) ?></p>
+                <?php $long = mb_strlen((string) $book['annotation']) > 280; ?>
+                <div class="annotation-wrap"<?= $long ? ' data-long' : '' ?>>
+                    <p class="annotation"><?= nl2br(e($book['annotation'])) ?></p>
+                    <?php if ($long): ?>
+                        <button type="button" class="read-more" data-read-more>Read more</button>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
         </div>
     </article>

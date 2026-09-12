@@ -607,6 +607,38 @@ a:hover { text-decoration: underline; }
 .signin-hint { margin: 0 0 1.5rem; color: var(--muted); }
 .empty-state { padding: 3rem 0; }
 
+// Collapsible long annotation on the detail page.
+.read-more {
+    display: none;
+    margin-top: 0.5rem;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover { text-decoration: underline; }
+}
+
+.annotation-clamp .read-more { display: inline-block; }
+
+.annotation-clamp .annotation {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.annotation-clamp.is-open .annotation {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+}
+
 // --- Star rating picker (add/edit forms) ---------------------------
 .rating-field {
     display: flex;

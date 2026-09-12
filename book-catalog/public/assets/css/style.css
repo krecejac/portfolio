@@ -743,6 +743,40 @@ a:hover {
   padding: 3rem 0;
 }
 
+.read-more {
+  display: none;
+  margin-top: 0.5rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.annotation-clamp .read-more {
+  display: inline-block;
+}
+
+.annotation-clamp .annotation {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.annotation-clamp.is-open .annotation {
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+  overflow: visible;
+}
+
 .rating-field {
   display: flex;
   flex-direction: column;

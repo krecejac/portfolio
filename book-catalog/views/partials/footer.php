@@ -16,6 +16,12 @@
         }
         updateThemeIcon();
 
+        // Long book annotations start clamped (only with JS, so no-JS shows the
+        // full text); the button expands and collapses them.
+        document.querySelectorAll('.annotation-wrap[data-long]').forEach(function (wrap) {
+            wrap.classList.add('annotation-clamp');
+        });
+
         // Grid / list layout toggle for the catalogue, remembered per viewer.
         (function () {
             var grid = document.querySelector('.cover-grid[data-view]');
@@ -66,6 +72,16 @@
                 clear.closest('.star-input')
                     .querySelectorAll('input[type="radio"]')
                     .forEach(function (radio) { radio.checked = false; });
+            }
+
+            // "Read more" / "Read less" on a long annotation.
+            var more = event.target.closest && event.target.closest('[data-read-more]');
+            if (more) {
+                var wrap = more.closest('.annotation-clamp');
+                if (wrap) {
+                    var open = wrap.classList.toggle('is-open');
+                    more.textContent = open ? 'Read less' : 'Read more';
+                }
             }
         });
     </script>
