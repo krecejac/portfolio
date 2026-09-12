@@ -375,8 +375,31 @@ a:hover {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
 }
-.filters #filter-clear {
+
+.view-toggle {
+  display: inline-flex;
   margin-left: auto;
+  border: 1px solid var(--hairline);
+  border-radius: 980px;
+  overflow: hidden;
+}
+.view-toggle button {
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.45rem 0.75rem;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.view-toggle button.is-on {
+  background: var(--accent);
+  color: #fff;
+}
+.view-toggle button:not(.is-on):hover {
+  background: var(--hover);
+  color: var(--ink);
 }
 
 .cover-grid {
@@ -498,6 +521,94 @@ a:hover {
   padding: 2rem 0;
 }
 
+.card-title {
+  display: none;
+}
+
+.cover-grid[data-view=list] {
+  display: block;
+  margin-top: 1rem;
+}
+.cover-grid[data-view=list] .book-card {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--hairline);
+}
+.cover-grid[data-view=list] .book-card:hover .cover {
+  transform: none;
+  box-shadow: none;
+}
+.cover-grid[data-view=list] .book-card__link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.25rem;
+}
+.cover-grid[data-view=list] .cover {
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: none;
+}
+.cover-grid[data-view=list] .cover-title, .cover-grid[data-view=list] .cover-author {
+  display: none;
+}
+.cover-grid[data-view=list] .info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+  margin-top: 0;
+}
+.cover-grid[data-view=list] .card-title {
+  display: block;
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cover-grid[data-view=list] .info .a {
+  flex: none;
+  color: var(--muted);
+}
+.cover-grid[data-view=list] .info .r {
+  flex: none;
+  margin-left: 0;
+}
+.cover-grid[data-view=list] .fav-toggle {
+  position: static;
+  margin: 0 0.4rem;
+}
+.cover-grid[data-view=list] .fav-toggle__btn {
+  width: auto;
+  height: auto;
+  padding: 0.35rem;
+  font-size: 1.15rem;
+  color: var(--muted);
+  background: transparent;
+  backdrop-filter: none;
+}
+.cover-grid[data-view=list] .fav-toggle__btn:hover {
+  background: transparent;
+  color: var(--ink);
+}
+.cover-grid[data-view=list] .fav-toggle__btn.is-on {
+  background: transparent;
+  color: #e0245e;
+}
+
+@media (max-width: 34rem) {
+  .cover-grid[data-view=list] .info .a {
+    display: none;
+  }
+}
 .stars {
   letter-spacing: 0.05em;
   white-space: nowrap;

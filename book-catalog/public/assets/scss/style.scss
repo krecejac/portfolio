@@ -324,7 +324,29 @@ a:hover { text-decoration: underline; }
         }
     }
 
-    #filter-clear { margin-left: auto; }
+}
+
+// Grid / list layout switch.
+.view-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    border: 1px solid var(--hairline);
+    border-radius: 980px;
+    overflow: hidden;
+
+    button {
+        font: inherit;
+        font-size: 1rem;
+        line-height: 1;
+        padding: 0.45rem 0.75rem;
+        color: var(--muted);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        &.is-on { background: var(--accent); color: #fff; }
+        &:not(.is-on):hover { background: var(--hover); color: var(--ink); }
+    }
 }
 
 // --- Book grid (generated typographic covers) ----------------------
@@ -418,6 +440,81 @@ a:hover { text-decoration: underline; }
 .book-card .info .year { color: var(--muted); font-size: 0.8rem; }
 
 .empty { color: var(--muted); padding: 2rem 0; }
+
+// The card title shows as text only in the list layout (in the grid it lives on
+// the cover).
+.card-title { display: none; }
+
+// --- List layout ---------------------------------------------------
+.cover-grid[data-view="list"] {
+    display: block;
+    margin-top: 1rem;
+
+    .book-card {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--hairline);
+    }
+    .book-card:hover .cover { transform: none; box-shadow: none; }
+
+    .book-card__link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+        min-width: 0;
+        padding: 0.6rem 0.25rem;
+    }
+
+    .cover {
+        width: 40px;
+        min-width: 40px;
+        padding: 0;
+        border-radius: 3px;
+        box-shadow: none;
+    }
+    .cover-title, .cover-author { display: none; }
+
+    .info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+        min-width: 0;
+        margin-top: 0;
+    }
+    .card-title {
+        display: block;
+        flex: 1;
+        min-width: 0;
+        font-weight: 600;
+        color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .info .a { flex: none; color: var(--muted); }
+    .info .r { flex: none; margin-left: 0; }
+
+    // Heart sits inline at the end of the row, not over the cover.
+    .fav-toggle { position: static; margin: 0 0.4rem; }
+    .fav-toggle__btn {
+        width: auto;
+        height: auto;
+        padding: 0.35rem;
+        font-size: 1.15rem;
+        color: var(--muted);
+        background: transparent;
+        backdrop-filter: none;
+
+        &:hover { background: transparent; color: var(--ink); }
+        &.is-on { background: transparent; color: #e0245e; }
+    }
+}
+
+@media (max-width: 34rem) {
+    .cover-grid[data-view="list"] .info .a { display: none; }   // keep the row tidy on phones
+}
 
 // --- Stars ---------------------------------------------------------
 .stars {

@@ -16,6 +16,26 @@
         }
         updateThemeIcon();
 
+        // Grid / list layout toggle for the catalogue, remembered per viewer.
+        (function () {
+            var grid = document.querySelector('.cover-grid[data-view]');
+            var buttons = document.querySelectorAll('[data-view-set]');
+            if (!grid || !buttons.length) { return; }
+            function set(view, save) {
+                grid.setAttribute('data-view', view);
+                buttons.forEach(function (b) {
+                    b.classList.toggle('is-on', b.getAttribute('data-view-set') === view);
+                });
+                if (save) { try { localStorage.setItem('view', view); } catch (e) {} }
+            }
+            var saved = null;
+            try { saved = localStorage.getItem('view'); } catch (e) {}
+            if (saved === 'list' || saved === 'grid') { set(saved, false); }
+            buttons.forEach(function (b) {
+                b.addEventListener('click', function () { set(b.getAttribute('data-view-set'), true); });
+            });
+        })();
+
         // Import: turn the file input + button into a single button that opens
         // the file picker and imports as soon as a file is chosen. Without JS the
         // input and button stay visible and work as a normal two-step form.

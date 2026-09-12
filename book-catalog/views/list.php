@@ -67,9 +67,14 @@ rsort($years);
         </select>
 
         <button type="button" id="filter-clear" class="btn btn--sm btn--ghost" hidden>Clear filters</button>
+
+        <div class="view-toggle" role="group" aria-label="Choose layout">
+            <button type="button" data-view-set="grid" class="is-on" aria-label="Grid view" title="Grid view">▦</button>
+            <button type="button" data-view-set="list" aria-label="List view" title="List view">☰</button>
+        </div>
     </div>
 
-    <div class="cover-grid">
+    <div class="cover-grid" data-view="grid">
         <?php foreach ($books as $book): ?>
             <?php
             $hue = abs(crc32((string) $book['title'])) % 360;
@@ -90,6 +95,7 @@ rsort($years);
                         <?php endif; ?>
                     </span>
                     <span class="info">
+                        <span class="card-title"><?= e($book['title']) ?></span>
                         <span class="a"><?= e($book['author']) ?></span>
                         <span class="r">
                             <?= stars($book['avg_rating'] === null ? null : (int) $book['avg_rating']) ?>
