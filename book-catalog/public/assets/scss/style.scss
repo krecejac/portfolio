@@ -42,6 +42,7 @@
     .search input { background: #211f19; border-color: #4a463c; }
     .auth input, .auth textarea, .auth select { background: #211f19; border-color: #4a463c; }
     .filters select { background: #211f19; border-color: #4a463c; }
+    .year-range input { background: #211f19; border-color: #4a463c; }
 }
 
 $wrap: 66rem;
@@ -330,7 +331,32 @@ a:hover { text-decoration: underline; }
             box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
         }
     }
+}
 
+// Year range: two compact number inputs instead of a long year dropdown.
+.year-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    input {
+        width: 6.5rem;
+        font: inherit;
+        font-size: 0.9rem;
+        color: var(--ink);
+        padding: 0.5rem 0.75rem;
+        background: var(--surface);
+        border: 1px solid var(--hairline);
+        border-radius: 980px;
+
+        &:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
+        }
+    }
+
+    &__dash { color: var(--muted); }
 }
 
 // Grid / list layout switch.

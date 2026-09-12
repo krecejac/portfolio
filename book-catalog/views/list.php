@@ -10,16 +10,20 @@ $pageTitle = 'Book Catalog';
 require __DIR__ . '/partials/header.php';
 $count = count($books);
 
-// Distinct values for the filter dropdowns.
+// Distinct values for the filters.
 $genres = array_filter(array_map(static fn ($b) => (string) ($b['genre'] ?? ''), $books));
 $genres = array_values(array_unique($genres));
 sort($genres);
-$authors = array_values(array_unique(array_map(static fn ($b) => (string) $b['author'], $books)));
-sort($authors);   // authors listed A–Z
-$years = array_values(array_unique(array_map(static fn ($b) => (int) $b['year'], $books)));
-// Group years into decades for a compact filter instead of one option per year.
-$decades = array_values(array_unique(array_map(static fn ($y) => intdiv($y, 10) * 10, $years)));
-rsort($decades);
+// Authors are filtered by first letter, so the picker stays small however many
+// authors there are.
+$initials = array_values(array_unique(array_map(
+    static fn ($b) => mb_strtoupper(mb_substr((string) $b['author'], 0, 1)),
+    $books
+)));
+sort($initials);
+$yearsList = array_map(static fn ($b) => (int) $b['year'], $books);
+$minYear = $yearsList ? min($yearsList) : 0;
+$maxYear = $yearsList ? max($yearsList) : 0;
 ?>
 <section class="hero">
     <h1>Book Catalog</h1>
@@ -49,19 +53,22 @@ rsort($decades);
             </select>
         <?php endif; ?>
 
-        <select id="filter-author" aria-label="Filter by author">
-            <option value="">All authors</option>
-            <?php foreach ($authors as $a): ?>
-                <option value="<?= e($a) ?>"><?= e($a) ?></option>
+        <select id="filter-author" aria-label="Filter by author initial">
+            <option value="">Author: any</option>
+            <?php foreach ($initials as $letter): ?>
+                <option value="<?= e($letter) ?>"><?= e($letter) ?></option>
             <?php endforeach; ?>
         </select>
 
-        <select id="filter-year" aria-label="Filter by decade">
-            <option value="">Any decade</option>
-            <?php foreach ($decades as $d): ?>
-                <option value="<?= $d ?>"><?= $d ?>s</option>
-            <?php endforeach; ?>
-        </select>
+        <span class="year-range">
+            <input type="number" id="filter-year-from" inputmode="numeric"
+                   min="<?= $minYear ?>" max="<?= $maxYear ?>" placeholder="From <?= $minYear ?>"
+                   aria-label="From year">
+            <span class="year-range__dash">–</span>
+            <input type="number" id="filter-year-to" inputmode="numeric"
+                   min="<?= $minYear ?>" max="<?= $maxYear ?>" placeholder="To <?= $maxYear ?>"
+                   aria-label="To year">
+        </span>
 
         <select id="filter-rating" aria-label="Filter by rating">
             <option value="">Any rating</option>
@@ -89,7 +96,7 @@ rsort($decades);
                  data-id="<?= (int) $book['id'] ?>"
                  data-search="<?= e(mb_strtolower($book['title'] . ' ' . $book['author'])) ?>"
                  data-genre="<?= e((string) ($book['genre'] ?? '')) ?>"
-                 data-author="<?= e((string) $book['author']) ?>"
+                 data-initial="<?= e(mb_strtoupper(mb_substr((string) $book['author'], 0, 1))) ?>"
                  data-year="<?= (int) $book['year'] ?>"
                  data-rating="<?= $book['avg_rating'] === null ? 0 : (int) $book['avg_rating'] ?>">
                 <a class="book-card__link" href="/?id=<?= (int) $book['id'] ?>">

@@ -15,8 +15,9 @@
     var noResults = document.getElementById('no-results');
     var count = document.getElementById('count');
     var genre = document.getElementById('filter-genre');
-    var author = document.getElementById('filter-author');
-    var year = document.getElementById('filter-year');
+    var author = document.getElementById('filter-author');   // holds an author initial
+    var yearFrom = document.getElementById('filter-year-from');
+    var yearTo = document.getElementById('filter-year-to');
     var rating = document.getElementById('filter-rating');
     var clear = document.getElementById('filter-clear');
 
@@ -24,7 +25,8 @@
         var q = search.value.trim().toLowerCase();
         var g = genre ? genre.value : '';
         var a = author ? author.value : '';
-        var decade = year ? parseInt(year.value, 10) : NaN;
+        var from = yearFrom && yearFrom.value !== '' ? parseInt(yearFrom.value, 10) : NaN;
+        var to = yearTo && yearTo.value !== '' ? parseInt(yearTo.value, 10) : NaN;
         var r = rating ? parseInt(rating.value, 10) : 0;
         var shown = 0;
         var visible = {};
@@ -34,8 +36,9 @@
             var ok =
                 item.getAttribute('data-search').indexOf(q) !== -1 &&
                 (g === '' || item.getAttribute('data-genre') === g) &&
-                (a === '' || item.getAttribute('data-author') === a) &&
-                (isNaN(decade) || Math.floor(itemYear / 10) * 10 === decade) &&
+                (a === '' || item.getAttribute('data-initial') === a) &&
+                (isNaN(from) || itemYear >= from) &&
+                (isNaN(to) || itemYear <= to) &&
                 (!r || parseInt(item.getAttribute('data-rating'), 10) >= r);
             item.hidden = !ok;
             if (ok) { shown++; visible[item.getAttribute('data-id')] = true; }
@@ -49,11 +52,11 @@
         if (noResults) { noResults.hidden = shown !== 0; }
         if (count) { count.textContent = String(shown); }
 
-        var active = q !== '' || g !== '' || a !== '' || !isNaN(decade) || !!r;
+        var active = q !== '' || g !== '' || a !== '' || !isNaN(from) || !isNaN(to) || !!r;
         if (clear) { clear.hidden = !active; }
     }
 
-    [search, genre, author, year, rating].forEach(function (control) {
+    [search, genre, author, yearFrom, yearTo, rating].forEach(function (control) {
         if (control) {
             control.addEventListener('input', apply);
             control.addEventListener('change', apply);
@@ -63,7 +66,7 @@
     if (clear) {
         clear.addEventListener('click', function () {
             search.value = '';
-            [genre, author, year, rating].forEach(function (c) { if (c) { c.value = ''; } });
+            [genre, author, yearFrom, yearTo, rating].forEach(function (c) { if (c) { c.value = ''; } });
             apply();
         });
     }
