@@ -18,6 +18,7 @@ require __DIR__ . '/../src/BookValidator.php';
 require __DIR__ . '/../src/InviteRepository.php';
 require __DIR__ . '/../src/FavouriteRepository.php';
 require __DIR__ . '/../src/RatingRepository.php';
+require __DIR__ . '/../src/OpenLibrary.php';
 
 $path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
@@ -169,6 +170,13 @@ switch ($path) {
         $books = $repository->all();
         require __DIR__ . '/../views/admin/dashboard.php';
         break;
+
+    // Admin: JSON metadata lookup for the add/edit form's title autocomplete.
+    case '/admin/book-lookup':
+        Auth::requireAdmin();
+        header('Content-Type: application/json');
+        echo json_encode(OpenLibrary::search((string) ($_GET['q'] ?? '')));
+        exit;
 
     // Admin: add a book.
     case '/admin/add':

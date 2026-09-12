@@ -592,6 +592,55 @@ a:hover { text-decoration: underline; }
 
 .field-error { color: var(--danger); font-size: 0.8rem; }
 
+// --- Title autocomplete (Open Library) -----------------------------
+.lookup-field { position: relative; }
+
+.lookup-results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 30;
+    margin-top: 0.3rem;
+    max-height: 20rem;
+    overflow-y: auto;
+    padding: 0.3rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.lookup-option {
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    padding: 0.4rem 0.5rem;
+    font: inherit;
+    color: var(--ink);
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover { background: var(--hover); }
+
+    img, .lookup-nocover {
+        flex: none;
+        width: 34px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 3px;
+        background: var(--hover);
+    }
+}
+
+.lookup-text { display: flex; flex-direction: column; min-width: 0; }
+.lookup-title { font-weight: 600; font-size: 0.9rem; }
+.lookup-meta  { font-size: 0.8rem; color: var(--muted); }
+
 // --- Banners -------------------------------------------------------
 .flash, .notice {
     margin: 0 0 1.5rem;
