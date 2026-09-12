@@ -294,11 +294,41 @@ a:hover { text-decoration: underline; }
 }
 
 .book-card {
+    position: relative;
+
+    &:hover .cover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2); }
+}
+
+.book-card__link {
     display: block;
     color: inherit;
 
     &:hover { text-decoration: none; }
-    &:hover .cover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2); }
+}
+
+// Favourite heart, laid over the top-right corner of each cover.
+.fav-toggle { position: absolute; top: 0.6rem; right: 0.6rem; margin: 0; }
+
+.fav-toggle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
+    line-height: 1;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.05s ease;
+
+    &:hover { background: rgba(0, 0, 0, 0.6); }
+    &:active { transform: scale(0.9); }
+    &.is-on { background: #e0245e; }
 }
 
 .cover {

@@ -25,6 +25,19 @@ final class FavouriteRepository
         return (bool) $statement->fetchColumn();
     }
 
+    /**
+     * The ids of every book this user has favourited, so a listing can mark
+     * hearts as filled without a query per card.
+     *
+     * @return array<int, int>
+     */
+    public function idsForUser(int $userId): array
+    {
+        $statement = $this->pdo->prepare('SELECT book_id FROM favourites WHERE user_id = ?');
+        $statement->execute([$userId]);
+        return array_map('intval', $statement->fetchAll(PDO::FETCH_COLUMN));
+    }
+
     /** Add or remove a favourite, and return the new state (true = now a favourite). */
     public function toggle(int $userId, int $bookId): bool
     {

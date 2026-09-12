@@ -44,6 +44,14 @@ switch ($path) {
             require __DIR__ . '/../views/detail.php';
         } else {
             $books = $repository->all();
+            // Which of these has the signed-in user favourited (for the heart on
+            // each card)? Empty for guests, who see no heart at all.
+            $favIds = [];
+            $csrf = '';
+            if (Auth::check()) {
+                $favIds = (new FavouriteRepository())->idsForUser(Auth::id());
+                $csrf = Csrf::token();
+            }
             require __DIR__ . '/../views/list.php';
         }
         break;
@@ -118,6 +126,7 @@ switch ($path) {
     case '/favourites':
         Auth::requireLogin();
         $books = (new FavouriteRepository())->booksForUser(Auth::id());
+        $csrf = Csrf::token();
         require __DIR__ . '/../views/favourites.php';
         break;
 
@@ -131,7 +140,7 @@ switch ($path) {
             exit;
         }
         (new FavouriteRepository())->toggle(Auth::id(), $bookId);
-        header('Location: /?id=' . $bookId);
+        header('Location: ' . safe_return($_POST['return'] ?? '', '/?id=' . $bookId));
         exit;
 
     // Rate a book (1-5), then return to it.
