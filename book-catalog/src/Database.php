@@ -9,6 +9,7 @@ final class Database
 {
     private static ?PDO $pdo = null;
 
+    /** Return the shared PDO connection, opening it on first use. */
     public static function connect(): PDO
     {
         // Reuse one connection per request instead of opening a new one each call.
@@ -38,7 +39,7 @@ final class Database
         return self::$pdo;
     }
 
-    /** Read a required environment variable, or fail **/
+    /** Read a required environment variable, or fail if it is missing. */
     private static function env(string $key): string
     {
         $value = getenv($key);
