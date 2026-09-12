@@ -42,7 +42,7 @@
     .search input { background: #211f19; border-color: #4a463c; }
     .auth input, .auth textarea, .auth select { background: #211f19; border-color: #4a463c; }
     .filters select { background: #211f19; border-color: #4a463c; }
-    .year-range input { background: #211f19; border-color: #4a463c; }
+    .yearpick__btn { background: #211f19; border-color: #4a463c; }
 }
 
 $wrap: 66rem;
@@ -334,30 +334,103 @@ a:hover { text-decoration: underline; }
     }
 }
 
-// Year range: two compact number inputs instead of a long year dropdown.
-.year-range {
+// Year picker: a calendar-style popover paged by decade, instead of a long year
+// dropdown or a pair of number fields that are fiddly to type on a phone.
+.yearpick { position: relative; }
+
+.yearpick__btn {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--ink);
+    padding: 0.5rem 0.85rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 980px;
+    cursor: pointer;
 
-    input {
-        width: 6.5rem;
-        font: inherit;
-        font-size: 0.9rem;
-        color: var(--ink);
-        padding: 0.5rem 0.75rem;
-        background: var(--surface);
-        border: 1px solid var(--hairline);
-        border-radius: 980px;
-
-        &:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
-        }
+    &:focus-visible {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
     }
+}
+.yearpick.is-set .yearpick__btn { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.yearpick__chev { font-size: 0.7rem; color: var(--muted); }
 
-    &__dash { color: var(--muted); }
+.yearpick__panel {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    width: 15rem;
+    max-width: calc(100vw - 2rem);
+    padding: 0.6rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
+}
+
+.yearpick__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+}
+.yearpick__decade { font-weight: 600; font-size: 0.9rem; }
+.yearpick__nav {
+    width: 2rem;
+    height: 2rem;
+    font: inherit;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover { background: var(--hover); }
+}
+
+.yearpick__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+}
+.yearpick__year {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.5rem 0;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: var(--hover); }
+    &.is-adjacent { color: var(--muted); }
+    &.is-empty { color: var(--hairline); cursor: default; }
+    &.is-selected { background: var(--accent); color: #fff; font-weight: 600; }
+}
+
+.yearpick__clear {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.4rem;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--hairline);
+    cursor: pointer;
+
+    &:hover { color: var(--accent); }
 }
 
 // Grid / list layout switch.

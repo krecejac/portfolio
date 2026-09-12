@@ -24,6 +24,9 @@ sort($initials);
 $yearsList = array_map(static fn ($b) => (int) $b['year'], $books);
 $minYear = $yearsList ? min($yearsList) : 0;
 $maxYear = $yearsList ? max($yearsList) : 0;
+// The years that actually have a book, so the picker can grey out empty ones.
+$yearsWithBooks = array_values(array_unique($yearsList));
+sort($yearsWithBooks);
 ?>
 <section class="hero">
     <h1>Book Catalog</h1>
@@ -44,6 +47,26 @@ $maxYear = $yearsList ? max($yearsList) : 0;
     </div>
 
     <div class="filters">
+        <div class="yearpick" id="yearpick"
+             data-years='<?= e(json_encode($yearsWithBooks)) ?>'
+             data-min="<?= $minYear ?>" data-max="<?= $maxYear ?>">
+            <button type="button" class="yearpick__btn" id="yearpick-button"
+                    aria-haspopup="dialog" aria-expanded="false">
+                <span id="yearpick-label">Any year</span>
+                <span class="yearpick__chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="yearpick__panel" id="yearpick-panel" role="dialog"
+                 aria-label="Choose a year" hidden>
+                <div class="yearpick__head">
+                    <button type="button" class="yearpick__nav" id="yearpick-prev" aria-label="Previous decade">«</button>
+                    <span class="yearpick__decade" id="yearpick-decade"></span>
+                    <button type="button" class="yearpick__nav" id="yearpick-next" aria-label="Next decade">»</button>
+                </div>
+                <div class="yearpick__grid" id="yearpick-grid"></div>
+                <button type="button" class="yearpick__clear" id="yearpick-clear" hidden>Clear year</button>
+            </div>
+        </div>
+
         <?php if ($genres !== []): ?>
             <select id="filter-genre" aria-label="Filter by genre">
                 <option value="">All genres</option>
@@ -59,16 +82,6 @@ $maxYear = $yearsList ? max($yearsList) : 0;
                 <option value="<?= e($letter) ?>"><?= e($letter) ?></option>
             <?php endforeach; ?>
         </select>
-
-        <span class="year-range">
-            <input type="number" id="filter-year-from" inputmode="numeric"
-                   min="<?= $minYear ?>" max="<?= $maxYear ?>" placeholder="From <?= $minYear ?>"
-                   aria-label="From year">
-            <span class="year-range__dash">–</span>
-            <input type="number" id="filter-year-to" inputmode="numeric"
-                   min="<?= $minYear ?>" max="<?= $maxYear ?>" placeholder="To <?= $maxYear ?>"
-                   aria-label="To year">
-        </span>
 
         <select id="filter-rating" aria-label="Filter by rating">
             <option value="">Any rating</option>
