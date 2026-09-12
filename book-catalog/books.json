@@ -1,9 +1,335 @@
 [
     {
+        "title": "The Hobbit",
+        "author": "J.R.R. Tolkien",
+        "year": 1937,
+        "genre": "Fantasy",
+        "annotation": "A hobbit is swept into a quest to reclaim a treasure guarded by a dragon.",
+        "cover_url": "https://covers.openlibrary.org/b/id/10762989-M.jpg"
+    },
+    {
+        "title": "1984",
+        "author": "George Orwell",
+        "year": 1949,
+        "genre": "Dystopian",
+        "annotation": "A chilling vision of a totalitarian future under constant surveillance.",
+        "cover_url": "https://covers.openlibrary.org/b/id/853463-M.jpg"
+    },
+    {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "year": 1965,
+        "genre": "Science Fiction",
+        "annotation": "On the desert planet Arrakis, a young heir confronts destiny and power.",
+        "cover_url": "https://covers.openlibrary.org/b/id/475886-M.jpg"
+    },
+    {
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "year": 1813,
+        "genre": "Romance",
+        "annotation": "Wit and misunderstanding shape the courtship of Elizabeth and Darcy."
+    },
+    {
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "year": 1925,
+        "genre": "Fiction",
+        "annotation": "Wealth, longing and disillusion in the Jazz Age.",
+        "cover_url": "https://covers.openlibrary.org/b/id/8432032-M.jpg"
+    },
+    {
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "year": 1960,
+        "genre": "Fiction",
+        "annotation": "A child watches her father defend an innocent man in the Deep South.",
+        "cover_url": "https://covers.openlibrary.org/b/id/12784310-M.jpg"
+    },
+    {
+        "title": "The Catcher in the Rye",
+        "author": "J.D. Salinger",
+        "year": 1951,
+        "genre": "Fiction",
+        "annotation": "A few restless days in the life of Holden Caulfield.",
+        "cover_url": "https://covers.openlibrary.org/b/id/10737898-M.jpg"
+    },
+    {
+        "title": "Brave New World",
+        "author": "Aldous Huxley",
+        "year": 1932,
+        "genre": "Dystopian",
+        "annotation": "A engineered society trades freedom for comfort."
+    },
+    {
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "year": 1953,
+        "genre": "Science Fiction",
+        "annotation": "A fireman who burns books begins to question everything."
+    },
+    {
+        "title": "The Lord of the Rings",
+        "author": "J.R.R. Tolkien",
+        "year": 1954,
+        "genre": "Fantasy",
+        "annotation": "A fellowship sets out to destroy a ring of terrible power.",
+        "cover_url": "https://covers.openlibrary.org/b/id/6853080-M.jpg"
+    },
+    {
+        "title": "Harry Potter and the Philosopher's Stone",
+        "author": "J.K. Rowling",
+        "year": 1997,
+        "genre": "Fantasy",
+        "annotation": "An orphan discovers he is a wizard and a world of magic.",
+        "cover_url": "https://covers.openlibrary.org/b/id/3237622-M.jpg"
+    },
+    {
+        "title": "The Da Vinci Code",
+        "author": "Dan Brown",
+        "year": 2003,
+        "genre": "Thriller",
+        "annotation": "A symbologist races to solve a murder tangled in ancient secrets.",
+        "cover_url": "https://covers.openlibrary.org/b/id/583059-M.jpg"
+    },
+    {
+        "title": "The Girl with the Dragon Tattoo",
+        "author": "Stieg Larsson",
+        "year": 2005,
+        "genre": "Mystery",
+        "annotation": "A journalist and a hacker investigate a decades-old disappearance."
+    },
+    {
+        "title": "Gone Girl",
+        "author": "Gillian Flynn",
+        "year": 2012,
+        "genre": "Thriller",
+        "annotation": "A marriage unravels when a wife vanishes on her anniversary."
+    },
+    {
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins",
+        "year": 2008,
+        "genre": "Science Fiction",
+        "annotation": "A girl volunteers for a televised fight to the death."
+    },
+    {
+        "title": "The Shining",
+        "author": "Stephen King",
+        "year": 1977,
+        "genre": "Horror",
+        "annotation": "A haunted hotel preys on a caretaker and his family.",
+        "cover_url": "https://covers.openlibrary.org/b/id/4822686-M.jpg"
+    },
+    {
+        "title": "It",
+        "author": "Stephen King",
+        "year": 1986,
+        "genre": "Horror",
+        "annotation": "Seven friends face an ancient evil that wears many faces."
+    },
+    {
+        "title": "Dracula",
+        "author": "Bram Stoker",
+        "year": 1897,
+        "genre": "Horror",
+        "annotation": "The classic tale of the count who feeds on the living.",
+        "cover_url": "https://covers.openlibrary.org/b/id/8028797-M.jpg"
+    },
+    {
+        "title": "Frankenstein",
+        "author": "Mary Shelley",
+        "year": 1818,
+        "genre": "Horror",
+        "annotation": "A scientist creates life and unleashes tragedy.",
+        "cover_url": "https://covers.openlibrary.org/b/id/7267770-M.jpg"
+    },
+    {
+        "title": "The Name of the Wind",
+        "author": "Patrick Rothfuss",
+        "year": 2007,
+        "genre": "Fantasy",
+        "annotation": "A legendary figure recounts how he became a myth."
+    },
+    {
+        "title": "A Game of Thrones",
+        "author": "George R.R. Martin",
+        "year": 1996,
+        "genre": "Fantasy",
+        "annotation": "Noble houses vie for a throne as winter approaches."
+    },
+    {
+        "title": "Neuromancer",
+        "author": "William Gibson",
+        "year": 1984,
+        "genre": "Science Fiction",
+        "annotation": "A washed-up hacker takes one last job in cyberspace."
+    },
+    {
+        "title": "Foundation",
+        "author": "Isaac Asimov",
+        "year": 1951,
+        "genre": "Science Fiction",
+        "annotation": "A scientist plans to shorten a coming dark age across the galaxy."
+    },
+    {
+        "title": "The Martian",
+        "author": "Andy Weir",
+        "year": 2011,
+        "genre": "Science Fiction",
+        "annotation": "Stranded on Mars, an astronaut fights to survive."
+    },
+    {
+        "title": "Sapiens",
+        "author": "Yuval Noah Harari",
+        "year": 2011,
+        "genre": "History",
+        "annotation": "A sweeping account of how humankind came to rule the world."
+    },
+    {
+        "title": "Guns, Germs, and Steel",
+        "author": "Jared Diamond",
+        "year": 1997,
+        "genre": "History",
+        "annotation": "Why some societies conquered others."
+    },
+    {
+        "title": "A Brief History of Time",
+        "author": "Stephen Hawking",
+        "year": 1988,
+        "genre": "Science",
+        "annotation": "The universe, from the big bang to black holes.",
+        "cover_url": "https://covers.openlibrary.org/b/id/1013529-M.jpg"
+    },
+    {
+        "title": "The Selfish Gene",
+        "author": "Richard Dawkins",
+        "year": 1976,
+        "genre": "Science",
+        "annotation": "Evolution seen from the point of view of the gene."
+    },
+    {
+        "title": "Thinking, Fast and Slow",
+        "author": "Daniel Kahneman",
+        "year": 2011,
+        "genre": "Psychology",
+        "annotation": "The two systems that drive the way we think.",
+        "cover_url": "https://covers.openlibrary.org/b/id/13214974-M.jpg"
+    },
+    {
+        "title": "Educated",
+        "author": "Tara Westover",
+        "year": 2018,
+        "genre": "Memoir",
+        "annotation": "A woman leaves a survivalist family for the university."
+    },
+    {
+        "title": "Becoming",
+        "author": "Michelle Obama",
+        "year": 2018,
+        "genre": "Biography",
+        "annotation": "The former First Lady on her life and public service."
+    },
+    {
+        "title": "Steve Jobs",
+        "author": "Walter Isaacson",
+        "year": 2011,
+        "genre": "Biography",
+        "annotation": "The definitive biography of Apple's co-founder."
+    },
+    {
+        "title": "The Diary of a Young Girl",
+        "author": "Anne Frank",
+        "year": 1947,
+        "genre": "Memoir",
+        "annotation": "A girl's diary written in hiding during the war.",
+        "cover_url": "https://covers.openlibrary.org/b/id/13526331-M.jpg"
+    },
+    {
+        "title": "Man's Search for Meaning",
+        "author": "Viktor E. Frankl",
+        "year": 1946,
+        "genre": "Philosophy",
+        "annotation": "A psychiatrist on finding purpose amid suffering."
+    },
+    {
+        "title": "The Alchemist",
+        "author": "Paulo Coelho",
+        "year": 1988,
+        "genre": "Fiction",
+        "annotation": "A shepherd follows a dream across the desert.",
+        "cover_url": "https://covers.openlibrary.org/b/id/12630082-M.jpg"
+    },
+    {
+        "title": "Life of Pi",
+        "author": "Yann Martel",
+        "year": 2001,
+        "genre": "Fiction",
+        "annotation": "A boy survives at sea with a Bengal tiger."
+    },
+    {
+        "title": "The Kite Runner",
+        "author": "Khaled Hosseini",
+        "year": 2003,
+        "genre": "Fiction",
+        "annotation": "Friendship and guilt across decades in Afghanistan.",
+        "cover_url": "https://covers.openlibrary.org/b/id/9020665-M.jpg"
+    },
+    {
+        "title": "The Book Thief",
+        "author": "Markus Zusak",
+        "year": 2005,
+        "genre": "Historical Fiction",
+        "annotation": "Death narrates a girl's life in Nazi Germany.",
+        "cover_url": "https://covers.openlibrary.org/b/id/11344006-M.jpg"
+    },
+    {
+        "title": "Where the Crawdads Sing",
+        "author": "Delia Owens",
+        "year": 2018,
+        "genre": "Fiction",
+        "annotation": "A girl raised in the marsh becomes a murder suspect."
+    },
+    {
+        "title": "Normal People",
+        "author": "Sally Rooney",
+        "year": 2018,
+        "genre": "Romance",
+        "annotation": "Two people drift together and apart over years.",
+        "cover_url": "https://covers.openlibrary.org/b/id/13117560-M.jpg"
+    },
+    {
+        "title": "The Silent Patient",
+        "author": "Alex Michaelides",
+        "year": 2019,
+        "genre": "Thriller",
+        "annotation": "A therapist probes why a woman shot her husband and went mute."
+    },
+    {
+        "title": "Project Hail Mary",
+        "author": "Andy Weir",
+        "year": 2021,
+        "genre": "Science Fiction",
+        "annotation": "A lone astronaut wakes with amnesia on a desperate mission."
+    },
+    {
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "year": 2018,
+        "genre": "Self-help",
+        "annotation": "Tiny changes that compound into remarkable results."
+    },
+    {
+        "title": "The Midnight Library",
+        "author": "Matt Haig",
+        "year": 2020,
+        "genre": "Fiction",
+        "annotation": "Between life and death lies a library of the lives you could have lived."
+    },
+    {
         "title": "Clean Code",
         "author": "Robert C. Martin",
         "year": 2008,
-        "rating": 5,
         "genre": "Programming",
         "annotation": "A handbook of agile software craftsmanship."
     },
@@ -11,7 +337,6 @@
         "title": "The Pragmatic Programmer",
         "author": "Andrew Hunt, David Thomas",
         "year": 1999,
-        "rating": 5,
         "genre": "Programming",
         "annotation": "Your journey to mastery, from journeyman to master."
     },
@@ -19,7 +344,6 @@
         "title": "Refactoring",
         "author": "Martin Fowler",
         "year": 1999,
-        "rating": 4,
         "genre": "Programming",
         "annotation": "Improving the design of existing code."
     },
@@ -27,16 +351,22 @@
         "title": "Domain-Driven Design",
         "author": "Eric Evans",
         "year": 2003,
-        "rating": 4,
         "genre": "Software Architecture",
         "annotation": "Tackling complexity in the heart of software."
     },
     {
-        "title": "You Don't Know JS",
-        "author": "Kyle Simpson",
-        "year": 2015,
-        "rating": 3,
+        "title": "Introduction to Algorithms",
+        "author": "Thomas H. Cormen",
+        "year": 1990,
         "genre": "Programming",
-        "annotation": "A deep dive into the core mechanisms of JavaScript."
+        "annotation": "The comprehensive modern reference on algorithms.",
+        "cover_url": "https://covers.openlibrary.org/b/id/15111140-M.jpg"
+    },
+    {
+        "title": "The Design of Everyday Things",
+        "author": "Don Norman",
+        "year": 1988,
+        "genre": "Design",
+        "annotation": "Why good design makes things usable — and bad design frustrates."
     }
 ]

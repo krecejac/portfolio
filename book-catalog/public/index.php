@@ -171,7 +171,9 @@ switch ($path) {
         require __DIR__ . '/../views/admin/dashboard.php';
         break;
 
-    // Admin: JSON metadata lookup for the add/edit form's title autocomplete.
+    // Admin: JSON metadata lookup for the add/edit form's title autocomplete
+    // (Open Library, no key). Convenience only; every book can still be typed by
+    // hand, and the catalogue's own data does not depend on this at runtime.
     case '/admin/book-lookup':
         Auth::requireAdmin();
         header('Content-Type: application/json');
