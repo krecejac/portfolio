@@ -55,6 +55,10 @@
   background: #211f19;
   border-color: #4a463c;
 }
+:root[data-theme=dark] .filters select {
+  background: #211f19;
+  border-color: #4a463c;
+}
 
 * {
   box-sizing: border-box;
@@ -347,6 +351,32 @@ a:hover {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+.filters select {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  padding: 0.5rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 980px;
+  cursor: pointer;
+}
+.filters select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(27, 82, 240, 0.14);
+}
+.filters #filter-clear {
+  margin-left: auto;
 }
 
 .cover-grid {

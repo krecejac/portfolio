@@ -10,6 +10,15 @@ $pageTitle = 'Book Catalog';
 $navRight  = '<button type="button" class="btn btn--sm btn--ghost" onclick="window.print()">Print</button>';
 require __DIR__ . '/partials/header.php';
 $count = count($books);
+
+// Distinct values for the filter dropdowns.
+$genres = array_filter(array_map(static fn ($b) => (string) ($b['genre'] ?? ''), $books));
+$genres = array_values(array_unique($genres));
+sort($genres);
+$authors = array_values(array_unique(array_map(static fn ($b) => (string) $b['author'], $books)));
+sort($authors);
+$years = array_values(array_unique(array_map(static fn ($b) => (int) $b['year'], $books)));
+rsort($years);
 ?>
 <section class="hero">
     <h1>Book Catalog</h1>
@@ -25,13 +34,53 @@ $count = count($books);
                aria-label="Search books" autocomplete="off">
     </div>
 
+    <div class="filters">
+        <?php if ($genres !== []): ?>
+            <select id="filter-genre" aria-label="Filter by genre">
+                <option value="">All genres</option>
+                <?php foreach ($genres as $g): ?>
+                    <option value="<?= e($g) ?>"><?= e($g) ?></option>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
+
+        <select id="filter-author" aria-label="Filter by author">
+            <option value="">All authors</option>
+            <?php foreach ($authors as $a): ?>
+                <option value="<?= e($a) ?>"><?= e($a) ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <select id="filter-year" aria-label="Filter by year">
+            <option value="">Any year</option>
+            <?php foreach ($years as $y): ?>
+                <option value="<?= $y ?>"><?= $y ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <select id="filter-rating" aria-label="Filter by rating">
+            <option value="">Any rating</option>
+            <option value="4">4+ stars</option>
+            <option value="3">3+ stars</option>
+            <option value="2">2+ stars</option>
+            <option value="1">1+ stars</option>
+        </select>
+
+        <button type="button" id="filter-clear" class="btn btn--sm btn--ghost" hidden>Clear filters</button>
+    </div>
+
     <div class="cover-grid">
         <?php foreach ($books as $book): ?>
             <?php
             $hue = abs(crc32((string) $book['title'])) % 360;
             $isFav = in_array((int) $book['id'], $favIds, true);
             ?>
-            <div class="book-card" data-search="<?= e(mb_strtolower($book['title'] . ' ' . $book['author'])) ?>">
+            <div class="book-card"
+                 data-search="<?= e(mb_strtolower($book['title'] . ' ' . $book['author'])) ?>"
+                 data-genre="<?= e((string) ($book['genre'] ?? '')) ?>"
+                 data-author="<?= e((string) $book['author']) ?>"
+                 data-year="<?= (int) $book['year'] ?>"
+                 data-rating="<?= $book['avg_rating'] === null ? 0 : (int) $book['avg_rating'] ?>">
                 <a class="book-card__link" href="/?id=<?= (int) $book['id'] ?>">
                     <span class="cover" style="--hue: <?= $hue ?>">
                         <span class="cover-title"><?= e($book['title']) ?></span>
