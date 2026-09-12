@@ -442,14 +442,91 @@ a:hover { text-decoration: underline; }
         transition: color 0.1s ease;
 
         &.on { color: var(--star); }
-        &:hover { color: var(--star); }
     }
+
+    // While hovering (rating.js adds .is-hovering), preview the pointed-at value:
+    // light up the hovered star and all lower ones, dim everything else — even a
+    // previously saved rating — so the preview is unambiguous.
+    &.is-hovering .star-btn { color: var(--hairline); }
+    &.is-hovering .star-btn.hover-on { color: var(--star); }
 }
 
 .rating { display: inline-flex; align-items: center; gap: 0.5rem; }
 .rating-count { font-size: 0.85rem; color: var(--muted); }
 .signin-hint { margin: 0 0 1.5rem; color: var(--muted); }
 .empty-state { padding: 3rem 0; }
+
+// --- Star rating picker (add/edit forms) ---------------------------
+.rating-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.star-row { display: inline-flex; align-items: center; gap: 0.6rem; }
+
+.star-input {
+    display: inline-flex;
+    flex-direction: row-reverse;   // so a "~" selector can reach lower stars
+    justify-content: flex-end;
+    align-items: center;
+
+    // The radios hold the value but are visually hidden (still focusable).
+    input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    label {
+        font-size: 1.9rem;
+        line-height: 1;
+        color: var(--hairline);
+        cursor: pointer;
+        transition: color 0.1s ease;
+    }
+
+    // Light the hovered star + all lower ones, and the checked star + lower.
+    label:hover,
+    label:hover ~ label,
+    input:checked ~ label { color: var(--star); }
+
+    input:focus-visible + label {
+        outline: 3px solid rgba(27, 82, 240, 0.5);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+}
+
+.star-clear {
+    font: inherit;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover { color: var(--ink); }
+}
+
+// Visually hidden but read by screen readers.
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
 
 // --- Forms ---------------------------------------------------------
 .auth {

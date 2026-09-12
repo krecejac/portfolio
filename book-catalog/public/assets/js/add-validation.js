@@ -57,8 +57,11 @@
         span.textContent = message;
     }
 
-    // Visible, named fields only — skip hidden inputs like the CSRF token.
-    var fields = form.querySelectorAll('input[name]:not([type="hidden"]), textarea[name]');
+    // Visible text fields only — skip hidden inputs (CSRF) and the rating radios
+    // (the star picker), which the server validates on its own.
+    var fields = form.querySelectorAll(
+        'input[name]:not([type="hidden"]):not([type="radio"]), textarea[name]'
+    );
 
     // Validate a field once the user leaves it.
     fields.forEach(function (field) {

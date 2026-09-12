@@ -67,5 +67,8 @@ require __DIR__ . '/partials/header.php';
             <?php endif; ?>
         </div>
     </article>
+    <?php if (Auth::check()): ?>
+        <script src="<?= e(asset('/assets/js/rating.js')) ?>" defer></script>
+    <?php endif; ?>
 <?php endif; ?>
 <?php require __DIR__ . '/partials/footer.php'; ?>

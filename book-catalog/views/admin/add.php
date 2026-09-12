@@ -7,7 +7,7 @@
 $pageTitle = 'Add book — Book Catalog';
 require __DIR__ . '/../partials/header.php';
 ?>
-<p><a class="back-link" href="/admin">&lsaquo; Admin</a></p>
+<p><a class="back-link" href="/admin">&lsaquo; Dashboard</a></p>
 
 <form class="auth auth--wide" method="post" action="/admin/add">
     <h1>Add book</h1>
@@ -33,12 +33,13 @@ require __DIR__ . '/../partials/header.php';
         <?php endif; ?>
     </label>
 
-    <label>Rating (1&ndash;5, optional)
-        <input type="number" name="rating" value="<?= e($old['rating']) ?>">
+    <div class="rating-field">
+        <span class="rating-field__label">Rating (optional)</span>
+        <?php require __DIR__ . '/../partials/rating-input.php'; ?>
         <?php if (isset($errors['rating'])): ?>
             <span class="field-error"><?= e($errors['rating']) ?></span>
         <?php endif; ?>
-    </label>
+    </div>
 
     <label>Annotation (optional)
         <textarea name="annotation"><?= e($old['annotation']) ?></textarea>
@@ -49,5 +50,5 @@ require __DIR__ . '/../partials/header.php';
 </form>
 
 <!-- Progressive enhancement: instant validation. The server validates too. -->
-<script src="/assets/js/add-validation.js" defer></script>
+<script src="<?= e(asset('/assets/js/add-validation.js')) ?>" defer></script>
 <?php require __DIR__ . '/../partials/footer.php'; ?>

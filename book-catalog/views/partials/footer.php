@@ -23,6 +23,14 @@
                     menu.removeAttribute('open');
                 }
             });
+
+            // "Clear" resets an optional star rating on the add/edit forms.
+            var clear = event.target.closest && event.target.closest('[data-star-clear]');
+            if (clear) {
+                clear.closest('.star-input')
+                    .querySelectorAll('input[type="radio"]')
+                    .forEach(function (radio) { radio.checked = false; });
+            }
         });
     </script>
 </body>
