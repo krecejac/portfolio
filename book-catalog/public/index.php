@@ -162,8 +162,9 @@ switch ($path) {
     case '/admin':
         Auth::requireAdmin();
         $flash = $_SESSION['flash'] ?? null;
+        $error = $_SESSION['error'] ?? null;
         $inviteLink = $_SESSION['invite_link'] ?? null;
-        unset($_SESSION['flash'], $_SESSION['invite_link']);
+        unset($_SESSION['flash'], $_SESSION['error'], $_SESSION['invite_link']);
         $csrf = Csrf::token();
         $books = $repository->all();
         require __DIR__ . '/../views/admin/dashboard.php';
@@ -265,24 +266,24 @@ switch ($path) {
 
         $upload = $_FILES['file'] ?? null;
         if ($upload === null || ($upload['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
-            $_SESSION['flash'] = 'Import failed: please choose a JSON file first.';
+            $_SESSION['error'] = 'Import failed: please choose a JSON file first.';
             header('Location: /admin');
             exit;
         }
         if ($upload['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($upload['tmp_name'])) {
-            $_SESSION['flash'] = 'Import failed: the file could not be uploaded.';
+            $_SESSION['error'] = 'Import failed: the file could not be uploaded.';
             header('Location: /admin');
             exit;
         }
         if ($upload['size'] > 1_048_576) {   // 1 MB is plenty for a book list
-            $_SESSION['flash'] = 'Import failed: the file is too large (max 1 MB).';
+            $_SESSION['error'] = 'Import failed: the file is too large (max 1 MB).';
             header('Location: /admin');
             exit;
         }
 
         $data = json_decode((string) @file_get_contents($upload['tmp_name']), true);
         if (!is_array($data)) {
-            $_SESSION['flash'] = 'Import failed: the file is not a valid JSON array of books.';
+            $_SESSION['error'] = 'Import failed: the file is not a valid JSON array of books.';
             header('Location: /admin');
             exit;
         }

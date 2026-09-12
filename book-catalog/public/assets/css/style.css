@@ -33,6 +33,11 @@
   color: #6bd48c;
   border-color: rgba(48, 160, 80, 0.3);
 }
+:root[data-theme=dark] .flash--error {
+  background: rgba(200, 60, 50, 0.15);
+  color: #ff8a80;
+  border-color: rgba(200, 60, 50, 0.3);
+}
 :root[data-theme=dark] .notice {
   background: rgba(91, 139, 255, 0.15);
   color: #a9c2ff;
@@ -734,6 +739,12 @@ a:hover {
   background: #e9f6ec;
   color: #216b34;
   border-color: #bfe3c8;
+}
+
+.flash--error {
+  background: #fbe9e7;
+  color: var(--danger);
+  border-color: #f3c9c4;
 }
 
 .notice {

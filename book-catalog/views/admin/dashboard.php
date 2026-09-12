@@ -1,6 +1,7 @@
 <?php
 /**
  * @var string|null $flash       one-off success message, or null
+ * @var string|null $error       one-off failure message (e.g. a failed import), or null
  * @var string|null $inviteLink  a freshly generated invite link to show once, or null
  * @var string      $csrf        CSRF token for the import/invite forms
  * @var array<int, array<string, mixed>> $books  the whole catalogue, to manage
@@ -12,6 +13,10 @@ require __DIR__ . '/../partials/header.php';
 
 <?php if (!empty($flash)): ?>
     <p class="flash"><?= e($flash) ?></p>
+<?php endif; ?>
+
+<?php if (!empty($error)): ?>
+    <p class="flash flash--error"><?= e($error) ?></p>
 <?php endif; ?>
 
 <?php if (!empty($inviteLink)): ?>

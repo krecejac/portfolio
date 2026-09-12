@@ -34,6 +34,7 @@
     color-scheme: dark;
 
     .flash  { background: rgba(48, 160, 80, 0.15); color: #6bd48c; border-color: rgba(48, 160, 80, 0.3); }
+    .flash--error { background: rgba(200, 60, 50, 0.15); color: #ff8a80; border-color: rgba(200, 60, 50, 0.3); }
     .notice { background: rgba(91, 139, 255, 0.15); color: #a9c2ff; border-color: rgba(91, 139, 255, 0.3); }
     .auth__error { background: rgba(200, 60, 50, 0.15); color: #ff8a80; }
 
@@ -599,6 +600,7 @@ a:hover { text-decoration: underline; }
     border: 1px solid;
 }
 .flash  { background: #e9f6ec; color: #216b34; border-color: #bfe3c8; }
+.flash--error { background: #fbe9e7; color: var(--danger); border-color: #f3c9c4; }
 .notice {
     background: #e9effe; color: #123fc4; border-color: #c6d6fb;
     code { display: block; margin-top: 0.5rem; word-break: break-all; font-size: 0.85rem; }
