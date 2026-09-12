@@ -273,8 +273,11 @@ regenerated on login, and invite tokens stored only as their sha256 hash.
   the cleanup in `delete()` moves back into the database.
 - Normalise authors and genres into their own tables once the catalogue is large
   enough to want author pages.
-- A PHPUnit smoke suite over the validator and the repositories — the verification
-  is currently manual (curl and a browser).
+- Automated tests. At this size unit tests over the validator and repositories
+  would mostly restate the code, so verification is manual for now (curl and a
+  browser). As the site grows, the worthwhile investment is end-to-end coverage
+  of the real flows — sign in, add, import, favourite — driven through a browser
+  with Selenium (Python), which is closer to what a UX-focused brief cares about.
 - Rate-limiting on `/login`, and server-side paging and search once the catalogue
   outgrows filtering the whole list in the browser.
 - A cache (Redis) in front of the read-heavy pages. The catalogue query
