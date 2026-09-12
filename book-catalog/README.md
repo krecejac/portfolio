@@ -20,14 +20,14 @@ docker compose up --build
 Then open **http://localhost:8080**. The schema, sample books, demo accounts and
 a few sample ratings are created automatically on the first start (`db/schema.sql`).
 
-## Accounts
+## Demo Accounts
 
 Sign in at **/login** or create a reader account at **/signup**. Three demo
 accounts are seeded, documented so the app can be tried immediately:
 
 | Username   | Password   | Role  | Can do                                             |
 |------------|------------|-------|----------------------------------------------------|
-| `admin`    | `admin123` | admin | add books, import from `books.json`, invite admins |
+| `admin`    | `admin123` | admin | everything a reader can, plus add/import books and invite admins |
 | `reader`   | `admin123` | user  | favourite and rate books                           |
 | `bookworm` | `admin123` | user  | favourite and rate books                           |
 
@@ -44,7 +44,7 @@ accounts are seeded, documented so the app can be tried immediately:
 - Favourite books and see them on a **Favourites** page.
 - Rate a book 1–5; the book's shown rating is the average across all readers.
 
-**Admins** (invite-only)
+**Admins** (invite-only) — everything a reader can, plus:
 - Add a book through a validated form (server-side validation + CSRF).
 - Import books from the prepared `books.json` (validates each entry, skips duplicates).
 - Invite another admin via a one-time link (24 h, single-use).
@@ -107,7 +107,7 @@ book-catalog/
 - **PHP 8.3** — plain PHP, no framework (a small front controller in `public/index.php`)
 - **MariaDB 11** — accessed through PDO with prepared statements
 - **Docker + docker-compose** — the whole thing runs with one command
-- **SASS** — source styles compiled to CSS; **Anton + Inter** web fonts
+- **HTML, CSS (SASS) and vanilla JavaScript** — no build step, no frontend framework
 - Session-based authentication with roles, clean-URL routing
 
 No framework was used on purpose: the goal was to show the fundamentals directly
