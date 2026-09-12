@@ -546,10 +546,55 @@ a:hover { text-decoration: underline; }
 }
 
 // --- Print ---------------------------------------------------------
+// On screen the catalogue is a cover grid; that prints as empty coloured boxes
+// (browsers drop backgrounds), so for paper we hide it and print a clean table
+// of Title / Author / Year / Rating — the way you'd want a catalogue on paper.
+.print-list { display: none; }
+
 @media print {
-    body { background: #fff; }
-    .site-header, .search, .btn, .back-link { display: none !important; }
+    @page { margin: 1.5cm; }
+
+    body { background: #fff; color: #000; font-size: 10.5pt; }
+    .site-header, .search, .btn, .back-link,
+    .cover-grid, .fav-toggle, #no-results { display: none !important; }
     .wrap { max-width: none; padding: 0; }
-    .cover { box-shadow: none; }
-    a { color: #000; }
+    a { color: #000; text-decoration: none; }
+
+    // Compact heading block above the table.
+    .hero { padding: 0 0 0.6cm; }
+    .hero h1 { font-size: 22pt; }
+    .hero .lede { display: none; }
+    .hero .count { margin-top: 0.2cm; color: #000; }
+
+    .print-list {
+        display: table;
+        width: 100%;
+        border-collapse: collapse;
+
+        thead { display: table-header-group; }   // repeat header on every page
+
+        th, td {
+            text-align: left;
+            padding: 5pt 8pt;
+            border-bottom: 0.5pt solid #bbb;
+            vertical-align: baseline;
+        }
+        th {
+            border-bottom: 1.2pt solid #000;
+            font-size: 8.5pt;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        // Title carries the weight; secondary columns stay narrow.
+        td:first-child { font-weight: 600; }
+        th:nth-child(3), td:nth-child(3),
+        th:nth-child(4), td:nth-child(4) { width: 1%; white-space: nowrap; }
+
+        tr { break-inside: avoid; }
+
+        .stars { letter-spacing: 0.1em; }
+        .stars__on  { color: #000; }
+        .stars__off { color: #ccc; }
+    }
 }
