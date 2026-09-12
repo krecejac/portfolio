@@ -345,6 +345,7 @@ a:hover { text-decoration: underline; }
 }
 
 .cover {
+    position: relative;
     display: flex;
     flex-direction: column;
     aspect-ratio: 2 / 3;
@@ -355,6 +356,17 @@ a:hover { text-decoration: underline; }
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
     transition: transform 0.16s ease, box-shadow 0.16s ease;
     overflow: hidden;
+}
+
+// Real cover from Open Library, laid over the generated one. If it fails to load
+// (offline / 404) book-lookup markup removes it via onerror and the generated
+// typographic cover underneath shows through.
+.cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .cover-title {

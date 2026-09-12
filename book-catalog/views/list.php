@@ -36,6 +36,9 @@ $count = count($books);
                     <span class="cover" style="--hue: <?= $hue ?>">
                         <span class="cover-title"><?= e($book['title']) ?></span>
                         <span class="cover-author"><?= e($book['author']) ?></span>
+                        <?php if (!empty($book['cover_url'])): ?>
+                            <img class="cover-img" src="<?= e($book['cover_url']) ?>" alt="" loading="lazy" onerror="this.remove()">
+                        <?php endif; ?>
                     </span>
                     <span class="info">
                         <span class="a"><?= e($book['author']) ?></span>
