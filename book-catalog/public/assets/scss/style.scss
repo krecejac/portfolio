@@ -36,6 +36,10 @@
     .flash  { background: rgba(48, 160, 80, 0.15); color: #6bd48c; border-color: rgba(48, 160, 80, 0.3); }
     .notice { background: rgba(91, 139, 255, 0.15); color: #a9c2ff; border-color: rgba(91, 139, 255, 0.3); }
     .auth__error { background: rgba(200, 60, 50, 0.15); color: #ff8a80; }
+
+    // Inputs need a visible edge against the dark paper.
+    .search input { background: #211f19; border-color: #4a463c; }
+    .auth input, .auth textarea, .auth select { background: #211f19; border-color: #4a463c; }
 }
 
 $wrap: 66rem;

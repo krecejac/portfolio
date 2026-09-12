@@ -30,7 +30,7 @@ $navRight  = $navRight ?? '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?= e(asset('/assets/css/style.css')) ?>">
 </head>
 <body>
     <header class="site-header">
@@ -48,7 +48,7 @@ $navRight  = $navRight ?? '';
                         </summary>
                         <div class="user-menu__panel">
                             <?php if (Auth::isAdmin()): ?>
-                                <a href="/admin">Admin</a>
+                                <a href="/admin">Dashboard</a>
                             <?php endif; ?>
                             <a href="/logout">Log out</a>
                         </div>
