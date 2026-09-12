@@ -165,6 +165,7 @@ switch ($path) {
         $inviteLink = $_SESSION['invite_link'] ?? null;
         unset($_SESSION['flash'], $_SESSION['invite_link']);
         $csrf = Csrf::token();
+        $books = $repository->all();
         require __DIR__ . '/../views/admin/dashboard.php';
         break;
 
@@ -196,7 +197,64 @@ switch ($path) {
         require __DIR__ . '/../views/admin/add.php';
         break;
 
-    // Admin: import books from the prepared books.json file.
+    // Admin: edit an existing book.
+    case '/admin/edit':
+        Auth::requireAdmin();
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT)
+            ?: filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $book = $id ? $repository->find($id) : null;
+        if ($book === null) {
+            http_response_code(404);
+            echo 'Book not found.';
+            exit;
+        }
+        $errors = [];
+        $old = [
+            'title'      => (string) $book['title'],
+            'author'     => (string) $book['author'],
+            'year'       => (string) $book['year'],
+            'rating'     => $book['rating'] === null ? '' : (string) $book['rating'],
+            'annotation' => (string) ($book['annotation'] ?? ''),
+        ];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!Csrf::check($_POST['csrf'] ?? null)) {
+                http_response_code(400);
+                echo 'Invalid CSRF token.';
+                exit;
+            }
+            foreach (array_keys($old) as $field) {
+                $old[$field] = trim((string) ($_POST[$field] ?? ''));
+            }
+            $result = BookValidator::validate($old);
+            $errors = $result['errors'];
+            if ($errors === []) {
+                $clean = $result['clean'];
+                $repository->update((int) $book['id'], $clean['title'], $clean['author'], $clean['year'], $clean['rating'], $clean['annotation']);
+                $_SESSION['flash'] = 'Book updated.';
+                header('Location: /admin');
+                exit;
+            }
+        }
+        $csrf = Csrf::token();
+        require __DIR__ . '/../views/admin/edit.php';
+        break;
+
+    // Admin: delete a book.
+    case '/admin/delete':
+        Auth::requireAdmin();
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Csrf::check($_POST['csrf'] ?? null) || !$id) {
+            http_response_code(400);
+            echo 'Bad request.';
+            exit;
+        }
+        $repository->delete($id);
+        $_SESSION['flash'] = 'Book deleted.';
+        header('Location: /admin');
+        exit;
+
+    // Admin: import books from a JSON file the admin chooses. Each entry goes
+    // through the same validation as the add form, and duplicates are skipped.
     case '/admin/import':
         Auth::requireAdmin();
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Csrf::check($_POST['csrf'] ?? null)) {
@@ -204,9 +262,27 @@ switch ($path) {
             echo 'Bad request.';
             exit;
         }
-        $data = json_decode((string) @file_get_contents(__DIR__ . '/../books.json'), true);
+
+        $upload = $_FILES['file'] ?? null;
+        if ($upload === null || ($upload['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            $_SESSION['flash'] = 'Import failed: please choose a JSON file first.';
+            header('Location: /admin');
+            exit;
+        }
+        if ($upload['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($upload['tmp_name'])) {
+            $_SESSION['flash'] = 'Import failed: the file could not be uploaded.';
+            header('Location: /admin');
+            exit;
+        }
+        if ($upload['size'] > 1_048_576) {   // 1 MB is plenty for a book list
+            $_SESSION['flash'] = 'Import failed: the file is too large (max 1 MB).';
+            header('Location: /admin');
+            exit;
+        }
+
+        $data = json_decode((string) @file_get_contents($upload['tmp_name']), true);
         if (!is_array($data)) {
-            $_SESSION['flash'] = 'Import failed: books.json is missing or not valid JSON.';
+            $_SESSION['flash'] = 'Import failed: the file is not a valid JSON array of books.';
             header('Location: /admin');
             exit;
         }

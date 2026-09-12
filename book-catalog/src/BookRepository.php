@@ -77,6 +77,36 @@ final class BookRepository
     }
 
     /**
+     * Update an existing book. Values are already validated by the caller.
+     */
+    public function update(
+        int $id,
+        string $title,
+        string $author,
+        int $year,
+        ?int $rating,
+        ?string $annotation
+    ): void {
+        $statement = $this->pdo->prepare(
+            'UPDATE books
+                SET title = ?, author = ?, year = ?, rating = ?, annotation = ?
+              WHERE id = ?'
+        );
+        $statement->execute([$title, $author, $year, $rating, $annotation, $id]);
+    }
+
+    /**
+     * Delete a book and everything that hangs off it (favourites, ratings).
+     * There are no database foreign keys, so we clean up the child rows here.
+     */
+    public function delete(int $id): void
+    {
+        $this->pdo->prepare('DELETE FROM favourites WHERE book_id = ?')->execute([$id]);
+        $this->pdo->prepare('DELETE FROM ratings WHERE book_id = ?')->execute([$id]);
+        $this->pdo->prepare('DELETE FROM books WHERE id = ?')->execute([$id]);
+    }
+
+    /**
      * Is there already a book with the same title, author and year?
      * Used by the import to skip duplicates so re-running it is safe.
      */
