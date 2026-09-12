@@ -1,6 +1,9 @@
 // Title autocomplete for the admin add/edit form, backed by our /admin/book-lookup
 // proxy (Open Library). Picking a suggestion fills author, year, genre and the
 // hidden cover_url. Progressive enhancement: the form works fully without this.
+//
+// Open Library is slow (a few seconds per query), so we show a "Searching…"
+// state and abort the previous request on each keystroke to avoid stale results.
 (function () {
     'use strict';
 
@@ -19,19 +22,28 @@
     var cover = form.querySelector('input[name="cover_url"]');
 
     var timer = null;
-    var lastQuery = '';
+    var controller = null;
 
     function close() {
         results.hidden = true;
         results.innerHTML = '';
     }
 
-    function render(items) {
+    function status(text) {
         results.innerHTML = '';
+        var el = document.createElement('div');
+        el.className = 'lookup-status';
+        el.textContent = text;
+        results.appendChild(el);
+        results.hidden = false;
+    }
+
+    function render(items) {
         if (!items || !items.length) {
-            close();
+            status('No matches found');
             return;
         }
+        results.innerHTML = '';
         items.forEach(function (item) {
             var option = document.createElement('button');
             option.type = 'button';
@@ -81,17 +93,21 @@
         var query = title.value.trim();
         clearTimeout(timer);
         if (query.length < 2) {
+            if (controller) { controller.abort(); }
             close();
             return;
         }
         timer = setTimeout(function () {
-            if (query === lastQuery) { return; }
-            lastQuery = query;
-            fetch('/admin/book-lookup?q=' + encodeURIComponent(query))
+            if (controller) { controller.abort(); }
+            controller = new AbortController();
+            status('Searching…');
+            fetch('/admin/book-lookup?q=' + encodeURIComponent(query), { signal: controller.signal })
                 .then(function (r) { return r.json(); })
                 .then(render)
-                .catch(close);
-        }, 300);
+                .catch(function (err) {
+                    if (err.name !== 'AbortError') { status('Lookup unavailable — type the details by hand.'); }
+                });
+        }, 400);
     });
 
     title.addEventListener('keydown', function (event) {

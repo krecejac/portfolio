@@ -25,8 +25,10 @@ final class OpenLibrary
             'fields' => 'title,author_name,first_publish_year,cover_i,subject',
         ]);
 
+        // Open Library's search API is often slow (3–8s), so allow a generous
+        // timeout — cutting it short is the main cause of empty results.
         $context = stream_context_create(['http' => [
-            'timeout' => 5,
+            'timeout' => 12,
             'header'  => "User-Agent: BookCatalog/1.0 (portfolio project)\r\n",
         ]]);
         $json = @file_get_contents($url, false, $context);

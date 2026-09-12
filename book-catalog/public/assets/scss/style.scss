@@ -810,6 +810,7 @@ a:hover { text-decoration: underline; }
 .lookup-text { display: flex; flex-direction: column; min-width: 0; }
 .lookup-title { font-weight: 600; font-size: 0.9rem; }
 .lookup-meta  { font-size: 0.8rem; color: var(--muted); }
+.lookup-status { padding: 0.6rem 0.7rem; font-size: 0.85rem; color: var(--muted); }
 
 // --- Banners -------------------------------------------------------
 .flash, .notice {

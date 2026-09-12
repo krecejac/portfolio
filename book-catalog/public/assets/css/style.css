@@ -974,6 +974,12 @@ a:hover {
   color: var(--muted);
 }
 
+.lookup-status {
+  padding: 0.6rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 .flash, .notice {
   margin: 0 0 1.5rem;
   padding: 0.8rem 1rem;
