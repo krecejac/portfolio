@@ -60,6 +60,29 @@ Sign in at **/login** or create a reader account at **/signup**. Demo accounts
 - Import books from the prepared `books.json` (validates each entry, skips duplicates).
 - Invite another admin via a one-time link (24 h, single-use).
 
+## Importing books
+
+The admin **Import books** action takes a JSON file — an array of book objects.
+Each entry is run through the same validation as the add form, and any book that
+already exists (same title, author and year) is skipped, so re-importing is safe.
+The `books.json` in this folder is a ready-to-use sample.
+
+```json
+[
+  {
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "year": 1937,
+    "genre": "Fantasy",
+    "annotation": "A hobbit is swept into a quest to reclaim a treasure.",
+    "cover_url": "https://covers.openlibrary.org/b/id/10762989-M.jpg"
+  }
+]
+```
+
+`title`, `author` and `year` are required; `rating` (1–5), `annotation`, `genre`
+and `cover_url` are optional, and any other field is ignored.
+
 ## Project structure
 
 ```
