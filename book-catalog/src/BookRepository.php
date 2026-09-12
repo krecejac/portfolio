@@ -66,13 +66,15 @@ final class BookRepository
         string $author,
         int $year,
         ?int $rating,
-        ?string $annotation
+        ?string $annotation,
+        ?string $genre = null,
+        ?string $coverUrl = null
     ): int {
         $statement = $this->pdo->prepare(
-            'INSERT INTO books (title, author, year, rating, annotation)
-             VALUES (?, ?, ?, ?, ?)'
+            'INSERT INTO books (title, author, year, rating, annotation, genre, cover_url)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
-        $statement->execute([$title, $author, $year, $rating, $annotation]);
+        $statement->execute([$title, $author, $year, $rating, $annotation, $genre, $coverUrl]);
         return (int) $this->pdo->lastInsertId();
     }
 
@@ -85,14 +87,16 @@ final class BookRepository
         string $author,
         int $year,
         ?int $rating,
-        ?string $annotation
+        ?string $annotation,
+        ?string $genre = null,
+        ?string $coverUrl = null
     ): void {
         $statement = $this->pdo->prepare(
             'UPDATE books
-                SET title = ?, author = ?, year = ?, rating = ?, annotation = ?
+                SET title = ?, author = ?, year = ?, rating = ?, annotation = ?, genre = ?, cover_url = ?
               WHERE id = ?'
         );
-        $statement->execute([$title, $author, $year, $rating, $annotation, $id]);
+        $statement->execute([$title, $author, $year, $rating, $annotation, $genre, $coverUrl, $id]);
     }
 
     /**

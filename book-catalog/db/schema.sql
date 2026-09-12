@@ -7,14 +7,16 @@ CREATE TABLE books (
     author      VARCHAR(255)  NOT NULL,
     year        SMALLINT      NOT NULL,
     rating      TINYINT       NULL,
-    annotation  TEXT          NULL
+    annotation  TEXT          NULL,
+    genre       VARCHAR(100)  NULL,   -- for filtering; filled by hand or by the Open Library lookup
+    cover_url   VARCHAR(500)  NULL    -- real cover image; falls back to a generated one when empty/offline
 );
 
 -- Insert some sample data into the books table.
-INSERT INTO books (title, author, year, rating, annotation) VALUES
-    ('Book A', 'Author A', 2020, 5, 'Short annotation.'),
-    ('Book B', 'Author B', 2019, 4, 'Another short annotation.'),
-    ('Book C', 'Author C', 2021, 1, 'Third short annotation.');
+INSERT INTO books (title, author, year, rating, annotation, genre) VALUES
+    ('Book A', 'Author A', 2020, 5, 'Short annotation.', 'Fiction'),
+    ('Book B', 'Author B', 2019, 4, 'Another short annotation.', 'Fantasy'),
+    ('Book C', 'Author C', 2021, 1, 'Third short annotation.', 'Science Fiction');
 
 -- Accounts. role is 'admin' (manages the catalogue, invite-only) or 'user'
 -- (signs up publicly, can favourite and rate books).

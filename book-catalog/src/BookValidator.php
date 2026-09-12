@@ -14,7 +14,7 @@ final class BookValidator
      * @param  array<string, mixed> $input  raw title/author/year/rating/annotation
      * @return array{
      *     errors: array<string, string>,
-     *     clean: array{title: string, author: string, year: int, rating: ?int, annotation: ?string}
+     *     clean: array{title: string, author: string, year: int, rating: ?int, annotation: ?string, genre: ?string, cover_url: ?string}
      * }  errors is empty when the input is valid
      */
     public static function validate(array $input): array
@@ -24,6 +24,8 @@ final class BookValidator
         $yearRaw    = (string) ($input['year'] ?? '');
         $ratingRaw  = (string) ($input['rating'] ?? '');
         $annotation = trim((string) ($input['annotation'] ?? ''));
+        $genre      = trim((string) ($input['genre'] ?? ''));
+        $coverUrl   = trim((string) ($input['cover_url'] ?? ''));
 
         $errors = [];
 
@@ -56,6 +58,19 @@ final class BookValidator
             }
         }
 
+        // Genre is optional free text (used for filtering).
+        if (mb_strlen($genre) > 100) {
+            $errors['genre'] = 'Genre is too long (max 100 characters).';
+        }
+
+        // Cover URL is optional; when present it must be a plain http(s) URL.
+        if ($coverUrl !== '') {
+            if (mb_strlen($coverUrl) > 500 || !preg_match('#^https?://#i', $coverUrl)) {
+                $errors['cover_url'] = 'Cover URL must be a valid http(s) link.';
+                $coverUrl = '';
+            }
+        }
+
         return [
             'errors' => $errors,
             'clean'  => [
@@ -64,6 +79,8 @@ final class BookValidator
                 'year'       => $year === false ? 0 : (int) $year,
                 'rating'     => $rating,
                 'annotation' => $annotation === '' ? null : $annotation,
+                'genre'      => $genre === '' ? null : $genre,
+                'cover_url'  => $coverUrl === '' ? null : $coverUrl,
             ],
         ];
     }

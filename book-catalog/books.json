@@ -4,6 +4,7 @@
         "author": "Robert C. Martin",
         "year": 2008,
         "rating": 5,
+        "genre": "Programming",
         "annotation": "A handbook of agile software craftsmanship."
     },
     {
@@ -11,6 +12,7 @@
         "author": "Andrew Hunt, David Thomas",
         "year": 1999,
         "rating": 5,
+        "genre": "Programming",
         "annotation": "Your journey to mastery, from journeyman to master."
     },
     {
@@ -18,6 +20,7 @@
         "author": "Martin Fowler",
         "year": 1999,
         "rating": 4,
+        "genre": "Programming",
         "annotation": "Improving the design of existing code."
     },
     {
@@ -25,6 +28,7 @@
         "author": "Eric Evans",
         "year": 2003,
         "rating": 4,
+        "genre": "Software Architecture",
         "annotation": "Tackling complexity in the heart of software."
     },
     {
@@ -32,6 +36,7 @@
         "author": "Kyle Simpson",
         "year": 2015,
         "rating": 3,
+        "genre": "Programming",
         "annotation": "A deep dive into the core mechanisms of JavaScript."
     }
 ]

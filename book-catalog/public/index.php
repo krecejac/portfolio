@@ -174,7 +174,7 @@ switch ($path) {
     case '/admin/add':
         Auth::requireAdmin();
         $errors = [];
-        $old = ['title' => '', 'author' => '', 'year' => '', 'rating' => '', 'annotation' => ''];
+        $old = ['title' => '', 'author' => '', 'year' => '', 'rating' => '', 'annotation' => '', 'genre' => '', 'cover_url' => ''];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!Csrf::check($_POST['csrf'] ?? null)) {
                 http_response_code(400);
@@ -188,7 +188,7 @@ switch ($path) {
             $errors = $result['errors'];
             if ($errors === []) {
                 $book = $result['clean'];
-                $repository->create($book['title'], $book['author'], $book['year'], $book['rating'], $book['annotation']);
+                $repository->create($book['title'], $book['author'], $book['year'], $book['rating'], $book['annotation'], $book['genre'], $book['cover_url']);
                 $_SESSION['flash'] = 'Book added.';
                 header('Location: /admin');
                 exit;
@@ -216,6 +216,8 @@ switch ($path) {
             'year'       => (string) $book['year'],
             'rating'     => $book['rating'] === null ? '' : (string) $book['rating'],
             'annotation' => (string) ($book['annotation'] ?? ''),
+            'genre'      => (string) ($book['genre'] ?? ''),
+            'cover_url'  => (string) ($book['cover_url'] ?? ''),
         ];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!Csrf::check($_POST['csrf'] ?? null)) {
@@ -230,7 +232,7 @@ switch ($path) {
             $errors = $result['errors'];
             if ($errors === []) {
                 $clean = $result['clean'];
-                $repository->update((int) $book['id'], $clean['title'], $clean['author'], $clean['year'], $clean['rating'], $clean['annotation']);
+                $repository->update((int) $book['id'], $clean['title'], $clean['author'], $clean['year'], $clean['rating'], $clean['annotation'], $clean['genre'], $clean['cover_url']);
                 $_SESSION['flash'] = 'Book updated.';
                 header('Location: /admin');
                 exit;
@@ -300,7 +302,7 @@ switch ($path) {
                 $skipped++;
                 continue;
             }
-            $repository->create($book['title'], $book['author'], $book['year'], $book['rating'], $book['annotation']);
+            $repository->create($book['title'], $book['author'], $book['year'], $book['rating'], $book['annotation'], $book['genre'], $book['cover_url']);
             $imported++;
         }
         $_SESSION['flash'] = "Import done: {$imported} added, {$skipped} skipped.";
