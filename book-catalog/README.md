@@ -5,6 +5,9 @@ A small full-stack web application for keeping a catalog of books, built as a
 accounts (favourite and rate books), and an admin area for maintaining the
 collection.
 
+For the domain model, the request flow and the reasoning behind the design, see
+the [architecture notes](docs/ARCHITECTURE.md).
+
 ## Tech stack
 
 - **PHP 8.3** — plain PHP, no framework (a small front controller in `public/index.php`)
@@ -65,12 +68,15 @@ book-catalog/
 ├── Dockerfile                # php:8.3-apache + pdo_mysql + mod_rewrite
 ├── books.json                # sample data for the admin import
 ├── db/schema.sql             # tables + seed data (runs on first DB init)
+├── docs/                     # architecture notes + screenshots
 ├── public/                   # web root (Apache document root)
-│   ├── index.php             # front controller / router
+│   ├── index.php             # front controller: session + route table
 │   ├── .htaccess             # routes non-file requests to index.php
 │   └── assets/{scss,css,js}/ # SASS source + compiled CSS + client JS
 ├── src/                      # application code
 │   ├── Database.php          # single PDO connection
+│   ├── Router.php            # path -> handler lookup
+│   ├── Controllers/          # Catalog / Auth / Reader / Admin actions
 │   ├── BookRepository.php    # books + their average rating
 │   ├── UserRepository.php    # user accounts
 │   ├── FavouriteRepository.php
@@ -79,6 +85,7 @@ book-catalog/
 │   ├── Csrf.php              # CSRF token helper
 │   ├── BookValidator.php     # shared book-input validation
 │   ├── InviteRepository.php  # one-time admin invites
+│   ├── OpenLibrary.php       # metadata lookup for the admin form
 │   └── helpers.php           # e() escaping, stars() rendering
 └── views/                    # PHP templates (public, auth, admin) + partials
 ```
