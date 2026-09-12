@@ -8,17 +8,6 @@ collection.
 For the domain model, the request flow and the reasoning behind the design, see
 the [architecture notes](docs/ARCHITECTURE.md).
 
-## Tech stack
-
-- **PHP 8.3** — plain PHP, no framework (a small front controller in `public/index.php`)
-- **MariaDB 11** — accessed through PDO with prepared statements
-- **Docker + docker-compose** — the whole thing runs with one command
-- **SASS** — source styles compiled to CSS; **Anton + Inter** web fonts
-- Session-based authentication with roles, clean-URL routing
-
-No framework was used on purpose: the goal was to show the fundamentals directly
-(routing, PDO, sessions, roles, validation, CSRF) and keep the app trivial to run.
-
 ## Running it
 
 The only requirement is Docker. From this folder:
@@ -112,6 +101,17 @@ book-catalog/
 │   └── helpers.php           # e() escaping, stars() rendering
 └── views/                    # PHP templates (public, auth, admin) + partials
 ```
+
+## Tech stack
+
+- **PHP 8.3** — plain PHP, no framework (a small front controller in `public/index.php`)
+- **MariaDB 11** — accessed through PDO with prepared statements
+- **Docker + docker-compose** — the whole thing runs with one command
+- **SASS** — source styles compiled to CSS; **Anton + Inter** web fonts
+- Session-based authentication with roles, clean-URL routing
+
+No framework was used on purpose: the goal was to show the fundamentals directly
+(routing, PDO, sessions, roles, validation, CSRF) and keep the app trivial to run.
 
 ## Notes
 
