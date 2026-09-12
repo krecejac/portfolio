@@ -168,23 +168,77 @@ Every state-changing `POST` carries a CSRF token; `/login` is the one exception
 (its form has no session yet). The reader and admin routes are guarded by
 `Auth::requireLogin` / `requireAdmin`.
 
-## Interface
+## Interface and UX
 
-The look is deliberately editorial — a display face (Anton) over Inter, a warm
-paper ground and a single electric-blue accent — so the catalogue reads like a
-collection rather than a form. Covers are the clearest example of the "simple
-thing done well" rule: when a book has a real cover it is shown, and when it does
-not, a typographic cover is generated from the title's hash so the grid never has
-a blank tile and never depends on the network to look finished.
-
-The page adapts to the reader's theme, and everything below the covers is
-progressive enhancement — search, the combined filters, the grid/list toggle and
-the star-hover are JavaScript conveniences layered over a page that already works
-without them.
+A catalogue is a tool for two jobs that pull in different directions: helping
+someone *find and enjoy* books, and helping someone *keep the collection tidy*.
+The interface is built browsing-first and management-second, and every screen is
+shaped by which of those jobs it serves.
 
 | Book detail | Dark theme | Admin dashboard |
 |---|---|---|
 | ![Detail](images/detail.png) | ![Dark mode](images/dark.png) | ![Admin](images/admin.png) |
+
+### Who it is for
+
+There is no real client behind this, so the audiences below are read off the
+assignment rather than from user research — but they are what the design is
+aimed at, imagining a modest collection (a small library, an independent
+bookshop, a reading group's shared shelf) of hundreds of books, not a
+marketplace of millions.
+
+- **A visitor** with no account — the common case. Wants to scan what is on the
+  shelf, open a book, and maybe print the list. Owes the site nothing, so the
+  public pages ask nothing back: no sign-up wall, no cookie nag, no dead ends.
+- **A reader**, signed in. Wants a light layer of their own on top: a favourites
+  shelf and a personal 1–5 rating. The value is small and frequent, so the
+  actions have to be one tap and stay out of the way.
+- **A curator / admin**. Keeps the collection correct — adds, edits, removes,
+  and imports in bulk. Wants fast data entry, a guard rail on the destructive
+  actions, and to not fear breaking the public site.
+
+### What the design optimises for, and why
+
+- **Browsing is a visual act, so the catalogue is a grid of covers, not a data
+  table.** The cover is the fastest way to recognise a book. When one is missing
+  a cover is *generated* from the title (a deterministic colour plus the title
+  set in the display face) so no tile is ever blank and the page looks finished
+  even offline — the network is a nice-to-have, never a dependency.
+- **Progressive disclosure keeps the first screen calm.** The grid shows only
+  cover, author, year and rating; everything else lives one click deeper on the
+  detail page, and the filters stay folded until someone reaches for them.
+- **Designed for a thumb, not just a mouse.** Filters are one-tap controls — the
+  year filter is a decade calendar rather than a text field precisely so nobody
+  types a four-digit year on a phone keypad — and the admin table reflows into
+  cards on a narrow screen so Edit and Delete are never off the edge.
+- **The rating a visitor sees is the readers' average, not an editorial score**,
+  because a catalogue's credibility comes from its readers; the private editorial
+  column is kept but never shown.
+- **Favouriting respects the browsing flow.** The heart toggles in place over
+  `fetch` — no reload, no jump back to the top of a long grid — and only its
+  colour changes, so selecting a favourite never makes the page twitch.
+- **Inclusive by default.** Every action is a real button or link that works
+  before any JavaScript loads; controls carry `aria` labels, popovers dismiss on
+  Escape and outside click, the theme follows the operating system but can be
+  overridden, and a print stylesheet turns the cover grid into a clean paper list
+  for the librarian who still wants one.
+
+### Limits that come from the task, not the design
+
+- It is a portfolio and assignment piece, not a shipped product. The personas
+  above are inferred, and **nothing here has been usability-tested** — the
+  decisions are principled, not validated with real users.
+- The data model is deliberately **one flat `books` table**: clarity over scale.
+  That rules out anything needing real relations (author pages, genre hubs) until
+  it is normalised — a conscious trade, noted in the domain model above.
+- **Search and filtering run in the browser** over the whole list. That is the
+  right call for hundreds of books and the wrong one for thousands, which would
+  need server-side search and paging.
+- **Seed data and committed demo accounts** exist so the app runs in one command
+  and never looks empty; a real deployment would seed differently and start bare.
+- Scope is bounded by the brief — the required flows plus a few bonuses — so
+  surfaces a mature product would carry (reviews, collections, recommendations,
+  bulk editing) are **intentionally absent** rather than half-built.
 
 ## Key decisions
 
@@ -223,3 +277,8 @@ regenerated on login, and invite tokens stored only as their sha256 hash.
   is currently manual (curl and a browser).
 - Rate-limiting on `/login`, and server-side paging and search once the catalogue
   outgrows filtering the whole list in the browser.
+- A cache (Redis) in front of the read-heavy pages. The catalogue query
+  recomputes every book's average rating on each load, so those aggregates and
+  the rendered list are the first things worth caching; the same Redis would back
+  the login rate-limiter and hold sessions, so the app could run behind more than
+  one container instead of keeping session state on a single box's filesystem.
