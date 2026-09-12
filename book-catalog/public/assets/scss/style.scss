@@ -119,6 +119,7 @@ a:hover { text-decoration: underline; }
     letter-spacing: 0.03em;
     font-size: 1.2rem;
     color: var(--ink);
+    white-space: nowrap;   // never let the wordmark wrap to two lines
 
     &::after { content: "."; color: var(--accent); }
     &:hover { text-decoration: none; }
@@ -547,6 +548,10 @@ a:hover { text-decoration: underline; }
 
 @media (max-width: 34rem) {
     .cover-grid[data-view="list"] .info .a { display: none; }   // keep the row tidy on phones
+
+    // Tighten the sticky header so the wordmark and account menu share one row.
+    .site-header__inner { padding: 0 1rem; gap: 0.6rem; }
+    .site-nav { gap: 0.7rem; }
 }
 
 // --- Stars ---------------------------------------------------------
@@ -974,6 +979,65 @@ a:hover { text-decoration: underline; }
         text-align: right;
 
         form { display: inline; margin: 0 0 0 0.35rem; }
+    }
+}
+
+// On a phone five columns can't fit, so each row becomes a card (label: value)
+// with the actions always reachable — no sideways scrolling to find Edit /
+// Delete. This block sits after the table's base rules on purpose, so its
+// min-width reset actually wins.
+@media (max-width: 34rem) {
+    .manage { overflow-x: visible; }
+    .manage-table {
+        min-width: 0;
+        border: none;
+        border-radius: 0;
+        background: none;
+
+        thead { display: none; }
+
+        tbody tr {
+            display: block;
+            background: var(--surface);
+            border: 1px solid var(--hairline);
+            border-radius: 14px;
+            padding: 0.6rem 1rem 0.9rem;
+            margin-bottom: 0.85rem;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.35rem 0;
+            border-bottom: none;
+            text-align: right;
+        }
+
+        td[data-label]::before {
+            content: attr(data-label);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .cell-title {
+            justify-content: flex-start;
+            font-size: 1.05rem;
+            padding-bottom: 0.4rem;
+        }
+        .cell-title a { font-weight: 700; }
+
+        .actions-col {
+            justify-content: flex-start;
+            gap: 1.5rem;
+            margin-top: 0.4rem;
+            padding-top: 0.7rem;
+            border-top: 1px solid var(--hairline);
+
+            form { display: inline; margin: 0; }
+        }
     }
 }
 

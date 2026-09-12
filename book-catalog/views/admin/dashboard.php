@@ -66,10 +66,10 @@ require __DIR__ . '/../partials/header.php';
             <tbody>
                 <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><a href="/?id=<?= (int) $book['id'] ?>"><?= e($book['title']) ?></a></td>
-                        <td><?= e($book['author']) ?></td>
-                        <td class="num"><?= e((string) $book['year']) ?></td>
-                        <td class="num"><?= stars($book['avg_rating'] === null ? null : (int) $book['avg_rating']) ?></td>
+                        <td class="cell-title"><a href="/?id=<?= (int) $book['id'] ?>"><?= e($book['title']) ?></a></td>
+                        <td data-label="Author"><?= e($book['author']) ?></td>
+                        <td class="num" data-label="Year"><?= e((string) $book['year']) ?></td>
+                        <td class="num" data-label="Rating"><?= stars($book['avg_rating'] === null ? null : (int) $book['avg_rating']) ?></td>
                         <td class="actions-col">
                             <a class="btn btn--sm btn--ghost" href="/admin/edit?id=<?= (int) $book['id'] ?>">Edit</a>
                             <form method="post" action="/admin/delete"
