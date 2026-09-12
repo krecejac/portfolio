@@ -22,14 +22,14 @@ a few sample ratings are created automatically on the first start (`db/schema.sq
 
 ## Accounts
 
-Sign in at **/login** or create a reader account at **/signup**. Demo accounts
-(all with password `admin123`, documented so the app can be tried immediately):
+Sign in at **/login** or create a reader account at **/signup**. Three demo
+accounts are seeded, documented so the app can be tried immediately:
 
-| Username   | Role  | Can do                                             |
-|------------|-------|----------------------------------------------------|
-| `admin`    | admin | add books, import from `books.json`, invite admins |
-| `reader`   | user  | favourite and rate books                           |
-| `bookworm` | user  | favourite and rate books                           |
+| Username   | Password   | Role  | Can do                                             |
+|------------|------------|-------|----------------------------------------------------|
+| `admin`    | `admin123` | admin | add books, import from `books.json`, invite admins |
+| `reader`   | `admin123` | user  | favourite and rate books                           |
+| `bookworm` | `admin123` | user  | favourite and rate books                           |
 
 > Demo credentials are committed on purpose. In a real deployment the admin
 > password would be seeded randomly or supplied through secrets, never committed.
