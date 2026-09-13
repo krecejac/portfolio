@@ -212,6 +212,11 @@ marketplace of millions.
   year filter is a decade calendar rather than a text field, precisely so nobody
   types a four-digit year on a phone keypad, and the admin table reflows into
   cards on a narrow screen so Edit and Delete are never off the edge.
+- **Adding a book is mostly confirming, not typing.** In the admin form, typing a
+  title looks the book up on Open Library and offers to fill in the author, year,
+  genre and cover in one click, so cataloguing is checking a suggestion rather
+  than retyping metadata. It is optional and degrades gracefully: offline, or when
+  nothing matches, every field is still typed by hand.
 - **Favouriting never interrupts browsing.** Tapping a heart saves it in the
   background and only the heart changes colour; the page does not reload or jump,
   so you can keep scrolling and adding favourites without ever losing your place.
