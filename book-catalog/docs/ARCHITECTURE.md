@@ -269,13 +269,17 @@ escaped through one `e()` helper, passwords hashed with bcrypt, a CSRF token on
 every write, a session cookie that is HttpOnly and SameSite with the id
 regenerated on login, and invite tokens stored only as their sha256 hash.
 
-## What I would do next
+## What I would do next (system design choices)
 
 - A small migration runner. The schema only runs on a clean database (it is
   mounted into the container's init directory), so today a change means recreating
   the volume; a runner would apply changes to a live database instead.
-- Normalise authors and genres into their own tables once the catalogue is large
-  enough to want author pages.
+- Give authors and genres their own tables. Each book currently stores the author
+  name and genre as plain text, so "J.R.R. Tolkien" is written out again on every
+  one of his books. Moving them into their own tables (with the book linking by id)
+  lets an author exist once, powers a real "all books by this author" page, and
+  makes renaming a genre a single edit. Worth the extra joins only once the
+  catalogue is large enough to want those pages.
 - Automated tests. At this size unit tests over the validator and repositories
   would mostly restate the code, so verification is manual for now (curl and a
   browser). As the site grows, the worthwhile investment is end-to-end coverage
@@ -288,3 +292,7 @@ regenerated on login, and invite tokens stored only as their sha256 hash.
   the rendered list are the first things worth caching; the same Redis would back
   the login rate-limiter and hold sessions, so the app could run behind more than
   one container instead of keeping session state on a single box's filesystem.
+- Watch real users, not just reason about them. The UX here is argued rather than
+  tested; as the catalogue grows, putting a few people through the core journeys
+  (find a book, favourite it, add one as an admin) and fixing what trips them up
+  would sharpen it faster than guessing.
