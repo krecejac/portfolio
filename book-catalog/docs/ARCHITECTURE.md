@@ -212,14 +212,17 @@ marketplace of millions.
   year filter is a decade calendar rather than a text field, precisely so nobody
   types a four-digit year on a phone keypad, and the admin table reflows into
   cards on a narrow screen so Edit and Delete are never off the edge.
-- **Favouriting respects the browsing flow.** The heart toggles in place over
-  `fetch`, with no reload and no jump back to the top of a long grid, and only
-  its colour changes, so selecting a favourite never makes the page twitch.
-- **Inclusive by default.** Every action is a real button or link that works
-  before any JavaScript loads; controls carry `aria` labels, popovers dismiss on
-  Escape and outside click, the theme follows the operating system but can be
-  overridden, and a print stylesheet turns the cover grid into a clean paper list
-  for the librarian who still wants one.
+- **Favouriting never interrupts browsing.** Tapping a heart saves it in the
+  background and only the heart changes colour; the page does not reload or jump,
+  so you can keep scrolling and adding favourites without ever losing your place.
+- **Usable without a mouse or without sight.** The pages are server-rendered
+  with real buttons and links, so the catalogue works by keyboard alone and even
+  with JavaScript switched off. Icon-only controls are labelled for a screen
+  reader: the favourite heart says "add to" or "remove from favourites" and
+  reports whether it is on, and a star rating is exposed as text ("rating 4 of
+  5") instead of decorative stars, so a blind visitor hears the score rather than
+  nothing. The reader's light or dark preference is respected, and a print
+  stylesheet turns the grid into a clean paper list.
 
 ### Limits that come from the task, not the design
 
