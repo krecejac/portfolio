@@ -53,12 +53,12 @@ erDiagram
         string cover_url
     }
     FAVOURITES {
-        int user_id PK
-        int book_id PK
+        int user_id PK, FK
+        int book_id PK, FK
     }
     RATINGS {
-        int user_id PK
-        int book_id PK
+        int user_id PK, FK
+        int book_id PK, FK
         tinyint rating "1 to 5"
     }
     INVITES {
