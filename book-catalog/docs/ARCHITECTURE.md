@@ -212,9 +212,6 @@ marketplace of millions.
   year filter is a decade calendar rather than a text field, precisely so nobody
   types a four-digit year on a phone keypad, and the admin table reflows into
   cards on a narrow screen so Edit and Delete are never off the edge.
-- **The rating a visitor sees is the readers' average, not an editorial score**,
-  because a catalogue's credibility comes from its readers; the private editorial
-  column is kept but never shown.
 - **Favouriting respects the browsing flow.** The heart toggles in place over
   `fetch`, with no reload and no jump back to the top of a long grid, and only
   its colour changes, so selecting a favourite never makes the page twitch.
