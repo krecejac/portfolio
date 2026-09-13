@@ -60,8 +60,8 @@ final class FavouriteRepository
     {
         $statement = $this->pdo->prepare(
             'SELECT b.*,
-                    ROUND(AVG(r.rating)) AS avg_rating,
-                    COUNT(r.rating)      AS rating_count
+                    ROUND(COALESCE(AVG(r.rating), b.rating)) AS avg_rating,
+                    COUNT(r.rating)                          AS rating_count
              FROM favourites f
              JOIN books b       ON b.id = f.book_id
              LEFT JOIN ratings r ON r.book_id = b.id

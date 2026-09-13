@@ -35,6 +35,11 @@ require __DIR__ . '/partials/header.php';
                         <?= stars((int) $book['avg_rating']) ?>
                         <span class="rating-count"><?= (int) $book['rating_count'] ?> rating<?= (int) $book['rating_count'] === 1 ? '' : 's' ?></span>
                     </span>
+                <?php elseif ($book['avg_rating'] !== null): ?>
+                    <span class="rating">
+                        <?= stars((int) $book['avg_rating']) ?>
+                        <span class="rating-count">editor&rsquo;s rating</span>
+                    </span>
                 <?php else: ?>
                     <span class="stars--none">No ratings yet</span>
                 <?php endif; ?>

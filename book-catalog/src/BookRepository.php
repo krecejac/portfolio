@@ -22,11 +22,14 @@ final class BookRepository
      */
     public function all(): array
     {
-        // avg_rating / rating_count come from the users' ratings (NULL when none).
+        // avg_rating is the readers' average; when a book has no reader ratings it
+        // falls back to the admin's editorial books.rating (NULL only if neither
+        // exists). rating_count is the number of reader ratings, so the views can
+        // still tell a community score from the editorial fallback.
         $statement = $this->pdo->query(
             'SELECT b.*,
-                    ROUND(AVG(r.rating)) AS avg_rating,
-                    COUNT(r.rating)      AS rating_count
+                    ROUND(COALESCE(AVG(r.rating), b.rating)) AS avg_rating,
+                    COUNT(r.rating)                          AS rating_count
              FROM books b
              LEFT JOIN ratings r ON r.book_id = b.id
              GROUP BY b.id
@@ -45,8 +48,8 @@ final class BookRepository
     {
         $statement = $this->pdo->prepare(
             'SELECT b.*,
-                    ROUND(AVG(r.rating)) AS avg_rating,
-                    COUNT(r.rating)      AS rating_count
+                    ROUND(COALESCE(AVG(r.rating), b.rating)) AS avg_rating,
+                    COUNT(r.rating)                          AS rating_count
              FROM books b
              LEFT JOIN ratings r ON r.book_id = b.id
              WHERE b.id = ?
@@ -100,13 +103,11 @@ final class BookRepository
     }
 
     /**
-     * Delete a book and everything that hangs off it (favourites, ratings).
-     * There are no database foreign keys, so we clean up the child rows here.
+     * Delete a book. Its favourites and ratings rows are removed automatically by
+     * the ON DELETE CASCADE foreign keys, so only the book itself is deleted here.
      */
     public function delete(int $id): void
     {
-        $this->pdo->prepare('DELETE FROM favourites WHERE book_id = ?')->execute([$id]);
-        $this->pdo->prepare('DELETE FROM ratings WHERE book_id = ?')->execute([$id]);
         $this->pdo->prepare('DELETE FROM books WHERE id = ?')->execute([$id]);
     }
 

@@ -58,14 +58,18 @@ CREATE TABLE invites (
 CREATE TABLE favourites (
     user_id INT NOT NULL,
     book_id INT NOT NULL,
-    PRIMARY KEY (user_id, book_id)
+    PRIMARY KEY (user_id, book_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ratings (
     user_id INT NOT NULL,
     book_id INT NOT NULL,
     rating  TINYINT NOT NULL,
-    PRIMARY KEY (user_id, book_id)
+    PRIMARY KEY (user_id, book_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
 );
 
 -- Varied community ratings so the stars and the rating filter are meaningful.

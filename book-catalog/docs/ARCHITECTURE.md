@@ -47,7 +47,7 @@ erDiagram
         string title
         string author
         smallint year
-        tinyint rating "editorial, not shown"
+        tinyint rating "editorial fallback"
         text annotation
         string genre
         string cover_url
@@ -71,18 +71,20 @@ erDiagram
 
 Two things are worth calling out:
 
-**The rating a visitor sees is the community average, not the editorial one.**
-`books.rating` exists and is written by the admin form, but every listing and the
-detail page instead compute `ROUND(AVG(ratings.rating))` over the readers' own
-ratings (`BookRepository::all` / `find`). The editorial column is kept as a
-fallback the schema could surface later, but the honest number to show a reader
-is what other readers gave, so that is what is shown.
+**The rating a visitor sees is the readers' average first, the editorial one
+only as a fallback.** Every listing and the detail page compute
+`ROUND(COALESCE(AVG(ratings.rating), books.rating))` (`BookRepository::all` /
+`find`): the average of the readers' own ratings when a book has any, otherwise
+the admin's `books.rating` from the add/edit form, and empty stars only when
+neither exists. `rating_count` is kept alongside so the detail page can be honest
+about which it is showing, labelling the fallback as an editor's rating rather
+than passing it off as a community score.
 
-**There are no database foreign keys; the cascade lives in the application.**
-`favourites` and `ratings` reference books by plain id, and `BookRepository::delete`
-removes the child rows itself before deleting the book. This keeps the schema and
-the SQL obvious to read at the cost of one deliberate cleanup step, an acceptable
-trade for a catalogue this size, and a line in `delete()` documents it.
+**Deletes cascade in the database.** `favourites` and `ratings` carry
+`FOREIGN KEY ... ON DELETE CASCADE` back to `books` (and `users`), so removing a
+book takes its favourites and ratings with it and an orphaned row cannot exist.
+`BookRepository::delete` is therefore a single `DELETE FROM books`; the database
+enforces the integrity rather than trusting every call site to clean up by hand.
 
 ## Architecture
 
@@ -269,8 +271,9 @@ regenerated on login, and invite tokens stored only as their sha256 hash.
 
 ## What I would do next
 
-- Real foreign keys with `ON DELETE CASCADE`, behind a small migration runner, so
-  the cleanup in `delete()` moves back into the database.
+- A small migration runner. The schema only runs on a clean database (it is
+  mounted into the container's init directory), so today a change means recreating
+  the volume; a runner would apply changes to a live database instead.
 - Normalise authors and genres into their own tables once the catalogue is large
   enough to want author pages.
 - Automated tests. At this size unit tests over the validator and repositories
