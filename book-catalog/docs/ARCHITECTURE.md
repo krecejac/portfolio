@@ -102,8 +102,7 @@ flowchart LR
 The layering is a lightweight take on **MVC**: the **model** is the repositories
 and the `BookValidator` (all the data access and rules), the **view** is the
 templates, and the **controllers** sit between them, with a front controller and
-a router in front doing the dispatch. It is MVC in structure rather than in
-ceremony: a "model" row is a plain array, not a rich entity object.
+a router in front doing the dispatch.
 
 Each layer is thin and has one job. The **front controller** (`public/index.php`)
 loads the classes, starts the session and builds the route table. The **router**
