@@ -99,7 +99,13 @@ flowchart LR
     C -. book-lookup only .-> OL(["Open Library API"])
 ```
 
-The layers are thin and each has one job. The **front controller** (`public/index.php`)
+The layering is a lightweight take on **MVC**: the **model** is the repositories
+and the `BookValidator` (all the data access and rules), the **view** is the
+templates, and the **controllers** sit between them, with a front controller and
+a router in front doing the dispatch. It is MVC in structure rather than in
+ceremony: a "model" row is a plain array, not a rich entity object.
+
+Each layer is thin and has one job. The **front controller** (`public/index.php`)
 loads the classes, starts the session and builds the route table. The **router**
 (`src/Router.php`) is a lookup table from path to handler, with no regex and no
 middleware. Each **controller** (`src/Controllers/`) checks the guard and the CSRF
@@ -108,9 +114,9 @@ or renders a view. **Repositories** (`src/*Repository.php`) are the only place
 with SQL, one per table. **Views** (`views/`) receive plain variables and only
 present them. `OpenLibrary` is a side call made from a single admin route.
 
-This started life as one large `switch` in the front controller. Splitting it
-into a route table and four controllers cost nothing in machinery and made each
-page findable on its own; the front controller now reads as a table of contents.
+Routing is a plain `path => controller` table rather than one long `switch`, so
+the front controller reads as a table of contents: every page has one obvious
+place where its logic lives, and adding a route is one line plus one method.
 
 ## A write, end to end
 
