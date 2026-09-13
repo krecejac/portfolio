@@ -69,7 +69,7 @@ erDiagram
     }
 ```
 
-Two things are worth calling out:
+One detail is worth calling out:
 
 **The rating a visitor sees is the readers' average first, the editorial one
 only as a fallback.** Every listing and the detail page compute
@@ -79,12 +79,6 @@ the admin's `books.rating` from the add/edit form, and empty stars only when
 neither exists. `rating_count` is kept alongside so the detail page can be honest
 about which it is showing, labelling the fallback as an editor's rating rather
 than passing it off as a community score.
-
-**Deletes cascade in the database.** `favourites` and `ratings` carry
-`FOREIGN KEY ... ON DELETE CASCADE` back to `books` (and `users`), so removing a
-book takes its favourites and ratings with it and an orphaned row cannot exist.
-`BookRepository::delete` is therefore a single `DELETE FROM books`; the database
-enforces the integrity rather than trusting every call site to clean up by hand.
 
 ## Architecture
 
