@@ -215,14 +215,15 @@ marketplace of millions.
 - **Favouriting never interrupts browsing.** Tapping a heart saves it in the
   background and only the heart changes colour; the page does not reload or jump,
   so you can keep scrolling and adding favourites without ever losing your place.
-- **Usable without a mouse or without sight.** The pages are server-rendered
-  with real buttons and links, so the catalogue works by keyboard alone and even
-  with JavaScript switched off. Icon-only controls are labelled for a screen
-  reader: the favourite heart says "add to" or "remove from favourites" and
-  reports whether it is on, and a star rating is exposed as text ("rating 4 of
-  5") instead of decorative stars, so a blind visitor hears the score rather than
-  nothing. The reader's light or dark preference is respected, and a print
-  stylesheet turns the grid into a clean paper list.
+- **Not dependent on a mouse or on colour.** The pages are server-rendered with
+  real buttons and links, so the catalogue is fully keyboard-operable (WCAG
+  2.1.1) and works even with JavaScript switched off. Meaning is never left to
+  colour alone, in the spirit of the *Use of Color* criterion (WCAG 1.4.1): a
+  rating is filled versus empty stars you can count rather than a hue, and a form
+  error is spelled out in words, not just a red outline. Icon-only controls carry
+  text labels in the markup for assistive tech, the reader's light or dark
+  preference is respected, and a print stylesheet turns the grid into a clean
+  paper list.
 
 ### Limits that come from the task, not the design
 
