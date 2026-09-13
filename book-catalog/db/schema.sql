@@ -42,11 +42,11 @@ CREATE TABLE users (
     role          VARCHAR(20)   NOT NULL DEFAULT 'user'
 );
 
--- Demo accounts, all with password admin123 (bcrypt).
+-- Demo accounts (bcrypt hashes); the passwords are listed in the README.
 INSERT INTO users (username, password_hash, role) VALUES
     ('admin',    '$2y$10$aivpV7vnWkKanOrH5V1lwe1aoNP2ItwSm/c5BO02zcWD3r2SAkOqW', 'admin'),
-    ('reader',   '$2y$10$aivpV7vnWkKanOrH5V1lwe1aoNP2ItwSm/c5BO02zcWD3r2SAkOqW', 'user'),
-    ('bookworm', '$2y$10$aivpV7vnWkKanOrH5V1lwe1aoNP2ItwSm/c5BO02zcWD3r2SAkOqW', 'user');
+    ('reader',   '$2y$10$o8X8NzIuNeI8P/MAqcpWtO7QdVd2sRsf.uWQ5GqgVeOcowOucVaM.', 'user'),
+    ('bookworm', '$2y$10$ufhd4/g/SJ9hIdfEnFhaBeGrRscyf8hNaazIYYd7li32abPtMGTVG', 'user');
 
 CREATE TABLE invites (
     id         INT AUTO_INCREMENT PRIMARY KEY,

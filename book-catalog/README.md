@@ -28,8 +28,8 @@ accounts are seeded, documented so the app can be tried immediately:
 | Username   | Password   | Role  | Can do                                             |
 |------------|------------|-------|----------------------------------------------------|
 | `admin`    | `admin123` | admin | everything a reader can, plus add/import books and invite admins |
-| `reader`   | `admin123` | user  | favourite and rate books                           |
-| `bookworm` | `admin123` | user  | favourite and rate books                           |
+| `reader`   | `reader123`   | user  | favourite and rate books                        |
+| `bookworm` | `bookworm123` | user  | favourite and rate books                        |
 
 > Demo credentials are committed on purpose. In a real deployment the admin
 > password would be seeded randomly or supplied through secrets, never committed.
