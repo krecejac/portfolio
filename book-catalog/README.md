@@ -10,9 +10,11 @@ the [architecture notes](docs/ARCHITECTURE.md).
 
 ## Running it
 
-The only requirement is Docker. From this folder:
+The only requirement is Docker.
 
 ```bash
+git clone https://github.com/krecejac/book-catalog.git
+cd book-catalog
 cp .env.example .env          # database credentials (the .env is gitignored)
 docker compose up --build
 ```
